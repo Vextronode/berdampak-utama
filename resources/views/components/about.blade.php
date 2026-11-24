@@ -1,5 +1,21 @@
-<section id="tentang" class="py-20 sm:py-24 lg:py-28 bg-surface border-b border-outline-variant scroll-mt-16 sm:scroll-mt-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<section id="tentang" class="relative overflow-hidden py-20 sm:py-24 lg:py-28 bg-surface border-b border-outline-variant scroll-mt-16 sm:scroll-mt-20">
+    {{-- Decorative institutional corner watermarks --}}
+    <div class="pointer-events-none select-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
+        <img
+            src="{{ asset('images/logo-widyatama-transparent.png') }}"
+            alt=""
+            loading="lazy"
+            class="absolute -bottom-8 -left-8 sm:-bottom-10 sm:-left-6 lg:left-4 w-48 sm:w-64 lg:w-80 h-auto object-contain opacity-[0.14] sm:opacity-[0.18] -rotate-12"
+        >
+        <img
+            src="{{ asset('images/diktisaintek-transparent.png') }}"
+            alt=""
+            loading="lazy"
+            class="absolute top-6 -right-8 sm:top-10 sm:-right-6 lg:right-4 w-56 sm:w-72 lg:w-96 h-auto object-contain opacity-[0.14] sm:opacity-[0.18] rotate-6"
+        >
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
             <div class="lg:col-span-5 flex flex-col gap-4">
                 <div class="inline-flex items-center gap-2 text-xs font-semibold tracking-wider text-vibrant-utama-orange uppercase">
