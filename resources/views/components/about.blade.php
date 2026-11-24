@@ -74,7 +74,7 @@
                             Menjawab Kebutuhan Warga
                         </h3>
                         <p class="font-body text-xs sm:text-sm text-on-surface-variant leading-relaxed">
-                            Dibangun dari masalah nyata di lapangan, seperti sistem pelaporan darurat dan data kependudukan di Desa Cibenda.
+                            Dibangun dari masalah nyata di setiap desa mitra, seperti sistem pelaporan darurat, pendataan kependudukan, hingga pasar digital warga.
                         </p>
                     </div>
                 </div>
@@ -91,7 +91,7 @@
                             <span class="font-mono text-xs font-bold text-warm-gold tracking-widest">03</span>
                         </div>
                         <h3 class="font-headline font-bold text-lg text-primary group-hover:text-vibrant-utama-orange transition-colors">
-                            Identitas Mahasiswa Jelas
+                            Apresiasi Mahasiswa
                         </h3>
                         <p class="font-body text-xs sm:text-sm text-on-surface-variant leading-relaxed">
                             Apresiasi penuh bagi mahasiswa pembuatnya, lengkap dengan nama, nomor pokok mahasiswa (NPM), dan dosen pembimbing.
