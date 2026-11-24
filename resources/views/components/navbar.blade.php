@@ -4,11 +4,8 @@
             <a href="#beranda" data-scroll-to="beranda" class="font-headline text-xs lg:text-sm font-semibold tracking-wider text-white hover:text-vibrant-utama-orange transition-colors cursor-pointer">
                 Beranda
             </a>
-            <a href="#portofolio" data-scroll-to="portofolio" class="font-headline text-xs lg:text-sm font-semibold tracking-wider text-white/90 hover:text-white transition-colors cursor-pointer">
-                Portofolio Proyek
-            </a>
-            <a href="#catatan-lapangan" data-scroll-to="catatan-lapangan" class="font-headline text-xs lg:text-sm font-semibold tracking-wider text-white/90 hover:text-white transition-colors cursor-pointer">
-                Catatan Lapangan
+            <a href="#tentang" data-scroll-to="tentang" class="font-headline text-xs lg:text-sm font-semibold tracking-wider text-white/90 hover:text-white transition-colors cursor-pointer">
+                Tentang
             </a>
         </nav>
 
@@ -25,8 +22,11 @@
         </div>
 
         <nav class="hidden md:flex items-center justify-start gap-6 lg:gap-8 flex-1 basis-0 pl-6 lg:pl-8" aria-label="Navigasi Atas Kanan">
-            <a href="#tentang" data-scroll-to="tentang" class="font-headline text-xs lg:text-sm font-semibold tracking-wider text-white/90 hover:text-white transition-colors cursor-pointer">
-                Tentang
+            <a href="#portofolio" data-scroll-to="portofolio" class="font-headline text-xs lg:text-sm font-semibold tracking-wider text-white/90 hover:text-white transition-colors cursor-pointer">
+                Portofolio Proyek
+            </a>
+            <a href="#catatan-lapangan" data-scroll-to="catatan-lapangan" class="font-headline text-xs lg:text-sm font-semibold tracking-wider text-white/90 hover:text-white transition-colors cursor-pointer">
+                Catatan Lapangan
             </a>
             <a href="https://www.widyatama.ac.id/" target="_blank" rel="noopener noreferrer" class="font-headline text-xs lg:text-sm font-semibold tracking-wider text-white/90 hover:text-white transition-colors flex items-center gap-1.5">
                 <span>Widyatama.ac.id</span>
@@ -72,9 +72,9 @@
 
         <nav class="hidden md:flex items-center gap-6 lg:gap-8 shrink-0" aria-label="Navigasi Utama Sticky">
             <a href="#beranda" data-scroll-to="beranda" class="font-body text-sm font-semibold text-primary hover:text-vibrant-utama-orange transition-colors cursor-pointer">Beranda</a>
+            <a href="#tentang" data-scroll-to="tentang" class="font-body text-sm font-medium text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Tentang</a>
             <a href="#portofolio" data-scroll-to="portofolio" class="font-body text-sm font-medium text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Portofolio Proyek</a>
             <a href="#catatan-lapangan" data-scroll-to="catatan-lapangan" class="font-body text-sm font-medium text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Catatan Lapangan & Blog</a>
-            <a href="#tentang" data-scroll-to="tentang" class="font-body text-sm font-medium text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Tentang</a>
         </nav>
 
         <div class="flex md:hidden shrink-0">
@@ -125,20 +125,20 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
             </svg>
         </a>
+        <a href="#tentang" data-scroll-to="tentang" class="drawer-nav-link group flex items-center justify-between py-3.5 px-3 rounded-lg text-lg font-headline font-semibold text-white/95 hover:text-vibrant-utama-orange hover:bg-white/5 transition-all cursor-pointer">
+            <span>Tentang Program</span>
+            <svg class="w-4 h-4 text-white/40 group-hover:text-vibrant-utama-orange group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+        </a>
         <a href="#portofolio" data-scroll-to="portofolio" class="drawer-nav-link group flex items-center justify-between py-3.5 px-3 rounded-lg text-lg font-headline font-semibold text-white/95 hover:text-vibrant-utama-orange hover:bg-white/5 transition-all cursor-pointer">
-            <span>Portofolio Proyek</span>
+            <span>Portofolio Project</span>
             <svg class="w-4 h-4 text-white/40 group-hover:text-vibrant-utama-orange group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
             </svg>
         </a>
         <a href="#catatan-lapangan" data-scroll-to="catatan-lapangan" class="drawer-nav-link group flex items-center justify-between py-3.5 px-3 rounded-lg text-lg font-headline font-semibold text-white/95 hover:text-vibrant-utama-orange hover:bg-white/5 transition-all cursor-pointer">
-            <span>Catatan Lapangan & Blog</span>
-            <svg class="w-4 h-4 text-white/40 group-hover:text-vibrant-utama-orange group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-            </svg>
-        </a>
-        <a href="#tentang" data-scroll-to="tentang" class="drawer-nav-link group flex items-center justify-between py-3.5 px-3 rounded-lg text-lg font-headline font-semibold text-white/95 hover:text-vibrant-utama-orange hover:bg-white/5 transition-all cursor-pointer">
-            <span>Tentang Program</span>
+            <span>Dokumentasi Program</span>
             <svg class="w-4 h-4 text-white/40 group-hover:text-vibrant-utama-orange group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
             </svg>

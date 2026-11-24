@@ -1,4 +1,4 @@
-<footer id="tentang" class="bg-primary text-on-primary py-14 sm:py-16 border-t border-primary-royal-indigo scroll-mt-16 sm:scroll-mt-20">
+<footer id="kontak" class="bg-primary text-on-primary py-14 sm:py-16 border-t border-primary-royal-indigo scroll-mt-16 sm:scroll-mt-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-start">
         <div class="md:col-span-6 flex flex-col gap-4">
             <div class="flex items-center gap-4">
@@ -24,6 +24,7 @@
             </h5>
             <ul class="font-body text-sm text-on-primary/80 space-y-2">
                 <li><a href="#beranda" data-scroll-to="beranda" class="hover:text-vibrant-utama-orange transition-colors cursor-pointer">Beranda Utama</a></li>
+                <li><a href="#tentang" data-scroll-to="tentang" class="hover:text-vibrant-utama-orange transition-colors cursor-pointer">Tentang Program</a></li>
                 <li><a href="#portofolio" data-scroll-to="portofolio" class="hover:text-vibrant-utama-orange transition-colors cursor-pointer">Portofolio Proyek</a></li>
                 <li><a href="#catatan-lapangan" data-scroll-to="catatan-lapangan" class="hover:text-vibrant-utama-orange transition-colors cursor-pointer">Catatan Lapangan & Blog</a></li>
                 <li><a href="https://www.widyatama.ac.id" target="_blank" rel="noopener noreferrer" class="hover:text-vibrant-utama-orange transition-colors">Portal Utama Kampus</a></li>

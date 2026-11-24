@@ -1,6 +1,8 @@
 <x-app-layout>
     <x-hero />
 
+    <x-about />
+
     <section id="portofolio" class="py-16 sm:py-20 lg:py-24 bg-surface scroll-mt-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col gap-2 max-w-3xl mb-8">
