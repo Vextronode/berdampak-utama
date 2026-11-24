@@ -55,6 +55,9 @@ Dokumen pelacak pengerjaan Landing Page (`berdampak.widyatama.ac.id`) menggunaka
 - [x] Hero Section (`components/hero.blade.php`):
   - Latar belakang murni foto resmi gedung `hero.jpg` tanpa tint biru, diberi neutral opacity (`bg-black/55`) dan tekstur layar TV tabung CRT (dot matrix + scanline + vignette). Ukuran hero presisi full viewport (`h-screen h-[100dvh] min-h-[100dvh]`) tanpa celah putih di bawahnya.
   - Bersih dan elegan tanpa badge dan tanpa search bar, headline resmi anti-slop (bebas em dash) menggunakan tipografi serif elegan *Playfair Display* identik website resmi Widyatama, dilengkapi animasi entrance bertahap (*staggered smooth fade up* dan *subtle Ken Burns background zoom*) saat pertama dibuka.
+- [x] Section Tentang Kampus Berdampak (`components/about.blade.php`):
+  - Layout editorial non-sticky: baris atas berisi 2 kolom (kiri: headline resmi & tautan ke portofolio; kanan: narasi kontekstual pengabdian masyarakat).
+  - Baris bawah memuat 3 kartu horizontal sejajar (`Aplikasi`, `Dampak`, `Talenta`) beraksen brand Widyatama/Diktisaintek dengan icon SVG terarah, monospace category tag, dan bebas dari jargon AI klise.
 - [x] Katalog & Filter Proyek (`components/filter-bar.blade.php` & `components/project-card.blade.php`):
   - Filter tahun instan tanpa refresh/ngeblink (client-side DOM filter 60fps dengan sinkronisasi URL bersih tanpa karakter `#`). Teks "filter tahun aktif diterapkan" telah dihilangkan sepenuhnya.
   - Grid kartu proyek rasio 16:9, chip badge tahun & desa mitra, avatar bertumpuk, nama lengkap, NPM, jurusan, action button.
