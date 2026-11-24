@@ -1,27 +1,18 @@
-<section id="tentang" class="py-14 sm:py-18 lg:py-24 bg-surface border-b border-outline-variant scroll-mt-16 sm:scroll-mt-20">
+<section id="tentang" class="py-20 sm:py-24 lg:py-28 bg-surface border-b border-outline-variant scroll-mt-16 sm:scroll-mt-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {{-- Top: Editorial Split (Balanced 7:5) --}}
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start">
-            <div class="lg:col-span-7 flex flex-col gap-3 sm:gap-4">
+        {{-- Top: Editorial Split (5 : 7) --}}
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+            <div class="lg:col-span-5 flex flex-col gap-4">
                 <div class="inline-flex items-center gap-2 text-xs font-semibold tracking-wider text-vibrant-utama-orange uppercase">
                     <span class="w-1.5 h-1.5 rounded-full bg-vibrant-utama-orange" aria-hidden="true"></span>
                     <span>Tentang Kampus Berdampak</span>
                 </div>
 
-                <h2 class="font-serif font-bold text-3xl sm:text-4xl lg:text-[2.65rem] text-primary leading-[1.2] text-balance">
+                <h2 class="font-serif font-bold text-3xl sm:text-4xl lg:text-5xl text-primary leading-[1.15] text-balance">
                     Bukan Sekadar Proyek Tugas Akhir, Ini Solusi Digital yang Bekerja Nyata di Lapangan.
                 </h2>
-            </div>
 
-            <div class="lg:col-span-5 flex flex-col gap-4 text-on-surface-variant font-body text-base sm:text-lg leading-relaxed">
-                <p class="text-primary font-medium text-base sm:text-lg leading-relaxed">
-                    Lewat program <strong class="text-primary font-semibold">Kampus Berdampak</strong> bersama Diktisaintek, mahasiswa Universitas Widyatama mengembangkan teknologi dan aplikasi terapan langsung di tengah masyarakat.
-                </p>
-                <p class="text-sm sm:text-base text-on-surface-variant leading-relaxed">
-                    Seluruh sistem di platform ini dirancang dan dibangun murni oleh mahasiswa dengan dosen sebagai pembina. Semua karya yang terdaftar sudah aktif berjalan dan bisa langsung dibuka publik.
-                </p>
-
-                <div class="pt-1">
+                <div class="pt-2">
                     <a href="#portofolio" 
                        data-scroll-to="portofolio" 
                        class="group inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-vibrant-utama-orange transition-colors cursor-pointer">
@@ -32,10 +23,37 @@
                     </a>
                 </div>
             </div>
+
+            <div class="lg:col-span-7 flex flex-col gap-5 text-on-surface-variant font-body text-base sm:text-lg leading-relaxed">
+                <p class="text-primary font-medium text-lg sm:text-xl leading-relaxed">
+                    Lewat program <strong class="text-primary font-semibold">Kampus Berdampak</strong> bersama Diktisaintek, mahasiswa Universitas Widyatama membawa keahlian teknologi terapan langsung ke tengah masyarakat.
+                </p>
+                <p>
+                    Seluruh aplikasi dirancang dan dikembangkan murni oleh mahasiswa, didampingi dosen sebagai pembina. Setiap karya dibangun dari riset persoalan di lapangan, diuji bersama perangkat desa, hingga aktif beroperasi melayani kebutuhan warga mitra.
+                </p>
+                <p class="text-sm sm:text-base text-on-surface-variant/80">
+                    Platform ini menjadi bukti akuntabilitas karya akademik. Publik dapat langsung membuka dan menguji setiap sistem yang sudah berjalan, lengkap dengan transparansi identitas mahasiswa pembuatnya.
+                </p>
+            </div>
         </div>
 
-        {{-- Bottom: 3 Value Pillar Cards --}}
-        <div class="mt-10 sm:mt-14 pt-8 sm:pt-10 border-t border-outline-variant">
+        {{-- Divider & 3 Cards with Section Header --}}
+        <div class="mt-14 sm:mt-18 pt-10 sm:pt-12 border-t border-outline-variant">
+            {{-- Header untuk 3 Kartu --}}
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-10">
+                <div>
+                    <span class="inline-flex items-center gap-2 text-xs font-semibold tracking-wider text-vibrant-utama-orange uppercase mb-1">
+                        Landasan Program
+                    </span>
+                    <h3 class="font-serif font-bold text-2xl sm:text-3xl text-primary">
+                        Tiga Standar Utama di Setiap Karya
+                    </h3>
+                </div>
+                <p class="text-sm text-on-surface-variant max-w-md leading-relaxed">
+                    Prinsip yang memastikan setiap aplikasi tidak berhenti sebagai tugas kuliah, melainkan sistem andal yang dapat diakses dan diuji publik.
+                </p>
+            </div>
+
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
                 {{-- Card 1: Aplikasi --}}
                 <div class="p-6 sm:p-7 rounded-2xl border border-outline-variant bg-surface-variant/40 hover:bg-surface-variant hover:border-outline transition-all duration-300 flex flex-col justify-between group">
