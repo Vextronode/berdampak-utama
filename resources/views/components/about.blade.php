@@ -1,17 +1,27 @@
-<section id="tentang" class="py-20 sm:py-28 lg:py-32 bg-surface border-b border-outline-variant scroll-mt-16 sm:scroll-mt-20">
+<section id="tentang" class="py-14 sm:py-18 lg:py-24 bg-surface border-b border-outline-variant scroll-mt-16 sm:scroll-mt-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-            <div class="lg:col-span-5 flex flex-col gap-4">
+        {{-- Top: Editorial Split (Balanced 7:5) --}}
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start">
+            <div class="lg:col-span-7 flex flex-col gap-3 sm:gap-4">
                 <div class="inline-flex items-center gap-2 text-xs font-semibold tracking-wider text-vibrant-utama-orange uppercase">
                     <span class="w-1.5 h-1.5 rounded-full bg-vibrant-utama-orange" aria-hidden="true"></span>
                     <span>Tentang Kampus Berdampak</span>
                 </div>
 
-                <h2 class="font-serif font-bold text-3xl sm:text-4xl lg:text-5xl text-primary leading-[1.15] text-balance">
+                <h2 class="font-serif font-bold text-3xl sm:text-4xl lg:text-[2.65rem] text-primary leading-[1.2] text-balance">
                     Bukan Sekadar Proyek Tugas Akhir, Ini Solusi Digital yang Bekerja Nyata di Lapangan.
                 </h2>
+            </div>
 
-                <div class="pt-2">
+            <div class="lg:col-span-5 flex flex-col gap-4 text-on-surface-variant font-body text-base sm:text-lg leading-relaxed">
+                <p class="text-primary font-medium text-base sm:text-lg leading-relaxed">
+                    Lewat program <strong class="text-primary font-semibold">Kampus Berdampak</strong> bersama Diktisaintek, mahasiswa Universitas Widyatama mengembangkan teknologi dan aplikasi terapan langsung di tengah masyarakat.
+                </p>
+                <p class="text-sm sm:text-base text-on-surface-variant leading-relaxed">
+                    Seluruh sistem di platform ini dirancang dan dibangun murni oleh mahasiswa dengan dosen sebagai pembina. Semua karya yang terdaftar sudah aktif berjalan dan bisa langsung dibuka publik.
+                </p>
+
+                <div class="pt-1">
                     <a href="#portofolio" 
                        data-scroll-to="portofolio" 
                        class="group inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-vibrant-utama-orange transition-colors cursor-pointer">
@@ -22,22 +32,14 @@
                     </a>
                 </div>
             </div>
-
-            <div class="lg:col-span-7 flex flex-col gap-5 text-on-surface-variant font-body text-base sm:text-lg leading-relaxed">
-                <p class="text-primary font-medium text-lg sm:text-xl leading-relaxed">
-                    Lewat program <strong class="text-primary font-semibold">Kampus Berdampak</strong> bersama Diktisaintek, mahasiswa Universitas Widyatama mengembangkan aplikasi dan sistem informasi yang diterapkan langsung di tengah masyarakat.
-                </p>
-                <p>
-                    Seluruh aplikasi di platform ini dirancang dan dibangun langsung oleh mahasiswa dengan dosen sebagai pembina. Semua proyek aktif berjalan dan bisa langsung diakses publik.
-                </p>
-            </div>
         </div>
 
-        <div class="mt-14 sm:mt-18 pt-10 sm:pt-14 border-t border-outline-variant">
+        {{-- Bottom: 3 Value Pillar Cards --}}
+        <div class="mt-10 sm:mt-14 pt-8 sm:pt-10 border-t border-outline-variant">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
                 {{-- Card 1: Aplikasi --}}
                 <div class="p-6 sm:p-7 rounded-2xl border border-outline-variant bg-surface-variant/40 hover:bg-surface-variant hover:border-outline transition-all duration-300 flex flex-col justify-between group">
-                    <div class="flex flex-col gap-4">
+                    <div class="flex flex-col gap-3.5">
                         <div class="flex items-center justify-between pb-3 border-b border-outline-variant/60">
                             <div class="w-10 h-10 rounded-xl bg-vibrant-utama-orange/10 flex items-center justify-center text-vibrant-utama-orange">
                                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true">
@@ -50,14 +52,19 @@
                             Aplikasi Aktif Berjalan
                         </h3>
                         <p class="font-body text-xs sm:text-sm text-on-surface-variant leading-relaxed">
-                            Website dan sistem informasi sudah live dan bisa langsung dibuka publik, bukan sekadar mockup atau gambar desain.
+                            Website dan sistem informasi sudah live serta bisa langsung dicoba publik, bukan sekadar mockup atau gambar desain.
                         </p>
+                    </div>
+
+                    <div class="mt-5 pt-3.5 border-t border-outline-variant/60 flex items-center gap-2 text-xs font-semibold text-emerald-600">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" aria-hidden="true"></span>
+                        <span>Live & Siap Diakses</span>
                     </div>
                 </div>
 
                 {{-- Card 2: Dampak --}}
                 <div class="p-6 sm:p-7 rounded-2xl border border-outline-variant bg-surface-variant/40 hover:bg-surface-variant hover:border-outline transition-all duration-300 flex flex-col justify-between group">
-                    <div class="flex flex-col gap-4">
+                    <div class="flex flex-col gap-3.5">
                         <div class="flex items-center justify-between pb-3 border-b border-outline-variant/60">
                             <div class="w-10 h-10 rounded-xl bg-diktisaintek-blue/10 flex items-center justify-center text-diktisaintek-blue">
                                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true">
@@ -74,11 +81,16 @@
                             Fitur dibangun dari masalah nyata di lapangan untuk membantu aktivitas warga dan operasional desa mitra.
                         </p>
                     </div>
+
+                    <div class="mt-5 pt-3.5 border-t border-outline-variant/60 flex items-center gap-2 text-xs font-semibold text-diktisaintek-blue">
+                        <span class="w-2 h-2 rounded-full bg-diktisaintek-blue" aria-hidden="true"></span>
+                        <span>Terap Guna di Desa Mitra</span>
+                    </div>
                 </div>
 
                 {{-- Card 3: Talenta --}}
                 <div class="p-6 sm:p-7 rounded-2xl border border-outline-variant bg-surface-variant/40 hover:bg-surface-variant hover:border-outline transition-all duration-300 flex flex-col justify-between group">
-                    <div class="flex flex-col gap-4">
+                    <div class="flex flex-col gap-3.5">
                         <div class="flex items-center justify-between pb-3 border-b border-outline-variant/60">
                             <div class="w-10 h-10 rounded-xl bg-warm-gold/10 flex items-center justify-center text-warm-gold">
                                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true">
@@ -93,6 +105,11 @@
                         <p class="font-body text-xs sm:text-sm text-on-surface-variant leading-relaxed">
                             Apresiasi penuh bagi mahasiswa pembuatnya, lengkap dengan nama, nomor pokok mahasiswa (NPM), serta dosen pembina.
                         </p>
+                    </div>
+
+                    <div class="mt-5 pt-3.5 border-t border-outline-variant/60 flex items-center gap-2 text-xs font-semibold text-tertiary">
+                        <span class="w-2 h-2 rounded-full bg-warm-gold" aria-hidden="true"></span>
+                        <span>Karya Resmi Ber-NPM</span>
                     </div>
                 </div>
             </div>
