@@ -3,7 +3,7 @@
 
     <x-about />
 
-    <section id="portofolio" class="py-16 sm:py-20 lg:py-24 bg-surface scroll-mt-20">
+    <section id="portofolio" class="py-16 sm:py-20 lg:py-24 bg-[#e7eaec] scroll-mt-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col gap-2 max-w-3xl mb-8">
                 <h2 class="font-headline font-bold text-2xl sm:text-3xl lg:text-4xl text-primary tracking-tight text-balance">
