@@ -70,3 +70,107 @@ Dokumen pelacak pengerjaan Landing Page (`berdampak.widyatama.ac.id`) menggunaka
 - [x] Uji rendering endpoint GET `/`, filter kategori, search keyword, dan empty state.
 - [x] Validasi audit `/antislop`: zero emoji, bebas em dash, CSS variables terdaftar di `:root`, kontras WCAG AA, modular tanpa godfile.
 - [x] Validasi audit `/antislop-code`: sanitasi komentar kode (hapus AI slop, empty labels, step-by-step narration, meta tags; kode program 100% utuh tanpa perubahan logika).
+
+---
+
+# Tasklist Implementasi Halaman Detail Proyek (/proyek/{slug})
+
+Dokumen pelacak pengerjaan Halaman Detail Proyek (`/proyek/{slug}`) menggunakan **Laravel 13 + Tailwind CSS + MySQL**, dengan target visual 100% presisi mengacu pada prototipe `assets/sigap_detail_proyek.html` dan `docs/PRD.md` (FR-DET-01 s.d. FR-DET-04).
+
+---
+
+## Aturan & Keputusan Kunci Halaman Detail
+1. **Strictly NO EMOJI:** Dilarang menggunakan emoji Unicode di seluruh tampilan (badge status, tombol, judul section, nama fitur). Semua representasi visual wajib menggunakan icon SVG resmi.
+2. **Zero Em Dash:** Dilarang menggunakan tanda pisah em dash di seluruh judul, teks narasi, breadcrumb, dan komentar kode.
+3. **Dosen sebagai Pembina / Pembimbing:** Posisi dosen dicantumkan secara presisi sebagai "Dosen Pembina & Penanggung Jawab Proyek" (bukan sebagai pengembang teknis/pembuat kode; mahasiswa adalah perancang dan pembangun utama sistem).
+4. **Atribusi Mahasiswa Lengkap Ber-NPM:** Menampilkan foto profil melingkar, nama lengkap, **NPM**, program studi (*S1 Teknik Informatika* / *S1 Sistem Informasi*), dan pill role teknis (*Tech Lead*, *Full Stack*, *Frontend*, *Backend*, *UI/UX*).
+5. **Tech Stack Berlogo Resmi Berwarna:** Menggunakan logo/ikon SVG resmi berwarna institusional (Next.js, Tailwind CSS, PostgreSQL, Node.js, Leaflet Maps, Laravel, MySQL, React).
+6. **Fokus Akademis & Verifikasi Lapangan (FR-DET-01):** Header detail tidak memuat tombol eksternal "Buka Web" untuk menjaga fokus pembaca pada dampak riset, solusi lapangan, metodologi, dan pengujian sistem.
+7. **Modularitas Blade (Anti-Godfile):** Halaman `/proyek/{slug}` dirakit dari Blade components terfokus di `resources/views/projects/` dan `resources/views/components/project/`.
+8. **Code Comment Hygiene (`antislop-code`):** Bebas komentar narasi alur, banner dekoratif, atau meta tags AI.
+
+---
+
+## Rincian Tahapan Pengerjaan
+
+### [ ] Tahap 1: Routing & Controller Layer
+- [ ] Daftarkan route detail di `routes/web.php`:
+  `Route::get('/proyek/{slug}', [ProjectController::class, 'show'])->name('projects.show');`
+- [ ] Buat `ProjectController` di `app/Http/Controllers/ProjectController.php`:
+  - Method `show(string $slug)`:
+  - Query proyek terpublikasi dengan eager loading `contributors`:
+    `$project = Project::published()->with('contributors')->where('slug', $slug)->firstOrFail();`
+  - Ambil daftar proyek lain untuk rekomendasi navigasi di bagian bawah.
+- [ ] Update link kartu proyek di `resources/views/components/project-card.blade.php`:
+  - Ubah `href="/"` menjadi `href="{{ route('projects.show', $project->slug) }}"`.
+
+### [ ] Tahap 2: Database Schema & Data Detail Proyek
+- [ ] Siapkan kolom data detail di tabel `projects` melalui migration baru:
+  - `problem_statement` (text nullable: narasi masalah riil di desa mitra).
+  - `features` (json nullable: array fitur kunci `[{ icon, title, description }]`).
+  - `gallery_images` (json nullable: array foto implementasi lapangan `[{ image_url, caption }]`).
+- [ ] Daftarkan atribut baru pada `$fillable` dan `$casts` di `app/Models/Project.php`.
+- [ ] Perbarui `database/seeders/ProjectSeeder.php` dengan data riil:
+  - **SIGAP:**
+    - Latar belakang darurat warga Desa Cibenda (kendala respons lambat, minim koordinat GPS).
+    - Fitur kunci: Peringatan Panik Sekali Sentuh, Pemetaan Koordinat Insiden GPS, Notifikasi WhatsApp Otomatis ke RT/RW.
+    - 4 foto galeri kegiatan di Balai Desa Cibenda beserta caption.
+  - **SIDUtama:**
+    - Latar belakang administrasi desa (arsip kependudukan manual dan birokrasi surat lambat).
+    - Fitur kunci: Register Kependudukan Digital, Generator Surat Otomatis, Rekap Mutasi Warga.
+    - 4 foto galeri pengujian di kantor desa.
+  - **CiMart:**
+    - Latar belakang pemasaran produk UMKM lokal Desa Cibenda.
+    - Fitur kunci: E-Katalog Komoditas Desa, Profil Pelaku Usaha Mikro, Direktori Kontak Penjual.
+    - 4 foto galeri kurasi produk UMKM warga.
+- [ ] Jalankan migration dan seeder di MySQL database `test_berdampak_utama`.
+
+### [ ] Tahap 3: Master Detail View & Breadcrumb Navigation
+- [ ] Buat file tampilan utama `resources/views/projects/show.blade.php`.
+- [ ] Buat component Breadcrumb terarah (`components/project/breadcrumb.blade.php`):
+  - Tautan kembali ke portofolio: `Beranda / Portofolio Proyek / [Nama Proyek]`.
+  - Tombol panah kembali yang intuitif dan ramah aksesibilitas keyboard.
+- [ ] Header Proyek (Hero Header Metadata):
+  - Badge tahun rilis (`2026`).
+  - Badge nama mitra desa (`Desa Cibenda`).
+  - Badge kategori proyek.
+  - Judul proyek besar dengan font display Poppins tebal.
+  - Ringkasan narasi proyek yang rapi dan kontekstual.
+
+### [ ] Tahap 4: Kolom Konten Utama (Main Left 8-Column)
+- [ ] **Showcase Dashboard Utama (16:9):**
+  - Frame tangkapan layar dashboard asli rasio 16:9 dengan border halus, rounded-xl, dan efek bayangan elegan.
+- [ ] **Section Latar Belakang & Masalah Lapangan:**
+  - Headline resmi dan narasi terstruktur mengenai masalah riil warga desa yang diselesaikan oleh sistem.
+- [ ] **Section Fitur Kunci Sistem:**
+  - List kartu fitur modular dengan SVG icon khusus (darurat, GPS, notifikasi, dll.) dan teks penjelasan lugas.
+- [ ] **Section Galeri Dokumentasi Tim di Desa:**
+  - Grid 2x2 responsif memuat 4 foto kegiatan mahasiswa di Balai Desa Cibenda.
+  - Aspect-video cover dengan figcaption rapi di setiap foto.
+
+### [ ] Tahap 5: Sidebar Kolom Kanan (Sidebar Right 4-Column)
+- [ ] **Card Dosen Pembina:**
+  - Foto profil dosen melingkar dengan ring halus.
+  - Nama lengkap beserta gelar akademik (`Dr. Hendra Wijaya, M.Kom.`).
+  - Label resmi: `Dosen Pembina & Penanggung Jawab Proyek`.
+- [ ] **Card Tim Mahasiswa Pengembang:**
+  - List seluruh anggota mahasiswa pembuat sistem.
+  - Foto avatar melingkar, nama lengkap, **NPM**, jurusan (*S1 Teknik Informatika* / *S1 Sistem Informasi*).
+  - Chip badge peran spesifik (*Tech Lead*, *Full Stack*, *Frontend*, *Backend*).
+- [ ] **Card Tech Stack Resmi:**
+  - Grid 2 kolom berisi logo SVG resmi berwarna (Next.js, Tailwind CSS, PostgreSQL, Node.js, Leaflet Maps, Laravel, MySQL, React).
+  - Label nama teknologi yang bersih dan presisi.
+- [ ] **Card Metadata Ringkas:**
+  - Baris informasi tahun rilis dan instansi mitra binaan.
+
+### [ ] Tahap 6: Navigasi Proyek Terkait & Footer
+- [ ] Section bawah berisi tautan ke proyek inovasi kampus berdampak lainnya (Next Project / Kembali ke Katalog).
+- [ ] Integrasikan footer institusi bersama Widyatama dan Diktisaintek (`components/footer.blade.php`).
+
+### [ ] Tahap 7: Responsive Polish, Verifikasi Build & Audit Hygiene
+- [ ] Uji responsivitas menyeluruh pada breakpoint mobile (<640px), tablet (768px), dan desktop (1024px+).
+- [ ] Jalankan kompilasi asset Vite (`npm run build`).
+- [ ] Jalankan pengecekan cache view Laravel (`php artisan view:cache`).
+- [ ] Uji akses HTTP endpoint `/proyek/sigap`, `/proyek/sidutama`, dan `/proyek/cimart` (pastikan status 200 OK dan 404 pada slug tidak valid).
+- [ ] Audit `/antislop`: pastikan zero emoji, zero em dash, kontras warna AA, dan tidak ada teks slop/klise.
+- [ ] Audit `/antislop-code`: pastikan seluruh blade view dan kode bersih dari komentar tutorial atau narrating comments.
