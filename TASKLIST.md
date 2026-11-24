@@ -226,4 +226,155 @@ Dokumentasi lengkap tersimpan di `docs/tech-stack-cms-architecture.md`:
   - [x] Verifikasi `npm run build` dan `php artisan view:cache` (0 error).
   - [x] Audit anti-slop: strictly zero emoji, zero em dash.
 
+---
+
+# Tasklist Implementasi Admin CMS: Tambah Proyek Baru & Dynamic Tech Stack
+
+Dokumen ini memuat rencana kerja teknis untuk mengimplementasikan fitur **Tambah Proyek Baru** pada Admin Panel (`/apanel/proyek/create`), mengacu penuh pada prototype visual [admin_cms_tambah_proyek_baru.html](file:///mnt/data/Projects/Web/Laravel/berdampak-utama/assets/admin_cms_tambah_proyek_baru.html) serta keputusan arsitektur [tech-stack-cms-architecture.md](file:///mnt/data/Projects/Web/Laravel/berdampak-utama/docs/tech-stack-cms-architecture.md).
+
+---
+
+## 1. Ringkasan Ruang Lingkup & Aturan Desain
+
+1. **Struktur Halaman Utama (5 Kartu + Sticky Bottom Bar):**
+   - **Header & Navigasi:** Top horizontal navbar bertema Widyatama Navy & Diktisaintek Berdampak (tanpa vertical sidebar).
+   - **Card 1: Informasi Umum & Filter Proyek:** Judul proyek, slug otomatis, tahun pengerjaan, kategori proyek, nama mitra desa, URL aplikasi live, switch status publikasi.
+   - **Card 2: Deskripsi Proyek & Dokumentasi Lapangan:** Deskripsi singkat (maks. 200 karakter dengan live counter), deskripsi lengkap & cerita dampak (latar belakang, solusi, dampak), galeri 4 foto dokumentasi lapangan beserta input caption.
+   - **Card 3: Tangkapan Layar Dashboard Utama (16:9):** Area drag-and-drop file upload 16:9 dengan tombol "Pilih File Gambar" dan preview instan.
+   - **Card 4: Pilihan Tech Stack (Dynamic Multi-Select):** Grid kartu interaktif teknologi pre-seeded dengan logo SVG resmi, modal "+ Tambah Stack Baru" (auto-fetch SimpleIcons CDN, custom upload sanitization, monogram badge fallback), serta input teks stack tambahan.
+   - **Card 5: Tim Pengembang & Orang yang Terlibat:** Sub-card Dosen Pembimbing (foto avatar, nama lengkap & gelar, jabatan/peran) dan sub-card Mahasiswa Kontributor dengan tombol dinamis "+ Tambah Anggota Mahasiswa" (foto, nama, NPM, jurusan, peran).
+   - **Sticky Bottom Action Bar:** Tautan "Batal & Kembali", tombol "Simpan sebagai Draft", dan tombol "Publikasikan Proyek Sekarang".
+
+2. **Standar Anti-Slop:**
+   - Strictly zero emoji di seluruh interface, kode, response, dan database seeder.
+   - Strictly zero em dash (tanda pisah panjang). Gunakan titik dua, tanda kurung, atau koma.
+   - Kontras warna teks dan latar belakang memenuhi standar WCAG AA.
+   - Tidak ada narrating comments atau kode boilerplate generik.
+
+---
+
+## 2. Rincian Tahapan Kerja
+
+### Tahap 1: Skema Database & Seeder Dynamic Tech Stack
+- [ ] Buat file migration `create_tech_stacks_table`:
+  - Kolom: `id`, `name`, `slug` (unique), `icon_type` (enum: `svg_raw`, `cdn_url`, `custom_upload`, `monogram`), `icon_value` (nullable text), `brand_color` (string 7, contoh: `#1E1B64`), `created_at`, `updated_at`.
+- [ ] Buat file migration `create_project_tech_stack_table` (pivot table):
+  - Kolom: `project_id` (foreign key ke `projects.id`, cascade on delete), `tech_stack_id` (foreign key ke `tech_stacks.id`, cascade on delete).
+  - Primary key komposit: `['project_id', 'tech_stack_id']`.
+- [ ] Buat Eloquent Model `TechStack` (`app/Models/TechStack.php`):
+  - Konfigurasi fillable, casts, dan relasi `projects(): BelongsToMany`.
+  - Tambahkan accessor helper untuk merender elemen SVG/ikon dan generator inisial monogram (2 huruf kapital) untuk fallback.
+- [ ] Perbarui Eloquent Model `Project` (`app/Models/Project.php`):
+  - Tambahkan relasi `techStacks(): BelongsToMany`.
+  - Tambahkan event hook atau sync mutator untuk menyinkronkan array nama stack ke kolom JSON `tech_stacks` demi kompatibilitas mundur dengan katalog landing page dan detail publik.
+- [ ] Buat `TechStackSeeder` (`database/seeders/TechStackSeeder.php`):
+  - Pre-seed 30-40 teknologi mahasiswa populer (Laravel, React, Next.js, Vue.js, Tailwind CSS, Bootstrap, TypeScript, JavaScript, HTML5, CSS3, PHP, Node.js, Express, Python, Django, FastAPI, PostgreSQL, MySQL, MariaDB, SQLite, Redis, Supabase, Firebase, Flutter, Dart, React Native, Android, Docker, Git, GitHub, Leaflet, OpenStreetMap, Postman, Figma).
+  - Menggunakan vektor SVG resmi dan kode warna heksadesimal standar Simple Icons.
+
+### Tahap 2: Backend Controller, Request Validation & Endpoint API
+- [ ] Buat Form Request `StoreProjectRequest` (`app/Http/Requests/Apanel/StoreProjectRequest.php`):
+  - Validasi ketat field form Card 1: `title` (required, max 255), `slug` (required, unique:projects,slug), `year` (required, integer, min 2020), `category` (required), `partner_name` (required), `live_url` (nullable, url), `is_published` (boolean).
+  - Validasi field Card 2: `summary` (required, max 200), `problem_statement` (nullable, string), `description` (nullable, string), `gallery_images.*` (nullable, image, mimes:jpeg,png,jpg,webp, max 3072), `gallery_captions.*` (nullable, string, max 255).
+  - Validasi field Card 3: `dashboard_thumbnail` (nullable, image, mimes:jpeg,png,jpg,webp, max 3072).
+  - Validasi field Card 4: `tech_stack_ids` (nullable, array), `tech_stack_ids.*` (exists:tech_stacks,id), `custom_tech_stacks` (nullable, string).
+  - Validasi field Card 5: `supervisor_name` (nullable, string), `supervisor_title` (nullable, string), `supervisor_photo` (nullable, image, max 2048), `contributors` (nullable, array), `contributors.*.name`, `contributors.*.npm`, `contributors.*.major`, `contributors.*.role`, `contributors.*.photo`.
+- [ ] Buat Controller `ProjectManagementController` (`app/Http/Controllers/Apanel/ProjectManagementController.php`):
+  - Method `create()`: memuat seluruh koleksi `TechStack` dan merender view `apanel.projects.create`.
+  - Method `store(StoreProjectRequest $request)`: eksekusi dalam DB transaction, proses penyimpanan file upload ke storage publik, insert entitas `Project`, sync pivot `project_tech_stack`, insert entitas `ProjectContributor`, dan redirect dengan session flash success.
+- [ ] Buat Controller `TechStackController` (`app/Http/Controllers/Apanel/TechStackController.php`):
+  - Method `store(Request $request)`: AJAX endpoint untuk menambahkan tech stack baru secara live dari modal:
+    - Auto-fetch SVG dan kode warna brand dari SimpleIcons CDN jika ditemukan via slug.
+    - Sanitasi file upload jika admin mengunggah file SVG/PNG custom.
+    - Fallback ke badge monogram 2 huruf jika ikon tidak tersedia.
+    - Mengembalikan response JSON `{success: true, tech_stack: {...}}`.
+  - Method `search(Request $request)`: pencarian cepat tech stack untuk live filter di form.
+
+### Tahap 3: Konfigurasi File Storage & Media Handling
+- [ ] Pastikan storage symlink aktif via `php artisan storage:link` (`public/storage` mengarah ke `storage/app/public`).
+- [ ] Siapkan struktur direktori penyimpanan:
+  - `storage/app/public/projects/thumbnails/`
+  - `storage/app/public/projects/gallery/`
+  - `storage/app/public/projects/supervisors/`
+  - `storage/app/public/projects/contributors/`
+  - `storage/app/public/tech-stacks/`
+- [ ] Helper sanitasi file SVG kustom untuk menghapus tag `<script>`, `<foreignObject>`, dan event handler inline (mencegah XSS).
+
+### [x] Tahap 4: Routing & Layout Blade Admin
+- [x] Buat layout admin utama `resources/views/layouts/apanel.blade.php`:
+  - Top Horizontal Navbar dengan logo Universitas Widyatama dan Diktisaintek Berdampak.
+  - User status pill, link ke Web Publik, dan tombol Logout aman.
+  - Script pengaman anti-back-history (`pageshow` reload).
+  - Komponen alert flash message (sukses dan error validasi).
+- [x] Buat komponen Blade `x-tech-stack-icon` (`resources/views/components/tech-stack-icon.blade.php`):
+  - Dukungan rendering untuk `svg_raw` (SimpleIcons resmi dengan warna brand), `cdn_url`, `custom_upload`, dan fallback monogram badge.
+- [x] Konfigurasi routes di `routes/web.php` dalam grup middleware `['auth', 'prevent.back']`:
+  - `GET /apanel/proyek/create` -> `ProjectManagementController@create` (nama: `apanel.projects.create`).
+  - `POST /apanel/proyek` -> `ProjectManagementController@store` (nama: `apanel.projects.store`).
+  - `POST /apanel/tech-stacks` -> `TechStackController@store` (nama: `apanel.tech-stacks.store`).
+  - `GET /apanel/tech-stacks/search` -> `TechStackController@search` (nama: `apanel.tech-stacks.search`).
+
+### [x] Tahap 5: Implementasi View Blade `apanel/projects/create.blade.php` (1:1 Match Prototype)
+- [x] **Header Section:**
+  - Breadcrumb: `Admin > Kelola Proyek > Tambah Proyek Baru`.
+  - Judul halaman "Tambah Proyek Baru" dan subjudul penjelasan ringkas.
+- [x] **Card 1: Informasi Umum & Filter Proyek:**
+  - Input Judul Proyek dengan auto-slug generator.
+  - Input Slug URL (disabled/read-only, otomatis mengikuti judul).
+  - Input manual Tahun Pengerjaan (tipe number, bebas autofill dengan hint text placeholder).
+  - Input manual Kategori Proyek (tipe text, bebas autofill dengan hint text placeholder).
+  - Input Nama Mitra / Desa Binaan.
+  - Input URL Aplikasi Web Live.
+  - Toggle Switch Status Publikasi (Langsung Tayangkan vs Simpan Draft) tersinkronisasi dengan hidden input `is_published`.
+- [x] **Card 2: Deskripsi Proyek & Dokumentasi Lapangan:**
+  - Textarea Deskripsi Singkat dengan penghitung karakter live `0 / 200`.
+  - Structured narrative editor untuk Latar Belakang Masalah, Solusi Sistem, dan Dampak Nyata bagi Warga.
+  - Upload Galeri Dokumentasi Lapangan: grid 4 kartu foto dengan input file, tombol unggah, dan input caption per foto.
+- [x] **Card 3: Tangkapan Layar Dashboard Utama (16:9):**
+  - Area drag-and-drop rasio 16:9 dengan tombol "Pilih File Gambar".
+  - Preview thumbnail instan pasca pemilihan gambar tanpa reload halaman.
+- [x] **Card 4: Pilih Teknologi yang Digunakan (Dynamic Tech Stack):**
+  - 26 Stack developer relevan dengan SVG resmi Simple Icons dan warna brand (Laravel, React, Go, Rust, Prisma, Vue, Tailwind, PostgreSQL, MySQL, Redis, Supabase, Flutter, Dart, dll.). Tool non-kode (Figma, GitHub, Git, Postman) disingkirkan.
+  - Tombol "+ Tambah Stack Baru" yang memicu modal quick-add.
+  - Modal quick-add: input nama, slug auto-match, live preview dari SimpleIcons atau opsi upload custom/monogram, dan tombol simpan via AJAX yang langsung menginjeksi kartu baru ke dalam grid.
+  - Input teks tambahan untuk stack lainnya (comma-separated).
+- [x] **Card 5: Tim Pengembang & Orang yang Terlibat:**
+  - Dosen Pembimbing: uploader foto avatar, input nama dosen & gelar (tanpa autofill hardcode), input jabatan/peran dengan placeholder hint text.
+  - Kontributor Mahasiswa: tombol "+ Tambah Anggota Mahasiswa" yang dapat menambah baris baru secara dinamis.
+  - Per baris kontributor: tombol uploader foto, input nama lengkap, input NPM (font tabular-nums), input Angkatan (class_year), input manual Jurusan (text input), input manual Peran (text input), dan tombol hapus baris. Bebas dari data autofill hardcode.
+- [x] **Sticky Bottom Action Bar:**
+  - Tautan "Batal & Kembali ke Daftar Proyek".
+  - Tombol sekunder "Simpan sebagai Draft" (mengirimkan form dengan `is_published = 0`).
+  - Tombol primer "Publikasikan Proyek Sekarang" (mengirimkan form dengan `is_published = 1`).
+
+### [x] Tahap 6: Interaktivitas Client-Side (Vanilla JavaScript)
+- [x] Script real-time slug generator: mengubah spasi menjadi tanda strip dan karakter non-alphanumeric dihapus.
+- [x] Script live character counter pada textarea deskripsi singkat (`short-desc-count`).
+- [x] Script preview drag-and-drop file upload untuk screenshot dashboard 16:9 dan foto galeri.
+- [x] Script dynamic row adder & remover untuk anggota mahasiswa kontributor (lengkap dengan 5 input manual: nama, npm, angkatan, jurusan, peran).
+- [x] Script modal quick-add tech stack dengan integrasi fetch API dan DOM insertion.
+
+### [x] Tahap 7: Automated Testing, Verifikasi & Audit Kualitas
+- [x] Buat Feature Test `ApanelProjectCreateTest` (`tests/Feature/ApanelProjectCreateTest.php`):
+  - Uji proteksi: guest diarahkan ke `/apanel/login`.
+  - Uji akses: admin dapat membuka halaman `/apanel/proyek/create` (HTTP 200).
+  - Uji validasi: gagal menyimpan jika field wajib kosong.
+  - Uji simpan lengkap: berhasil menyimpan proyek dengan relasi pivot tech stack, file thumbnail, foto galeri, dan kontributor (termasuk field angkatan/class_year).
+  - Uji draft vs published: status publikasi tersimpan sesuai tombol aksi yang diklik.
+- [x] Buat Feature Test `TechStackManagementTest` (`tests/Feature/TechStackManagementTest.php`):
+  - Uji endpoint penambahan tech stack baru via AJAX.
+  - Uji sanitasi SVG custom upload.
+- [x] Jalankan kompilasi asset Vite (`npm run build`).
+- [x] Jalankan verifikasi cache view (`php artisan view:cache`).
+- [x] Audit anti-slop: zero emoji, zero em dash, kontras warna AA, dan tidak ada teks slop/klise.
+
+---
+
+## 3. Titik Keputusan Teknis untuk Konfirmasi
+
+1. **Struktur Route CMS:**
+   - Rekomendasi: `GET /apanel/proyek/create` untuk form input dan `POST /apanel/proyek` untuk penyimpanan.
+2. **Katalog Tech Stack Bawaan:**
+   - 30-40 teknologi pre-seeded diambil langsung dari repositori resmi Simple Icons dengan format SVG standar dan warna resmi masing-masing brand.
+3. **Penyimpanan Gambar:**
+   - Seluruh berkas (thumbnail dashboard, galeri lapangan, foto dosen, foto mahasiswa) disimpan di disk `public` (`storage/app/public/projects/...`) agar dapat diakses publik secara optimal.
 

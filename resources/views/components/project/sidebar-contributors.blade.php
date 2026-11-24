@@ -1,8 +1,8 @@
 @props(['contributors'])
 
 <section class="bg-surface border border-outline-variant rounded-xl p-6 flex flex-col gap-4 shadow-xs">
-    <a href="#team-showcase-main" 
-       class="group flex items-center justify-between text-on-surface-variant hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 rounded-md py-0.5" 
+    <a href="#team-showcase-main"
+       class="group flex items-center justify-between text-on-surface-variant hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 rounded-md py-0.5"
        title="Kembali ke Sorotan Tim Mahasiswa">
         <span class="font-headline text-xs font-semibold tracking-wider uppercase text-on-surface-variant group-hover:text-primary transition-colors">
             Tim Mahasiswa Pengembang
@@ -16,8 +16,8 @@
         @forelse($contributors as $contributor)
             <div class="group/item flex items-start gap-3 py-3.5 first:pt-0 last:pb-0">
                 @if($contributor->avatar_url)
-                    <img src="{{ $contributor->avatar_url }}" 
-                         alt="{{ $contributor->name }}" 
+                    <img src="{{ $contributor->avatar_url }}"
+                         alt="{{ $contributor->name }}"
                          class="w-11 h-11 rounded-full object-cover border border-outline-variant shrink-0 ring-1 ring-primary/10">
                 @else
                     <div class="w-11 h-11 rounded-full bg-primary-container text-on-primary-container font-bold text-sm flex items-center justify-center shrink-0">
@@ -29,7 +29,7 @@
                         {{ $contributor->name }}
                     </span>
                     <span class="font-body text-xs text-on-surface-variant tabular-nums leading-tight">
-                        NPM {{ $contributor->npm }} &bull; {{ $contributor->major }}
+                        NPM {{ $contributor->npm }} &bull; {{ $contributor->major }}{{ $contributor->class_year ? ' (' . $contributor->class_year . ')' : '' }}
                     </span>
                     <span class="self-start inline-flex items-center px-2.5 py-0.5 rounded-md bg-primary-container/70 text-on-primary-container font-body text-[11px] font-semibold mt-0.5">
                         {{ $contributor->role }}

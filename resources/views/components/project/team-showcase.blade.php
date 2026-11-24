@@ -2,12 +2,6 @@
 
 @php
     $count = count($contributors);
-    $gridClass = match(true) {
-        $count === 1 => 'grid-cols-1 max-w-md',
-        $count === 2 => 'grid-cols-1 sm:grid-cols-2 max-w-2xl',
-        $count === 4 => 'grid-cols-1 sm:grid-cols-2 max-w-3xl',
-        default => 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
-    };
 @endphp
 
 <section id="team-showcase-main" class="bg-surface border border-outline-variant rounded-2xl p-6 sm:p-8 flex flex-col gap-6 shadow-xs scroll-mt-28">
@@ -28,7 +22,7 @@
         </span>
     </div>
 
-    <div class="grid {{ $gridClass }} gap-4 sm:gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         @forelse($contributors as $contributor)
             <div class="group bg-surface-variant/40 hover:bg-surface border border-outline-variant hover:border-primary/40 rounded-xl p-4 flex flex-col gap-4 transition-all duration-200 hover:shadow-md">
                 <div class="relative aspect-[4/5] w-full rounded-lg overflow-hidden bg-surface-container border border-outline-variant/60">
@@ -54,7 +48,7 @@
                         {{ $contributor->name }}
                     </h3>
                     <p class="font-body text-xs text-on-surface-variant font-medium">
-                        {{ $contributor->major }}
+                        {{ $contributor->major }}{{ $contributor->class_year ? ' • Angkatan ' . $contributor->class_year : '' }}
                     </p>
                 </div>
 

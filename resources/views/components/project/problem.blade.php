@@ -6,7 +6,7 @@
     </h2>
     <div class="prose max-w-none text-on-surface-variant font-body text-sm sm:text-base leading-relaxed space-y-3">
         <p>
-            {{ $problem ?? 'Aplikasi ini dirancang berdasarkan hasil survei lapangan dan koordinasi intensif bersama perangkat desa dan masyarakat setempat untuk menyelesaikan kendala nyata di lapangan secara berkelanjutan.' }}
+            {!! nl2br(e($problem ?? 'Aplikasi ini dirancang berdasarkan hasil survei lapangan dan koordinasi intensif bersama perangkat desa dan masyarakat setempat untuk menyelesaikan kendala nyata di lapangan secara berkelanjutan.')) !!}
         </p>
     </div>
 </section>

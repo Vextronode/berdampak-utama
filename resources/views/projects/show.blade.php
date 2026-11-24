@@ -27,7 +27,7 @@
                         <x-project.sidebar-contributors :contributors="$project->contributors" />
                     </div>
 
-                    <x-project.sidebar-tech-stack :tech-stacks="$project->tech_stacks" />
+                    <x-project.sidebar-tech-stack :tech-stack-items="$project->techStackItems" :tech-stacks="$project->tech_stacks" />
 
                     <x-project.sidebar-metadata :project="$project" />
                 </aside>

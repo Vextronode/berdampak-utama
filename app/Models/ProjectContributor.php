@@ -14,6 +14,7 @@ class ProjectContributor extends Model
         'project_id',
         'name',
         'npm',
+        'class_year',
         'major',
         'role',
         'avatar_url',

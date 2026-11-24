@@ -10,7 +10,7 @@ class ProjectController extends Controller
     public function show(string $slug): View
     {
         $project = Project::published()
-            ->with('contributors')
+            ->with(['contributors', 'techStackItems'])
             ->where('slug', $slug)
             ->firstOrFail();
 

@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Apanel\AuthController;
 use App\Http\Controllers\Apanel\DashboardController;
+use App\Http\Controllers\Apanel\ProjectManagementController;
+use App\Http\Controllers\Apanel\TechStackController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Auth;
@@ -25,6 +27,18 @@ Route::middleware('prevent.back')->group(function () {
     Route::middleware('auth')->prefix('apanel')->name('apanel.')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+        // Manajemen Proyek
+        Route::get('/proyek/create', [ProjectManagementController::class, 'create'])->name('projects.create');
+        Route::post('/proyek', [ProjectManagementController::class, 'store'])->name('projects.store');
+        Route::get('/proyek/{project}/edit', [ProjectManagementController::class, 'edit'])->name('projects.edit');
+        Route::put('/proyek/{project}', [ProjectManagementController::class, 'update'])->name('projects.update');
+        Route::patch('/proyek/{project}/toggle-publish', [ProjectManagementController::class, 'togglePublish'])->name('projects.toggle-publish');
+        Route::delete('/proyek/{project}', [ProjectManagementController::class, 'destroy'])->name('projects.destroy');
+
+        // Dynamic Tech Stack API
+        Route::post('/tech-stacks', [TechStackController::class, 'store'])->name('tech-stacks.store');
+        Route::get('/tech-stacks/search', [TechStackController::class, 'search'])->name('tech-stacks.search');
     });
 });
 

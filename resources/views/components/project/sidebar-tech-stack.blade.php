@@ -1,6 +1,10 @@
-@props(['techStacks'])
+@props([
+    'techStackItems' => null,
+    'techStacks' => [],
+])
 
 @php
+$items = collect($techStackItems ?? []);
 $techLogos = [
     'nextjs' => [
         'name' => 'Next.js',
@@ -41,13 +45,23 @@ $techLogos = [
 ];
 @endphp
 
+@if($items->isNotEmpty() || !empty($techStacks))
 <section class="bg-surface border border-outline-variant rounded-xl p-6 flex flex-col gap-4">
     <span class="font-headline text-xs font-semibold tracking-wider text-on-surface-variant uppercase">
         Tech Stack
     </span>
 
     <div class="grid grid-cols-2 gap-3">
-        @if(!empty($techStacks))
+        @if($items->isNotEmpty())
+            @foreach($items as $stack)
+                <div class="border border-outline-variant rounded-lg p-3 bg-surface-variant flex flex-col items-center justify-center gap-2 text-center transition-colors hover:border-primary/40">
+                    <x-tech-stack-icon :stack="$stack" class="w-7 h-7" />
+                    <span class="font-body text-xs font-semibold text-primary truncate max-w-full">
+                        {{ $stack->name }}
+                    </span>
+                </div>
+            @endforeach
+        @elseif(!empty($techStacks))
             @foreach($techStacks as $techKey)
                 @php
                     $tech = $techLogos[strtolower($techKey)] ?? [
@@ -65,3 +79,4 @@ $techLogos = [
         @endif
     </div>
 </section>
+@endif

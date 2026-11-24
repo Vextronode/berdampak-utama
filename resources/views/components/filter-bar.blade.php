@@ -12,13 +12,6 @@
 <div class="flex flex-col gap-4 py-2 border-b border-outline-variant pb-6 mb-8">
     <div class="flex flex-wrap items-center gap-2">
         <span class="font-body text-xs sm:text-sm font-semibold text-on-surface-variant mr-1">Tahun:</span>
-        
-        <button type="button" 
-                data-year-filter="semua"
-                aria-pressed="{{ $selectedYear === 'semua' ? 'true' : 'false' }}"
-                class="{{ $baseClass }} {{ $selectedYear === 'semua' ? $activeClass : $inactiveClass }}">
-            Semua Tahun
-        </button>
 
         @foreach($availableYears as $year)
             <button type="button"
@@ -28,5 +21,12 @@
                 {{ $year }}
             </button>
         @endforeach
+
+        <button type="button" 
+                data-year-filter="semua"
+                aria-pressed="{{ $selectedYear === 'semua' ? 'true' : 'false' }}"
+                class="{{ $baseClass }} {{ $selectedYear === 'semua' ? $activeClass : $inactiveClass }}">
+            Semua Tahun
+        </button>
     </div>
 </div>

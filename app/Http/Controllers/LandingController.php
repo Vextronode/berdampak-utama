@@ -11,13 +11,14 @@ class LandingController extends Controller
 {
     public function index(Request $request): View
     {
-        $selectedYear = $request->query('year', 'semua');
-
         $availableYears = Project::published()
             ->distinct()
             ->orderByDesc('year')
             ->pluck('year')
             ->toArray();
+
+        $defaultYear = ! empty($availableYears) ? (string) $availableYears[0] : 'semua';
+        $selectedYear = (string) $request->query('year', $defaultYear);
 
         $projects = Project::published()
             ->with(['contributors' => function ($q) {
@@ -35,7 +36,8 @@ class LandingController extends Controller
             'projects',
             'fieldPosts',
             'availableYears',
-            'selectedYear'
+            'selectedYear',
+            'defaultYear'
         ));
     }
 }

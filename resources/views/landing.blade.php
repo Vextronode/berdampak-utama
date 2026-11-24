@@ -18,13 +18,22 @@
                 :available-years="$availableYears"
                 :selected-year="$selectedYear" />
 
-            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+            @php
+                $visibleProjectCount = $projects->filter(function ($project) use ($selectedYear) {
+                    return $selectedYear === 'semua' || (string) $project->year === (string) $selectedYear;
+                })->count();
+            @endphp
+
+            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch {{ $visibleProjectCount === 0 ? 'hidden' : '' }}">
                 @foreach($projects as $project)
-                    <x-project-card :project="$project" />
+                    @php
+                        $isHidden = $selectedYear !== 'semua' && (string) $project->year !== (string) $selectedYear;
+                    @endphp
+                    <x-project-card :project="$project" :is-hidden="$isHidden" />
                 @endforeach
             </div>
 
-            <div id="empty-projects-state" class="{{ $projects->count() === 0 ? '' : 'hidden' }} py-16 px-4 text-center rounded-xl border border-dashed border-outline bg-surface-variant max-w-lg mx-auto flex flex-col items-center gap-3">
+            <div id="empty-projects-state" class="{{ $visibleProjectCount === 0 ? '' : 'hidden' }} py-16 px-4 text-center rounded-xl border border-dashed border-outline bg-surface-variant max-w-lg mx-auto flex flex-col items-center gap-3">
                 <svg class="w-12 h-12 text-outline" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                 </svg>
@@ -54,7 +63,9 @@
             const activeClasses = ['bg-primary', 'text-white', 'border', 'border-primary', 'shadow-xs', 'hover:bg-primary-royal-indigo', 'hover:text-white'];
             const inactiveClasses = ['border', 'border-outline-variant', 'bg-surface', 'text-on-surface-variant', 'hover:border-primary', 'hover:text-primary', 'hover:bg-surface-variant'];
 
-            function applyFilter(year) {
+            const defaultYear = @json($defaultYear ?? 'semua');
+
+            function applyFilter(year, updateUrl = true) {
                 let visibleCount = 0;
 
                 filterBtns.forEach(btn => {
@@ -87,29 +98,31 @@
                     grid.classList.toggle('hidden', visibleCount === 0);
                 }
 
-                const newUrl = year === 'semua'
-                    ? window.location.pathname
-                    : window.location.pathname + '?year=' + encodeURIComponent(year);
-                window.history.replaceState(null, '', newUrl);
+                if (updateUrl) {
+                    const newUrl = String(year) === String(defaultYear)
+                        ? window.location.pathname
+                        : window.location.pathname + '?year=' + encodeURIComponent(year);
+                    window.history.replaceState(null, '', newUrl);
+                }
             }
 
             filterBtns.forEach(btn => {
                 btn.addEventListener('click', function () {
                     const year = this.getAttribute('data-year-filter');
-                    applyFilter(year);
+                    applyFilter(year, true);
                 });
             });
 
             if (emptyResetBtn) {
                 emptyResetBtn.addEventListener('click', function () {
-                    applyFilter('semua');
+                    applyFilter('semua', true);
                 });
             }
 
             const urlParams = new URLSearchParams(window.location.search);
             const initialYear = urlParams.get('year');
             if (initialYear) {
-                applyFilter(initialYear);
+                applyFilter(initialYear, false);
             }
         });
     </script>

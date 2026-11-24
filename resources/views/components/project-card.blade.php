@@ -1,6 +1,6 @@
-@props(['project'])
+@props(['project', 'isHidden' => false])
 
-<article data-year="{{ $project->year }}" class="project-card bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between h-full group">
+<article data-year="{{ $project->year }}" class="project-card {{ $isHidden ? 'hidden' : '' }} bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between h-full group">
     <div class="aspect-video bg-surface-container overflow-hidden border-b border-outline-variant relative">
         @if($project->dashboard_thumbnail)
             <img src="{{ $project->dashboard_thumbnail }}" 

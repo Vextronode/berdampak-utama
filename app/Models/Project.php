@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Project extends Model
@@ -42,6 +43,11 @@ class Project extends Model
     public function contributors(): HasMany
     {
         return $this->hasMany(ProjectContributor::class)->orderBy('sort_order');
+    }
+
+    public function techStackItems(): BelongsToMany
+    {
+        return $this->belongsToMany(TechStack::class, 'project_tech_stack');
     }
 
     public function scopePublished(Builder $query): Builder
