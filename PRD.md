@@ -92,10 +92,16 @@ Portal **Berdampak Utama (`berdampak.widyatama.ac.id`)** adalah platform resmi y
 - **FR-DET-03 (Tech Stack Logo):** Menampilkan deretan logo/ikon resmi teknologi pendukung (Next.js, Tailwind, Postgres, dsb.) dengan label nama di bawahnya.
 - **FR-DET-04 (Galeri Dokumentasi Lapangan):** Grid 4 foto dokumentasi mahasiswa di Balai Desa Cibenda.
 
-### Modul C: Admin CMS
-- **FR-ADM-01 (Autentikasi URL):** Login admin melalui URL `/admin/login`.
-- **FR-ADM-02 (Form Input Proyek & Kontributor):** Form penambahan proyek dengan input dinamis anggota tim mahasiswa (NPM, jurusan, peran, foto) dan dosen pembimbing.
-- **FR-ADM-03 (Upload Aset):** Upload foto dashboard 16:9 dan multi-upload foto kegiatan lapangan.
+### Modul C: Admin CMS (`/admin/projek/baru`)
+- **FR-ADM-01 (Autentikasi URL):** Login admin melalui rute langsung `/admin/login` (tanpa tombol publik pada navbar).
+- **FR-ADM-02 (Layout CMS Full-Width):** Antarmuka CMS bersih tanpa sidebar vertikal. Navbar atas memuat logo Widyatama, Diktisaintek, profil admin, dan tombol Logout.
+- **FR-ADM-03 (Urutan Form Input Data Proyek):**
+  1. *Card 1 — Informasi Umum & Filter:* Judul, slug, tahun pengerjaan (2026/2025/2024), kategori, mitra (Desa Cibenda), URL live web, toggle status publikasi.
+  2. *Card 2 — Deskripsi & Dokumentasi Lapangan:* Deskripsi singkat untuk kartu beranda, deskripsi lengkap/cerita dampak (Rich Text editor), dan upload multi-foto dokumentasi lapangan di Desa Cibenda dengan caption.
+  3. *Card 3 — Tangkapan Layar Dashboard Utama:* Upload drag-and-drop cover dashboard aplikasi rasio 16:9.
+  4. *Card 4 — Pilihan Tech Stack:* Checkbox multi-select berikon logo resmi (Next.js, Tailwind, PostgreSQL, Node.js, dll.).
+  5. *Card 5 — Tim Pengembang & Dosen Pembimbing:* Form dosen pembimbing (foto, nama, gelar, peran) dan repeater kontributor mahasiswa (foto profil, nama, nomor NPM, jurusan, peran: *Tech Lead, Full Stack, Frontend, Backend, UI/UX*).
+- **FR-ADM-04 (Aksi Simpan):** Sticky bottom bar dengan tombol *"Simpan sebagai Draft"* dan *"Publikasikan Proyek Sekarang"*.
 
 ---
 

@@ -106,17 +106,19 @@
 ---
 
 ### Layar 4: Halaman Admin Input & CMS Proyek (`/admin/projek/baru`)
-- Layout Admin Panel dengan Sidebar (Dashboard, Kelola Proyek, Catatan Lapangan, Pengaturan Akun).
-- Form Lengkap Input Proyek Baru:
-  1. **Informasi Proyek:** Judul Proyek, Slug URL, Tahun Pengerjaan (dropdown: 2024, 2025, 2026), Kategori, Nama Desa Mitra (misal: Desa Cibenda), dan URL Aplikasi Web Live.
-  2. **Upload Thumbnail Dashboard:** Area drag-and-drop untuk screenshot dashboard utama aplikasi rasio 16:9.
-  3. **Manajemen Tim Mahasiswa (Dynamic Repeater):**
-     - Input untuk menambahkan kontributor: Upload Foto Profil, Nama Lengkap, Nomor NPM, Program Studi/Jurusan, dan Pilihan Peran (*Tech Lead, Full Stack, Frontend, Backend, UI/UX Designer*).
-  4. **Dosen Pembimbing:** Upload foto profil dosen, Nama Lengkap dengan gelar, dan jabatan.
-  5. **Pemilihan Tech Stack:** Checkbox berikon logo (Next.js, React, Tailwind CSS, PostgreSQL, Node.js, Laravel, Flutter, dll.).
-  6. **Cerita Dampak & Latar Belakang:** Rich text editor untuk penjelasan masalah dan solusi.
-  7. **Multi-upload Galeri Lapangan:** Upload banyak foto kegiatan di desa dengan input caption.
-  8. **Tombol Aksi:** *"Simpan sebagai Draft"* dan *"Publikasikan Proyek"*.
+- Layout Admin Panel Full-Width (Tanpa Sidebar vertikal):
+  - **Top Navbar:**
+    - Kiri: Logo Universitas Widyatama & Logo Diktisaintek Berdampak + Teks *"Admin Berdampak Utama — Panel Pengelola"*.
+    - Kanan: Profil Admin ("LPPM Widyatama") + **Tombol Logout**. *(Tombol Simpan Draft & Publikasikan di navbar dihapus)*.
+- **Urutan 5 Kartu Form Input Data:**
+  1. **Card 1 — Informasi Umum & Filter Proyek:** Judul Proyek, Slug URL, Filter Tahun (2026, 2025, 2024), Filter Kategori, Nama Mitra (Desa Cibenda), URL Web Live, dan Toggle Publikasi.
+  2. **Card 2 — Deskripsi Proyek & Dokumentasi Lapangan:** Deskripsi Singkat, Deskripsi Lengkap & Cerita Dampak (Rich Text), dan Upload Galeri Foto Dokumentasi di Desa Cibenda (grid 4 placeholder + input caption).
+  3. **Card 3 — Tangkapan Layar Dashboard Utama (16:9):** Area drag-and-drop placeholder cover screenshot aplikasi 16:9.
+  4. **Card 4 — Pilihan Tech Stack:** Checkbox berikon logo resmi (Next.js, Tailwind, PostgreSQL, Node.js, dll.).
+  5. **Card 5 — Tim Pengembang & Orang yang Terlibat:**
+     - Sub-section Dosen Pembimbing (Foto profil, nama, gelar, peran).
+     - Sub-section Kontributor Mahasiswa (Repeater list: Foto profil, nama lengkap, **NPM**, jurusan, dan pilihan peran: *Tech Lead, Full Stack, Frontend, Backend, UI/UX*).
+- **Sticky Bottom Action Bar:** Tautan *"Batal & Kembali ke Daftar Proyek"*, tombol *"Simpan sebagai Draft"*, dan tombol oranye *"Publikasikan Proyek Sekarang"*.
 
 ---
 
@@ -250,40 +252,76 @@ Layout Elements:
 
 ---
 
-### Prompt 4: Halaman Admin Input & CMS Proyek (`/admin/projek/baru`)
+### Prompt 4: Halaman Admin Input Data & CMS Proyek (`/admin/projek/baru` — Revisi: Tanpa Sidebar, Navbar dengan Logout, Urutan Baru)
 ```text
-Design a comprehensive, user-friendly CMS Data Entry page for adding a new project at /admin/projek/baru on berdampak.widyatama.ac.id.
+Design a clean, realistic, and modern Admin Panel CMS Data Entry page for adding a new project at /admin/projek/baru on the portal berdampak.widyatama.ac.id.
 
 Visual Style:
-- University administration CMS layout: Deep Navy Blue (#1E1B64) vertical left sidebar, clean white form cards on a soft gray canvas, and vibrant orange (#F15A24) primary save button.
+- Professional university administration layout: FULL-WIDTH container (NO vertical left sidebar).
+- Color Palette: Deep Institutional Navy Blue (#1E1B64), Vibrant Accent Orange (#F15A24), Clean White (#FFFFFF), and soft slate background (#F8FAFC).
+- High prototype fidelity with visible dashed placeholder upload boxes, clear input labels, helper text, and well-structured card sections.
 
-Page Components:
-1. Admin Sidebar:
-   - Universitas Widyatama logo + "Admin Berdampak".
-   - Navigation links: Dashboard, Kelola Proyek (active), Catatan Lapangan / Blog, Pengaturan Akun, Keluar.
-2. Top Bar:
+Layout & Structure:
+
+1. Top Horizontal Navbar (Full-Width Navigation):
+   - Left side: Dual logos side-by-side — Universitas Widyatama logo and Diktisaintek Berdampak logo, followed by bold text "Admin Berdampak Utama — Panel Pengelola".
+   - Right side: Admin profile pill showing "LPPM Widyatama (Pengelola Konten)" and a red/outline "Logout" button with logout icon.
+   - (NOTE: Do NOT add any vertical sidebar. Do NOT add "Simpan Draft" or "Publikasikan Proyek" in this top navbar; those action buttons belong at the bottom).
+
+2. Breadcrumb & Page Header:
    - Breadcrumb: Admin > Kelola Proyek > Tambah Proyek Baru.
-   - Admin Profile badge with name "LPPM Widyatama".
-3. Main Data Entry Form (Structured Cards):
-   - Card 1: Informasi Dasar Proyek:
-     * Field "Judul Proyek": Text input (e.g. SIGAP).
-     * Field "Slug URL": Auto-generated (e.g. /projek/sigap).
-     * Field "Tahun Pengerjaan": Dropdown selector (2026, 2025, 2024, 2023).
-     * Field "Kategori / Mitra": Text input (e.g. Desa Cibenda - Sistem Informasi Desa).
-     * Field "URL Aplikasi Live": Input link (e.g. https://sigap.desa-cibenda.id).
-     * Field "Deskripsi Singkat": 1-2 sentence summary for project cards.
-   - Card 2: Upload Tangkapan Layar Dashboard:
-     * 16:9 Drag-and-drop cover photo uploader with preview frame.
-   - Card 3: Manajemen Tim Pengembang & Dosen Pembimbing:
-     * Dosen Pembimbing section: Photo uploader, Name input with academic title, and Role input.
-     * Mahasiswa Contributors (Repeater list with "+ Tambah Kontributor"):
-       - Row 1: Profile photo uploader, Nama Mahasiswa, Nomor NPM (e.g. 230611103), Jurusan (dropdown: Teknik Informatika, Sistem Informasi, dll.), and Role dropdown (Tech Lead, Full Stack, Frontend, Backend, UI/UX Designer).
-   - Card 4: Pilihan Tech Stack (Multi-select with logo icons):
-     * Checkbox list with official tech logos: Next.js, React, Tailwind CSS, PostgreSQL, Node.js, Express, Laravel, Python.
-   - Card 5: Cerita Dampak & Dokumentasi Lapangan:
-     * Rich text editor for "Latar Belakang", "Solusi", and "Fitur Utama".
-     * Multi-image file uploader for field documentation photos at Desa Cibenda with caption inputs.
-   - Form Actions at the bottom:
-     * Toggle "Publikasikan ke Website".
-     * "Simpan sebagai Draft" (outlined) and "Publikasikan Proyek" (solid orange).
+   - Large Page Title: "Input Data Proyek Baru".
+   - Subtitle: "Lengkapi data proyek pengabdian masyarakat, deskripsi dampak, aset tangkapan layar, dan kontributor tim pengembang."
+
+3. Main Form Area (Centered Structured Cards in Specific Order):
+
+   - CARD 1: INFORMASI UMUM & FILTER PROYEK
+     * Grid 2-column input layout:
+       - "Judul Proyek": Text input with placeholder "Contoh: SIGAP - Sistem Informasi Tanggap Darurat".
+       - "Slug URL": Disabled/auto-generated text input "/projek/sigap".
+       - "Filter Tahun Pengerjaan": Dropdown selector with options [2026, 2025, 2024, 2023].
+       - "Filter Kategori Proyek": Dropdown selector with options [Sistem Informasi Desa, Layanan Tanggap Darurat & Pengaduan, Tata Kelola Pemerintahan, Portal Profil Desa & UMKM].
+       - "Nama Mitra / Desa Binaan": Text input with placeholder "Contoh: Pemerintah Desa Cibenda, Kab. Bandung Barat".
+       - "URL Aplikasi Web Live": Text input with placeholder "https://sigap.desa-cibenda.id".
+     * Toggle switch at bottom: "Status Publikasi: Langsung Tayangkan ke Website Publik" (Active green toggle).
+
+   - CARD 2: DESKRIPSI PROYEK & DOKUMENTASI LAPANGAN (POSITIONED AS ITEM #2)
+     * Field "Deskripsi Singkat": Textarea (maks. 200 karakter) for summary shown on landing page cards.
+     * Field "Deskripsi Lengkap & Cerita Dampak": Rich Text WYSIWYG editor toolbar (Bold, Italic, Bullets, Numbers, Heading 2, Heading 3, Link, Quote) with content area for "Latar Belakang Masalah", "Solusi Sistem", and "Dampak Nyata bagi Warga".
+     * Section "Upload Galeri Dokumentasi di Desa Cibenda":
+       - Grid of 4 dashed photo placeholder upload boxes with plus icons for field documentation photos (students training village staff, testing hardware, etc.), each box having a small "Keterangan Foto / Caption" input underneath.
+
+   - CARD 3: TANGKAPAN LAYAR DASHBOARD UTAMA (16:9)
+     * Large 16:9 dashed drag-and-drop placeholder image upload container.
+     * Center content inside container: Upload cloud icon, bold text "Tarik & Lepaskan Screenshot Dashboard Utama ke Sini", subtext "Format PNG, JPG, atau WebP (Rasio 16:9, Maksimal 3MB)", and a clean button "Pilih File Gambar".
+     * Helper note: "Gambar ini akan menjadi cover kartu di halaman utama dan banner di halaman detail."
+
+   - CARD 4: PILIHAN TECH STACK (DENGAN LOGO RESMI)
+     * Section title: "Pilih Teknologi yang Digunakan".
+     * Grid of multi-select checkbox cards featuring official color logos and tech names:
+       - [x] Next.js (with black N logo)
+       - [x] Tailwind CSS (with cyan wave logo)
+       - [x] PostgreSQL (with blue elephant logo)
+       - [x] Node.js (with green hexagon logo)
+       - [ ] React (with blue atom logo)
+       - [ ] Laravel (with red logo)
+       - [ ] MySQL (with dolphin logo)
+       - [ ] Leaflet / OpenStreetMap (with green map logo)
+       - [ ] Flutter (with blue wing logo)
+     * Custom input field at bottom: "Tech Stack Lainnya (pisahkan dengan koma)".
+
+   - CARD 5: TIM PENGEMBANG & ORANG YANG TERLIBAT (MAHASISWA & DOSEN — POSITIONED AS ITEM #5)
+     * Sub-section Dosen Pembimbing:
+       - Row with circular dashed avatar upload placeholder (80x80px with user icon), Input "Nama Dosen & Gelar" (e.g. Dr. Hendra Wijaya, M.Kom.), and Input "Jabatan/Peran" (Dosen Pembimbing & Penanggung Jawab Proyek).
+     * Sub-section Kontributor Mahasiswa (Repeater Card List):
+       - Header: "Daftar Mahasiswa yang Terlibat" with a right button "+ Tambah Anggota Mahasiswa" (outline orange).
+       - Row 1: Circular photo upload placeholder (64x64px), Input "Nama Lengkap" (Naufal Fadhiil), Input "Nomor NPM" (230611103), Dropdown "Jurusan" (S1 Teknik Informatika), and Dropdown "Peran" (Tech Lead & Full Stack Developer).
+       - Row 2: Circular photo upload placeholder, Input "Nama Lengkap" (Raka Pratama), Input "Nomor NPM" (230611115), Dropdown "Jurusan" (S1 Teknik Informatika), and Dropdown "Peran" (Frontend Developer).
+       - Row 3: Circular photo upload placeholder, Input "Nama Lengkap" (Siti Nurhaliza), Input "Nomor NPM" (230611120), Dropdown "Jurusan" (S1 Teknik Informatika), and Dropdown "Peran" (Backend & Database Engineer).
+
+4. Sticky Bottom Action Bar:
+   - Left side: "Batal & Kembali ke Daftar Proyek" (subtle gray link).
+   - Right side:
+     * Button "Simpan sebagai Draft" (clean white button with navy border).
+     * Button "Publikasikan Proyek Sekarang" (vibrant orange button with checkmark icon).
 ```

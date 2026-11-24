@@ -32,6 +32,7 @@ Mockup HTML interaktif hasil generate Google Stitch tersedia di folder `assets/`
 - 🌐 **[Landing Page Prototype](./assets/landing_page.html)** — Tampilan utama (Hero Mainhall, Filter Tahun, Kartu Proyek dengan NPM, Catatan Lapangan).
 - 📄 **[Detail Proyek SIGAP Prototype](./assets/sigap_detail_proyek.html)** — Halaman rincian proyek, galeri lapangan, logo tech stack, dan profil tim/dosen pembimbing.
 - 🔐 **[Login Admin Portal Prototype](./assets/portal_pengelola_admin_login.html)** — Halaman autentikasi pengelola (akses via URL).
+- ⚙️ **[Admin CMS Input Data Proyek Prototype](./assets/admin_cms_tambah_proyek_baru.html)** — Halaman input data proyek baru (tanpa sidebar, urutan 5 kartu, logo tech stack, form kontributor NPM).
 - 📐 **[Design System Export](./assets/design_system.md)** — Spesifikasi token CSS & warna dari Stitch.
 - 🖼️ **[Asset Gambar & Foto](./assets/image/)** — Direktori gambar referensi & mockup.
 
