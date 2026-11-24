@@ -69,7 +69,7 @@
                             <span class="font-mono text-xs font-bold text-diktisaintek-blue tracking-widest">02 / DAMPAK</span>
                         </div>
                         <h3 class="font-headline font-bold text-lg text-primary group-hover:text-vibrant-utama-orange transition-colors">
-                            Menjawab Kebutuhan Warga
+                            Menjawab Kebutuhan Masyarakat
                         </h3>
                         <p class="font-body text-xs sm:text-sm text-on-surface-variant leading-relaxed">
                             Fitur dibangun dari masalah nyata di lapangan untuk membantu aktivitas warga dan operasional desa mitra.
@@ -88,7 +88,7 @@
                             <span class="font-mono text-xs font-bold text-warm-gold tracking-widest">03 / TALENTA</span>
                         </div>
                         <h3 class="font-headline font-bold text-lg text-primary group-hover:text-vibrant-utama-orange transition-colors">
-                            Identitas Mahasiswa Jelas
+                            Apresiasi Mahasiswa
                         </h3>
                         <p class="font-body text-xs sm:text-sm text-on-surface-variant leading-relaxed">
                             Apresiasi penuh bagi mahasiswa pembuatnya, lengkap dengan nama, nomor pokok mahasiswa (NPM), serta dosen pembina.

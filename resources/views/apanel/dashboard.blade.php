@@ -85,7 +85,9 @@
                 </div>
                 <div class="flex items-baseline justify-between gap-3">
                     <div class="text-3xl font-bold text-primary font-['Poppins'] tabular-nums">{{ $fieldPostCount }}</div>
-                    <p class="text-xs text-on-surface-variant">Dokumentasi desa mitra terbit</p>
+                    <a href="{{ route('apanel.field-posts.index') }}" class="text-xs font-semibold text-primary hover:text-vibrant-utama-orange transition-colors whitespace-nowrap">
+                        Kelola Catatan &rarr;
+                    </a>
                 </div>
             </div>
         </section>
@@ -101,49 +103,47 @@
                     </span>
                 </div>
 
-                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                    <!-- Search Input -->
-                    <div class="relative flex-1 sm:w-64">
-                        <input type="text" id="dashboard-project-search" placeholder="Cari judul, desa, kategori..." class="w-full pl-9 pr-3.5 py-2 rounded-xl border border-outline-variant bg-surface-variant text-on-surface text-xs placeholder:text-on-surface-variant/60 focus:bg-surface focus:border-primary focus:ring-1 focus:ring-primary shadow-xs">
-                        <svg class="w-4 h-4 text-on-surface-variant absolute left-3 top-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                        </svg>
+                @if($projects->isNotEmpty())
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                        <!-- Search Input -->
+                        <div class="relative flex-1 sm:w-64">
+                            <input type="text" id="dashboard-project-search" placeholder="Cari judul, desa, kategori..." class="w-full pl-9 pr-3.5 py-2 rounded-xl border border-outline-variant bg-surface-variant text-on-surface text-xs placeholder:text-on-surface-variant/60 focus:bg-surface focus:border-primary focus:ring-1 focus:ring-primary shadow-xs">
+                            <svg class="w-4 h-4 text-on-surface-variant absolute left-3 top-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                        </div>
+
+                        <!-- Year Filter -->
+                        <select id="dashboard-year-filter" class="px-3 py-2 rounded-xl border border-outline-variant bg-surface text-on-surface text-xs font-medium focus:border-primary focus:ring-1 focus:ring-primary shadow-xs cursor-pointer">
+                            <option value="all">Semua Tahun</option>
+                            @foreach ($availableYears as $year)
+                                <option value="{{ $year }}">Tahun {{ $year }}</option>
+                            @endforeach
+                        </select>
+
+                        <!-- Status Filter -->
+                        <select id="dashboard-status-filter" class="px-3 py-2 rounded-xl border border-outline-variant bg-surface text-on-surface text-xs font-medium focus:border-primary focus:ring-1 focus:ring-primary shadow-xs cursor-pointer">
+                            <option value="all">Semua Status</option>
+                            <option value="published">Tayang</option>
+                            <option value="draft">Draft</option>
+                        </select>
                     </div>
-
-                    <!-- Year Filter -->
-                    <select id="dashboard-year-filter" class="px-3 py-2 rounded-xl border border-outline-variant bg-surface text-on-surface text-xs font-medium focus:border-primary focus:ring-1 focus:ring-primary shadow-xs cursor-pointer">
-                        <option value="all">Semua Tahun</option>
-                        @foreach ($availableYears as $year)
-                            <option value="{{ $year }}">Tahun {{ $year }}</option>
-                        @endforeach
-                    </select>
-
-                    <!-- Status Filter -->
-                    <select id="dashboard-status-filter" class="px-3 py-2 rounded-xl border border-outline-variant bg-surface text-on-surface text-xs font-medium focus:border-primary focus:ring-1 focus:ring-primary shadow-xs cursor-pointer">
-                        <option value="all">Semua Status</option>
-                        <option value="published">Tayang</option>
-                        <option value="draft">Draft</option>
-                    </select>
-                </div>
+                @endif
             </div>
 
             @if($projects->isEmpty())
                 <!-- Empty Database State -->
-                <div class="p-12 text-center flex flex-col items-center justify-center gap-3">
-                    <div class="w-14 h-14 rounded-2xl bg-surface-container text-outline flex items-center justify-center">
-                        <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                            <line x1="8" y1="21" x2="16" y2="21"></line>
-                            <line x1="12" y1="17" x2="12" y2="21"></line>
-                        </svg>
-                    </div>
-                    <h3 class="font-['Poppins'] font-semibold text-base text-primary">Belum Ada Proyek Terdaftar</h3>
-                    <p class="text-xs text-on-surface-variant max-w-md">Mulai tambahkan karya aplikasi mahasiswa Universitas Widyatama untuk ditampilkan di katalog Berdampak Utama.</p>
-                    <a href="{{ route('apanel.projects.create') }}" class="mt-2 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-vibrant-utama-orange text-white text-xs font-semibold hover:bg-secondary transition-colors shadow-xs">
+                <x-empty-state
+                    icon="project"
+                    title="Belum Ada Proyek Terdaftar"
+                    description="Mulai tambahkan karya aplikasi mahasiswa Universitas Widyatama untuk ditampilkan di katalog Berdampak Utama."
+                    class="border-0 rounded-none shadow-none"
+                >
+                    <a href="{{ route('apanel.projects.create') }}" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-vibrant-utama-orange text-white text-xs font-semibold hover:bg-secondary transition-colors shadow-xs">
                         <span>Tambah Proyek Pertama</span>
                     </a>
-                </div>
+                </x-empty-state>
             @else
                 <!-- Desktop Table View -->
                 <div class="hidden md:block overflow-x-auto">

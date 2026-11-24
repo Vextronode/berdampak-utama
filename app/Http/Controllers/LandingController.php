@@ -28,7 +28,10 @@ class LandingController extends Controller
             ->orderBy('id')
             ->get();
 
-        $fieldPosts = FieldPost::latest('activity_date')
+        $fieldPosts = FieldPost::published()
+            ->with('project')
+            ->latest('activity_date')
+            ->latest('id')
             ->take(3)
             ->get();
 

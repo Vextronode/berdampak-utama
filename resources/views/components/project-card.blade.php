@@ -1,6 +1,6 @@
 @props(['project', 'isHidden' => false])
 
-<article data-year="{{ $project->year }}" class="project-card {{ $isHidden ? 'hidden' : '' }} bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between h-full group">
+<article data-year="{{ $project->year }}" class="project-card {{ $isHidden ? 'hidden' : '' }} relative cursor-pointer bg-surface border border-outline-variant hover:border-primary/40 rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between h-full group">
     <div class="aspect-video bg-surface-container overflow-hidden border-b border-outline-variant relative">
         @if($project->dashboard_thumbnail)
             <img src="{{ $project->dashboard_thumbnail }}" 
@@ -63,14 +63,14 @@
 
     <footer class="px-6 pb-6 pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
         <a href="{{ route('projects.show', $project->slug) }}" 
-           class="flex-1 inline-flex items-center justify-center px-4 py-2.5 rounded-lg border border-primary text-primary font-body text-sm font-semibold hover:bg-primary-container hover:text-on-primary-container transition-colors text-center">
+           class="flex-1 inline-flex items-center justify-center px-4 py-2.5 rounded-lg border border-primary text-primary font-body text-sm font-semibold hover:bg-primary-container hover:text-on-primary-container group-hover:bg-primary-container/60 transition-colors text-center after:content-[''] after:absolute after:inset-0 after:z-0">
             Lihat Detail Proyek
         </a>
         @if($project->live_url)
             <a href="{{ $project->live_url }}" 
                target="_blank" 
                rel="noopener noreferrer" 
-               class="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-lg bg-vibrant-utama-orange text-white font-body text-sm font-semibold hover:bg-secondary transition-colors text-center shadow-xs">
+               class="relative z-10 flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-lg bg-vibrant-utama-orange text-white font-body text-sm font-semibold hover:bg-secondary transition-colors text-center shadow-xs">
                 <span>Kunjungi Web</span>
                 <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />

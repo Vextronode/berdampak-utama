@@ -23,10 +23,21 @@
                         <img src="{{ asset('images/logo-widyatama.jpg') }}" alt="Logo Universitas Widyatama" class="w-7 h-7 object-contain">
                         <img src="{{ asset('images/diktisaintek-transparent.png') }}" alt="Logo Diktisaintek Berdampak" class="w-7 h-7 object-contain">
                     </div>
-                    <span class="font-['Poppins'] font-semibold text-base text-on-primary hidden sm:inline">
-                        Admin Berdampak Utama <span class="text-xs font-normal text-diktisaintek-container ml-1.5 px-2 py-0.5 rounded-full bg-primary-royal-indigo border border-primary-container/20">Panel Pengelola</span>
+                    <span class="font-['Poppins'] font-semibold text-base text-on-primary hidden md:inline">
+                        Admin Berdampak Utama
                     </span>
                 </a>
+
+                @auth
+                    <nav aria-label="Navigasi Admin" class="flex items-center gap-1.5 ml-2 pl-3 border-l border-primary-container/20">
+                        <a href="{{ route('apanel.dashboard') }}" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors whitespace-nowrap {{ request()->routeIs('apanel.dashboard', 'apanel.projects.*') ? 'bg-primary-royal-indigo text-white border border-primary-container/30 shadow-xs' : 'text-on-primary/75 hover:text-white hover:bg-primary-royal-indigo/60' }}">
+                            Proyek Inovasi
+                        </a>
+                        <a href="{{ route('apanel.field-posts.index') }}" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors whitespace-nowrap {{ request()->routeIs('apanel.field-posts.*') ? 'bg-primary-royal-indigo text-white border border-primary-container/30 shadow-xs' : 'text-on-primary/75 hover:text-white hover:bg-primary-royal-indigo/60' }}">
+                            Catatan Lapangan
+                        </a>
+                    </nav>
+                @endauth
             </div>
 
             <div class="flex items-center gap-3 shrink-0">

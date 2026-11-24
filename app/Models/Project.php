@@ -50,6 +50,11 @@ class Project extends Model
         return $this->belongsToMany(TechStack::class, 'project_tech_stack');
     }
 
+    public function fieldPosts(): HasMany
+    {
+        return $this->hasMany(FieldPost::class);
+    }
+
     public function scopePublished(Builder $query): Builder
     {
         return $query->where('is_published', true);

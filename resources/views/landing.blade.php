@@ -14,39 +14,49 @@
                 </p>
             </div>
 
-            <x-filter-bar 
-                :available-years="$availableYears"
-                :selected-year="$selectedYear" />
+            @if($projects->isEmpty())
+                <x-empty-state
+                    icon="project"
+                    variant="dashed"
+                    title="Belum Ada Proyek Inovasi yang Diterbitkan"
+                    description="Portofolio sistem informasi dan aplikasi karya mahasiswa serta dosen Universitas Widyatama akan segera ditampilkan di sini."
+                    class="max-w-xl mx-auto"
+                />
+            @else
+                <x-filter-bar 
+                    :available-years="$availableYears"
+                    :selected-year="$selectedYear" />
 
-            @php
-                $visibleProjectCount = $projects->filter(function ($project) use ($selectedYear) {
-                    return $selectedYear === 'semua' || (string) $project->year === (string) $selectedYear;
-                })->count();
-            @endphp
+                @php
+                    $visibleProjectCount = $projects->filter(function ($project) use ($selectedYear) {
+                        return $selectedYear === 'semua' || (string) $project->year === (string) $selectedYear;
+                    })->count();
+                @endphp
 
-            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch {{ $visibleProjectCount === 0 ? 'hidden' : '' }}">
-                @foreach($projects as $project)
-                    @php
-                        $isHidden = $selectedYear !== 'semua' && (string) $project->year !== (string) $selectedYear;
-                    @endphp
-                    <x-project-card :project="$project" :is-hidden="$isHidden" />
-                @endforeach
-            </div>
+                <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch {{ $visibleProjectCount === 0 ? 'hidden' : '' }}">
+                    @foreach($projects as $project)
+                        @php
+                            $isHidden = $selectedYear !== 'semua' && (string) $project->year !== (string) $selectedYear;
+                        @endphp
+                        <x-project-card :project="$project" :is-hidden="$isHidden" />
+                    @endforeach
+                </div>
 
-            <div id="empty-projects-state" class="{{ $visibleProjectCount === 0 ? '' : 'hidden' }} py-16 px-4 text-center rounded-xl border border-dashed border-outline bg-surface-variant max-w-lg mx-auto flex flex-col items-center gap-3">
-                <svg class="w-12 h-12 text-outline" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                </svg>
-                <h3 class="font-headline font-bold text-lg text-primary">Tidak Ada Proyek yang Ditemukan</h3>
-                <p class="font-body text-sm text-on-surface-variant">
-                    Tidak ada proyek yang sesuai dengan filter tahun yang dipilih.
-                </p>
-                <button type="button" 
-                        id="empty-reset-btn"
-                        class="mt-2 inline-flex items-center px-4 py-2 rounded-lg bg-primary text-on-primary font-body text-xs font-semibold hover:bg-primary-royal-indigo transition-colors cursor-pointer">
-                    Tampilkan Semua Proyek
-                </button>
-            </div>
+                <div id="empty-projects-state" class="{{ $visibleProjectCount === 0 ? '' : 'hidden' }} max-w-lg mx-auto">
+                    <x-empty-state
+                        icon="search"
+                        variant="dashed"
+                        title="Tidak Ada Proyek yang Ditemukan"
+                        description="Tidak ada proyek yang sesuai dengan filter tahun yang dipilih."
+                    >
+                        <button type="button" 
+                                id="empty-reset-btn"
+                                class="inline-flex items-center px-4 py-2 rounded-xl bg-primary text-white font-body text-xs font-semibold hover:bg-primary-royal-indigo transition-colors cursor-pointer shadow-xs">
+                            Tampilkan Semua Proyek
+                        </button>
+                    </x-empty-state>
+                </div>
+            @endif
         </div>
     </section>
 
