@@ -51,18 +51,22 @@
             const grid = document.getElementById('projects-grid');
             const emptyResetBtn = document.getElementById('empty-reset-btn');
 
+            const activeClasses = ['bg-primary', 'text-white', 'border', 'border-primary', 'shadow-xs', 'hover:bg-primary-royal-indigo', 'hover:text-white'];
+            const inactiveClasses = ['border', 'border-outline-variant', 'bg-surface', 'text-on-surface-variant', 'hover:border-primary', 'hover:text-primary', 'hover:bg-surface-variant'];
+
             function applyFilter(year) {
                 let visibleCount = 0;
 
                 filterBtns.forEach(btn => {
                     const isMatch = btn.getAttribute('data-year-filter') === String(year);
-                    btn.classList.toggle('bg-primary', isMatch);
-                    btn.classList.toggle('text-on-primary', isMatch);
-                    btn.classList.toggle('shadow-xs', isMatch);
-                    btn.classList.toggle('border', !isMatch);
-                    btn.classList.toggle('border-outline-variant', !isMatch);
-                    btn.classList.toggle('bg-surface', !isMatch);
-                    btn.classList.toggle('text-on-surface-variant', !isMatch);
+                    btn.setAttribute('aria-pressed', isMatch ? 'true' : 'false');
+                    if (isMatch) {
+                        inactiveClasses.forEach(cls => btn.classList.remove(cls));
+                        activeClasses.forEach(cls => btn.classList.add(cls));
+                    } else {
+                        activeClasses.forEach(cls => btn.classList.remove(cls));
+                        inactiveClasses.forEach(cls => btn.classList.add(cls));
+                    }
                 });
 
                 cards.forEach(card => {
