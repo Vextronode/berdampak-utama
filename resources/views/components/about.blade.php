@@ -6,15 +6,15 @@
         </div>
 
         <h2 class="font-serif font-bold text-3xl sm:text-4xl lg:text-5xl text-primary tracking-tight leading-tight max-w-4xl text-balance">
-            Bukan Sekadar Proyek Tugas Akhir, Ini Solusi Digital yang Bekerja Nyata di Lapangan.
+            Bukan Cuma Tugas Kuliah, Ini Aplikasi yang Benar-Benar Dipakai Warga.
         </h2>
 
         <p class="font-body text-base sm:text-lg lg:text-xl text-on-surface-variant leading-relaxed max-w-3xl text-pretty mt-6 sm:mt-8">
-            Portal <strong class="font-semibold text-primary">Berdampak Utama</strong> adalah etalase resmi hilirisasi inovasi teknologi terapan karya mahasiswa dan dosen Universitas Widyatama yang didukung oleh <strong class="font-semibold text-primary">Diktisaintek</strong>. Platform ini menghubungkan keahlian riset akademis dengan kebutuhan konkret masyarakat di desa binaan, tata kelola pemerintahan daerah, dan sektor UMKM.
+            Lewat program <strong class="font-semibold text-primary">Kampus Berdampak</strong> bersama Diktisaintek, mahasiswa dan dosen Universitas Widyatama turun langsung merancang sistem digital untuk kebutuhan nyata masyarakat, mulai dari desa binaan, pelaku UMKM, hingga layanan publik.
         </p>
 
         <p class="font-body text-sm sm:text-base text-on-surface-variant/90 leading-relaxed max-w-2xl text-pretty mt-4">
-            Setiap sistem yang dipamerkan di sini bukan prototipe konsep di atas kertas, melainkan perangkat lunak terintegrasi yang telah diuji, disosialisasikan, dan digunakan aktif oleh perangkat desa serta warga untuk mempercepat transformasi layanan publik.
+            Semua aplikasi yang ada di website ini bukan sekadar ide atau konsep yang berhenti di atas kertas, melainkan karya nyata yang sudah selesai dibangun, diuji di balai desa, dan dipakai langsung oleh warga di lapangan.
         </p>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 w-full mt-14 sm:mt-18 text-left">
@@ -26,13 +26,13 @@
                         </svg>
                     </div>
                     <div>
-                        <span class="font-body text-xs font-semibold text-secondary uppercase tracking-wider">Pilar 01</span>
+                        <span class="font-body text-xs font-semibold text-secondary uppercase tracking-wider">01</span>
                         <h3 class="font-headline font-bold text-lg text-primary mt-1 group-hover:text-vibrant-utama-orange transition-colors">
-                            Etalase Karya Hidup
+                            Aplikasi Aktif Berjalan
                         </h3>
                     </div>
                     <p class="font-body text-xs sm:text-sm text-on-surface-variant leading-relaxed">
-                        Mendokumentasikan software, dashboard operasional, dan portal warga yang aktif diakses, menjamin keberlanjutan hasil karya pasca-pengabdian.
+                        Melihat langsung website dan sistem informasi yang sudah live dan bisa diakses publik, bukan cuma gambar desain.
                     </p>
                 </div>
             </div>
@@ -46,13 +46,13 @@
                         </svg>
                     </div>
                     <div>
-                        <span class="font-body text-xs font-semibold text-diktisaintek-blue uppercase tracking-wider">Pilar 02</span>
+                        <span class="font-body text-xs font-semibold text-diktisaintek-blue uppercase tracking-wider">02</span>
                         <h3 class="font-headline font-bold text-lg text-primary mt-1 group-hover:text-vibrant-utama-orange transition-colors">
-                            Solusi Riil Masyarakat
+                            Menjawab Kebutuhan Warga
                         </h3>
                     </div>
                     <p class="font-body text-xs sm:text-sm text-on-surface-variant leading-relaxed">
-                        Menjawab persoalan riil warga di desa binaan mitra seperti Desa Cibenda, mulai dari penanganan darurat, administrasi kependudukan, hingga pasar UMKM.
+                        Dibangun dari masalah nyata di lapangan, seperti sistem pelaporan darurat dan data kependudukan di Desa Cibenda.
                     </p>
                 </div>
             </div>
@@ -65,13 +65,13 @@
                         </svg>
                     </div>
                     <div>
-                        <span class="font-body text-xs font-semibold text-tertiary uppercase tracking-wider">Pilar 03</span>
+                        <span class="font-body text-xs font-semibold text-tertiary uppercase tracking-wider">03</span>
                         <h3 class="font-headline font-bold text-lg text-primary mt-1 group-hover:text-vibrant-utama-orange transition-colors">
-                            Transparansi Ber-NPM
+                            Identitas Mahasiswa Jelas
                         </h3>
                     </div>
                     <p class="font-body text-xs sm:text-sm text-on-surface-variant leading-relaxed">
-                        Apresiasi penuh bagi talenta muda inovator dengan pencatatan nama lengkap, nomor pokok mahasiswa (NPM), program studi, dan dosen pembimbing.
+                        Apresiasi penuh bagi mahasiswa pembuatnya, lengkap dengan nama, nomor pokok mahasiswa (NPM), dan dosen pembimbing.
                     </p>
                 </div>
             </div>
@@ -81,7 +81,7 @@
             <a href="#portofolio" 
                data-scroll-to="portofolio" 
                class="group inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-primary text-on-primary font-body text-sm font-semibold hover:bg-primary-royal-indigo focus:outline-none focus:ring-2 focus:ring-primary shadow-xs hover:shadow-md transition-all duration-200 cursor-pointer">
-                <span>Jelajahi Katalog Proyek Terapan</span>
+                <span>Lihat Karya Mahasiswa</span>
                 <svg class="w-4 h-4 text-white/80 group-hover:translate-y-0.5 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3" />
                 </svg>
