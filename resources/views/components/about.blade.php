@@ -25,13 +25,10 @@
 
             <div class="lg:col-span-7 flex flex-col gap-5 text-on-surface-variant font-body text-base sm:text-lg leading-relaxed">
                 <p class="text-primary font-medium text-lg sm:text-xl leading-relaxed">
-                    Lewat program <strong class="text-primary font-semibold">Kampus Berdampak</strong> bersama Diktisaintek, mahasiswa dan dosen Universitas Widyatama turun langsung merancang sistem digital untuk kebutuhan nyata masyarakat.
+                    Lewat program <strong class="text-primary font-semibold">Kampus Berdampak</strong> bersama Diktisaintek, mahasiswa Universitas Widyatama mengembangkan aplikasi dan sistem informasi yang diterapkan langsung di tengah masyarakat.
                 </p>
                 <p>
-                    Semua aplikasi di website ini bukan sekadar ide atau konsep yang berhenti di atas kertas, melainkan karya nyata yang sudah selesai dibangun, diuji bersama perangkat desa, dan dipakai langsung oleh warga di lapangan.
-                </p>
-                <p class="text-sm sm:text-base text-on-surface-variant/80">
-                    Mulai dari sistem darurat warga, pendataan kependudukan, hingga pasar digital UMKM di desa binaan, seluruh proyek hadir sebagai solusi konkret yang bisa diakses transparan.
+                    Seluruh aplikasi di platform ini dirancang dan dibangun langsung oleh mahasiswa dengan dosen sebagai pembina. Semua proyek aktif berjalan dan bisa langsung diakses publik.
                 </p>
             </div>
         </div>
@@ -53,7 +50,7 @@
                             Aplikasi Aktif Berjalan
                         </h3>
                         <p class="font-body text-xs sm:text-sm text-on-surface-variant leading-relaxed">
-                            Melihat langsung website dan sistem informasi yang sudah live dan bisa diakses publik, bukan cuma gambar desain.
+                            Website dan sistem informasi sudah live dan bisa langsung dibuka publik, bukan sekadar mockup atau gambar desain.
                         </p>
                     </div>
                 </div>
@@ -74,7 +71,7 @@
                             Menjawab Kebutuhan Warga
                         </h3>
                         <p class="font-body text-xs sm:text-sm text-on-surface-variant leading-relaxed">
-                            Dibangun dari masalah nyata di setiap desa mitra, seperti sistem pelaporan darurat, pendataan kependudukan, hingga pasar digital warga.
+                            Fitur dibangun dari masalah nyata di lapangan untuk membantu aktivitas warga dan operasional desa mitra.
                         </p>
                     </div>
                 </div>
@@ -91,10 +88,10 @@
                             <span class="font-mono text-xs font-bold text-warm-gold tracking-widest">03</span>
                         </div>
                         <h3 class="font-headline font-bold text-lg text-primary group-hover:text-vibrant-utama-orange transition-colors">
-                            Apresiasi Mahasiswa
+                            Identitas Mahasiswa Jelas
                         </h3>
                         <p class="font-body text-xs sm:text-sm text-on-surface-variant leading-relaxed">
-                            Apresiasi penuh bagi mahasiswa pembuatnya, lengkap dengan nama, nomor pokok mahasiswa (NPM), dan dosen pembimbing.
+                            Apresiasi penuh bagi mahasiswa pembuatnya, lengkap dengan nama, nomor pokok mahasiswa (NPM), serta dosen pembina.
                         </p>
                     </div>
                 </div>
