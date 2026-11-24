@@ -12,8 +12,8 @@
                 </h2>
 
                 <div class="pt-2">
-                    <a href="#portofolio" 
-                       data-scroll-to="portofolio" 
+                    <a href="#portofolio"
+                       data-scroll-to="portofolio"
                        class="group inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-vibrant-utama-orange transition-colors cursor-pointer">
                         <span>Lihat Daftar Proyek Mahasiswa</span>
                         <svg class="w-4 h-4 text-primary group-hover:text-vibrant-utama-orange group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
@@ -49,7 +49,7 @@
                             <span class="font-mono text-xs font-bold text-vibrant-utama-orange tracking-widest">01 / APLIKASI</span>
                         </div>
                         <h3 class="font-headline font-bold text-lg text-primary group-hover:text-vibrant-utama-orange transition-colors">
-                            Aplikasi Aktif Berjalan
+                            Project Nyata
                         </h3>
                         <p class="font-body text-xs sm:text-sm text-on-surface-variant leading-relaxed">
                             Website dan sistem informasi sudah live dan bisa langsung dibuka publik, bukan sekadar mockup atau gambar desain.
