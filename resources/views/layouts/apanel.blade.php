@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="{{ asset('images/logo-widyatama.png') }}">
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/apanel.js'])
 </head>
 <body class="min-h-full flex flex-col bg-surface-variant text-on-surface antialiased selection:bg-primary selection:text-white">
     <!-- Top Horizontal Navbar (Full-Width Navigation, NO Vertical Sidebar) -->
@@ -129,13 +129,6 @@
         </div>
     </footer>
 
-    <script>
-        window.addEventListener('pageshow', function (event) {
-            if (event.persisted || (window.performance && window.performance.navigation && window.performance.navigation.type === 2)) {
-                window.location.reload();
-            }
-        });
-    </script>
     @stack('scripts')
 </body>
 </html>

@@ -7,7 +7,7 @@
     $defaultDate = old('activity_date', $isEdit && $post->activity_date ? $post->activity_date->format('Y-m-d') : now()->format('Y-m-d'));
 @endphp
 
-<form id="field-post-form" action="{{ $formAction }}" method="POST" enctype="multipart/form-data" class="flex flex-col gap-8 pb-20">
+<form id="field-post-form" action="{{ $formAction }}" method="POST" enctype="multipart/form-data" data-is-edit="{{ $isEdit ? 'true' : 'false' }}" class="flex flex-col gap-8 pb-20">
     @csrf
     @if($isEdit)
         @method('PUT')
@@ -147,104 +147,3 @@
         </div>
     </div>
 </form>
-
-@push('scripts')
-<script>
-    (function () {
-        const isEditMode = @json($isEdit);
-        const titleInput = document.getElementById('post-title');
-        const slugInput = document.getElementById('post-slug');
-
-        if (!isEditMode && titleInput && slugInput) {
-            titleInput.addEventListener('input', function () {
-                slugInput.value = titleInput.value
-                    .toLowerCase()
-                    .trim()
-                    .replace(/[^a-z0-9\s-]/g, '')
-                    .replace(/\s+/g, '-')
-                    .replace(/-+/g, '-');
-            });
-        }
-
-        const summaryInput = document.getElementById('post-summary');
-        const summaryCount = document.getElementById('post-summary-count');
-        if (summaryInput && summaryCount) {
-            const updateCount = () => summaryCount.textContent = summaryInput.value.length + ' / 300';
-            summaryInput.addEventListener('input', updateCount);
-            updateCount();
-        }
-
-        const toggleBtn = document.getElementById('post-publish-toggle');
-        const knob = document.getElementById('post-publish-knob');
-        const hiddenInput = document.getElementById('post_is_published_input');
-        const mainForm = document.getElementById('field-post-form');
-
-        if (toggleBtn && knob && hiddenInput) {
-            const setPublishState = (active) => {
-                toggleBtn.setAttribute('aria-checked', active ? 'true' : 'false');
-                toggleBtn.classList.toggle('bg-success', active);
-                toggleBtn.classList.toggle('bg-outline', !active);
-                knob.classList.toggle('translate-x-5', active);
-                knob.classList.toggle('translate-x-0.5', !active);
-                hiddenInput.value = active ? '1' : '0';
-            };
-
-            toggleBtn.addEventListener('click', () => {
-                setPublishState(toggleBtn.getAttribute('aria-checked') !== 'true');
-            });
-
-            document.getElementById('btn-save-post-draft')?.addEventListener('click', () => {
-                setPublishState(false);
-                if (!mainForm.reportValidity()) return;
-                mainForm.submit();
-            });
-
-            document.getElementById('btn-publish-post')?.addEventListener('click', () => {
-                setPublishState(true);
-                if (!mainForm.reportValidity()) return;
-                mainForm.submit();
-            });
-        }
-
-        const coverInput = document.getElementById('cover_image_input');
-        const removeInput = document.getElementById('remove_cover_input');
-        const dropzone = document.getElementById('cover-dropzone');
-        const placeholder = document.getElementById('cover-placeholder');
-        const previewBox = document.getElementById('cover-preview-container');
-        const previewImg = document.getElementById('cover-preview-img');
-        const btnRemove = document.getElementById('btn-remove-cover');
-
-        if (coverInput && dropzone) {
-            dropzone.addEventListener('click', (e) => {
-                if (e.target !== btnRemove && !btnRemove.contains(e.target)) {
-                    coverInput.click();
-                }
-            });
-
-            coverInput.addEventListener('change', function () {
-                if (this.files && this.files[0]) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        previewImg.src = e.target.result;
-                        placeholder.classList.add('hidden');
-                        placeholder.classList.remove('flex');
-                        previewBox.classList.remove('hidden');
-                        if (removeInput) removeInput.value = '0';
-                    };
-                    reader.readAsDataURL(this.files[0]);
-                }
-            });
-
-            btnRemove?.addEventListener('click', (e) => {
-                e.stopPropagation();
-                coverInput.value = '';
-                previewImg.src = '';
-                previewBox.classList.add('hidden');
-                placeholder.classList.remove('hidden');
-                placeholder.classList.add('flex');
-                if (removeInput) removeInput.value = '1';
-            });
-        }
-    })();
-</script>
-@endpush

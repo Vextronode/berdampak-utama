@@ -3,7 +3,7 @@
 
     <x-about />
 
-    <section id="portofolio" class="py-16 sm:py-20 lg:py-24 bg-[#e7eaec] scroll-mt-20">
+    <section id="portofolio" data-default-year="{{ $defaultYear ?? 'semua' }}" class="py-16 sm:py-20 lg:py-24 bg-[#e7eaec] scroll-mt-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col gap-2 max-w-3xl mb-8">
                 <h2 class="font-headline font-bold text-2xl sm:text-3xl lg:text-4xl text-primary tracking-tight text-balance">
@@ -61,79 +61,4 @@
     </section>
 
     <x-field-notes :posts="$fieldPosts" />
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const filterBtns = document.querySelectorAll('.year-filter-btn');
-            const cards = document.querySelectorAll('.project-card');
-            const emptyState = document.getElementById('empty-projects-state');
-            const grid = document.getElementById('projects-grid');
-            const emptyResetBtn = document.getElementById('empty-reset-btn');
-
-            const activeClasses = ['bg-primary', 'text-white', 'border', 'border-primary', 'shadow-xs', 'hover:bg-primary-royal-indigo', 'hover:text-white'];
-            const inactiveClasses = ['border', 'border-outline-variant', 'bg-surface', 'text-on-surface-variant', 'hover:border-primary', 'hover:text-primary', 'hover:bg-surface-variant'];
-
-            const defaultYear = @json($defaultYear ?? 'semua');
-
-            function applyFilter(year, updateUrl = true) {
-                let visibleCount = 0;
-
-                filterBtns.forEach(btn => {
-                    const isMatch = btn.getAttribute('data-year-filter') === String(year);
-                    btn.setAttribute('aria-pressed', isMatch ? 'true' : 'false');
-                    if (isMatch) {
-                        inactiveClasses.forEach(cls => btn.classList.remove(cls));
-                        activeClasses.forEach(cls => btn.classList.add(cls));
-                    } else {
-                        activeClasses.forEach(cls => btn.classList.remove(cls));
-                        inactiveClasses.forEach(cls => btn.classList.add(cls));
-                    }
-                });
-
-                cards.forEach(card => {
-                    const cardYear = card.getAttribute('data-year');
-                    const show = (year === 'semua' || String(cardYear) === String(year));
-                    if (show) {
-                        card.classList.remove('hidden');
-                        visibleCount++;
-                    } else {
-                        card.classList.add('hidden');
-                    }
-                });
-
-                if (emptyState) {
-                    emptyState.classList.toggle('hidden', visibleCount > 0);
-                }
-                if (grid) {
-                    grid.classList.toggle('hidden', visibleCount === 0);
-                }
-
-                if (updateUrl) {
-                    const newUrl = String(year) === String(defaultYear)
-                        ? window.location.pathname
-                        : window.location.pathname + '?year=' + encodeURIComponent(year);
-                    window.history.replaceState(null, '', newUrl);
-                }
-            }
-
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', function () {
-                    const year = this.getAttribute('data-year-filter');
-                    applyFilter(year, true);
-                });
-            });
-
-            if (emptyResetBtn) {
-                emptyResetBtn.addEventListener('click', function () {
-                    applyFilter('semua', true);
-                });
-            }
-
-            const urlParams = new URLSearchParams(window.location.search);
-            const initialYear = urlParams.get('year');
-            if (initialYear) {
-                applyFilter(initialYear, false);
-            }
-        });
-    </script>
 </x-app-layout>

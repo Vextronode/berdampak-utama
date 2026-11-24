@@ -12,7 +12,7 @@
 
     <link rel="icon" type="image/png" href="{{ asset('images/logo-widyatama.png') }}">
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/apanel.js'])
 </head>
 <body class="h-full bg-surface-variant text-on-surface antialiased selection:bg-primary selection:text-white">
     {{ $slot }}
