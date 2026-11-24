@@ -1,19 +1,19 @@
 <div id="navbar-top" class="absolute top-0 inset-x-0 z-30 pointer-events-auto bg-gradient-to-b from-black/80 via-black/35 to-transparent animate-hero-nav">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 sm:h-24 flex items-center justify-between">
         <nav class="hidden md:flex items-center justify-end gap-6 lg:gap-8 flex-1 basis-0 pr-6 lg:pr-8" aria-label="Navigasi Atas Kiri">
-            <a href="/" class="font-headline text-xs lg:text-sm font-semibold tracking-wider text-white hover:text-vibrant-utama-orange transition-colors">
+            <a href="#beranda" data-scroll-to="beranda" class="font-headline text-xs lg:text-sm font-semibold tracking-wider text-white hover:text-vibrant-utama-orange transition-colors cursor-pointer">
                 Beranda
             </a>
-            <a href="/?year=semua" class="font-headline text-xs lg:text-sm font-semibold tracking-wider text-white/90 hover:text-white transition-colors">
+            <a href="#portofolio" data-scroll-to="portofolio" class="font-headline text-xs lg:text-sm font-semibold tracking-wider text-white/90 hover:text-white transition-colors cursor-pointer">
                 Portofolio Proyek
             </a>
-            <a href="#catatan-lapangan" class="font-headline text-xs lg:text-sm font-semibold tracking-wider text-white/90 hover:text-white transition-colors">
+            <a href="#catatan-lapangan" data-scroll-to="catatan-lapangan" class="font-headline text-xs lg:text-sm font-semibold tracking-wider text-white/90 hover:text-white transition-colors cursor-pointer">
                 Catatan Lapangan
             </a>
         </nav>
 
         <div class="flex items-center justify-start md:justify-center shrink-0">
-            <a href="/" class="group flex items-center gap-2 sm:gap-3.5 p-1 focus:outline-none focus:ring-2 focus:ring-white/60 rounded-xl" aria-label="Universitas Widyatama x Diktisaintek Berdampak">
+            <a href="#beranda" data-scroll-to="beranda" class="group flex items-center gap-2 sm:gap-3.5 p-1 focus:outline-none focus:ring-2 focus:ring-white/60 rounded-xl cursor-pointer" aria-label="Universitas Widyatama x Diktisaintek Berdampak">
                 <img src="{{ asset('images/widyatama-emblem-white.png') }}" 
                      alt="Emblem Universitas Widyatama" 
                      class="h-8 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105 drop-shadow-md">
@@ -25,7 +25,7 @@
         </div>
 
         <nav class="hidden md:flex items-center justify-start gap-6 lg:gap-8 flex-1 basis-0 pl-6 lg:pl-8" aria-label="Navigasi Atas Kanan">
-            <a href="#tentang" class="font-headline text-xs lg:text-sm font-semibold tracking-wider text-white/90 hover:text-white transition-colors">
+            <a href="#tentang" data-scroll-to="tentang" class="font-headline text-xs lg:text-sm font-semibold tracking-wider text-white/90 hover:text-white transition-colors cursor-pointer">
                 Tentang
             </a>
             <a href="https://www.widyatama.ac.id/" target="_blank" rel="noopener noreferrer" class="font-headline text-xs lg:text-sm font-semibold tracking-wider text-white/90 hover:text-white transition-colors flex items-center gap-1.5">
@@ -34,7 +34,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
                 </svg>
             </a>
-            <a href="#portofolio" class="p-2 text-white/90 hover:text-white transition-colors rounded-full hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white" aria-label="Cari dan Filter Proyek">
+            <a href="#portofolio" data-scroll-to="portofolio" class="p-2 text-white/90 hover:text-white transition-colors rounded-full hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white cursor-pointer" aria-label="Cari dan Filter Proyek">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                 </svg>
@@ -59,7 +59,7 @@
         class="fixed top-0 inset-x-0 z-40 transform -translate-y-full opacity-0 pointer-events-none transition-all duration-300 ease-out bg-surface/96 backdrop-blur-md border-b border-outline-variant shadow-xs"
         aria-hidden="true">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-3 sm:gap-4">
-        <a href="/" class="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 focus:outline-none focus:ring-2 focus:ring-primary rounded-md p-1">
+        <a href="#beranda" data-scroll-to="beranda" class="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 focus:outline-none focus:ring-2 focus:ring-primary rounded-md p-1 cursor-pointer">
             <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
                 <img src="{{ asset('images/logo-widyatama-transparent.png') }}" alt="Logo Universitas Widyatama" class="h-7 sm:h-10 w-auto object-contain">
                 <img src="{{ asset('images/diktisaintek-transparent.png') }}" alt="Logo Diktisaintek Berdampak" class="h-6 sm:h-8 w-auto object-contain">
@@ -71,10 +71,10 @@
         </a>
 
         <nav class="hidden md:flex items-center gap-6 lg:gap-8 shrink-0" aria-label="Navigasi Utama Sticky">
-            <a href="/" class="font-body text-sm font-semibold text-primary hover:text-vibrant-utama-orange transition-colors">Beranda</a>
-            <a href="/?year=semua" class="font-body text-sm font-medium text-on-surface-variant hover:text-primary transition-colors">Portofolio Proyek</a>
-            <a href="#catatan-lapangan" class="font-body text-sm font-medium text-on-surface-variant hover:text-primary transition-colors">Catatan Lapangan & Blog</a>
-            <a href="#tentang" class="font-body text-sm font-medium text-on-surface-variant hover:text-primary transition-colors">Tentang</a>
+            <a href="#beranda" data-scroll-to="beranda" class="font-body text-sm font-semibold text-primary hover:text-vibrant-utama-orange transition-colors cursor-pointer">Beranda</a>
+            <a href="#portofolio" data-scroll-to="portofolio" class="font-body text-sm font-medium text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Portofolio Proyek</a>
+            <a href="#catatan-lapangan" data-scroll-to="catatan-lapangan" class="font-body text-sm font-medium text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Catatan Lapangan & Blog</a>
+            <a href="#tentang" data-scroll-to="tentang" class="font-body text-sm font-medium text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Tentang</a>
         </nav>
 
         <div class="flex md:hidden shrink-0">
@@ -102,7 +102,7 @@
      aria-label="Menu Navigasi Mobile">
     
     <div class="flex items-center justify-between pb-6 border-b border-white/10">
-        <a href="/" class="flex items-center gap-2.5">
+        <a href="#beranda" data-scroll-to="beranda" class="flex items-center gap-2.5 cursor-pointer">
             <img src="{{ asset('images/widyatama-emblem-white.png') }}" alt="Logo Widyatama" class="h-9 w-auto object-contain">
             <span class="h-5 w-px bg-white/20"></span>
             <img src="{{ asset('images/diktisaintek-transparent.png') }}" alt="Logo Diktisaintek" class="h-7 w-auto object-contain">
@@ -119,25 +119,25 @@
     </div>
 
     <nav class="flex flex-col py-6 space-y-1 flex-1 justify-center" aria-label="Menu Mobile Drawer">
-        <a href="/" class="drawer-nav-link group flex items-center justify-between py-3.5 px-3 rounded-lg text-lg font-headline font-semibold text-white/95 hover:text-vibrant-utama-orange hover:bg-white/5 transition-all">
+        <a href="#beranda" data-scroll-to="beranda" class="drawer-nav-link group flex items-center justify-between py-3.5 px-3 rounded-lg text-lg font-headline font-semibold text-white/95 hover:text-vibrant-utama-orange hover:bg-white/5 transition-all cursor-pointer">
             <span>Beranda</span>
             <svg class="w-4 h-4 text-white/40 group-hover:text-vibrant-utama-orange group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
             </svg>
         </a>
-        <a href="/?year=semua" class="drawer-nav-link group flex items-center justify-between py-3.5 px-3 rounded-lg text-lg font-headline font-semibold text-white/95 hover:text-vibrant-utama-orange hover:bg-white/5 transition-all">
+        <a href="#portofolio" data-scroll-to="portofolio" class="drawer-nav-link group flex items-center justify-between py-3.5 px-3 rounded-lg text-lg font-headline font-semibold text-white/95 hover:text-vibrant-utama-orange hover:bg-white/5 transition-all cursor-pointer">
             <span>Portofolio Proyek</span>
             <svg class="w-4 h-4 text-white/40 group-hover:text-vibrant-utama-orange group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
             </svg>
         </a>
-        <a href="#catatan-lapangan" class="drawer-nav-link group flex items-center justify-between py-3.5 px-3 rounded-lg text-lg font-headline font-semibold text-white/95 hover:text-vibrant-utama-orange hover:bg-white/5 transition-all">
+        <a href="#catatan-lapangan" data-scroll-to="catatan-lapangan" class="drawer-nav-link group flex items-center justify-between py-3.5 px-3 rounded-lg text-lg font-headline font-semibold text-white/95 hover:text-vibrant-utama-orange hover:bg-white/5 transition-all cursor-pointer">
             <span>Catatan Lapangan & Blog</span>
             <svg class="w-4 h-4 text-white/40 group-hover:text-vibrant-utama-orange group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
             </svg>
         </a>
-        <a href="#tentang" class="drawer-nav-link group flex items-center justify-between py-3.5 px-3 rounded-lg text-lg font-headline font-semibold text-white/95 hover:text-vibrant-utama-orange hover:bg-white/5 transition-all">
+        <a href="#tentang" data-scroll-to="tentang" class="drawer-nav-link group flex items-center justify-between py-3.5 px-3 rounded-lg text-lg font-headline font-semibold text-white/95 hover:text-vibrant-utama-orange hover:bg-white/5 transition-all cursor-pointer">
             <span>Tentang Program</span>
             <svg class="w-4 h-4 text-white/40 group-hover:text-vibrant-utama-orange group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
@@ -236,16 +236,57 @@
             });
         }
 
-        document.querySelectorAll('.drawer-nav-link').forEach(link => {
-            link.addEventListener('click', function () {
-                closeDrawer();
-            });
-        });
-
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape' && panel && panel.classList.contains('is-open')) {
                 closeDrawer();
             }
         });
+
+        function scrollToSection(targetId) {
+            if (!targetId) return;
+            const targetEl = document.getElementById(targetId);
+            if (targetEl) {
+                targetEl.scrollIntoView({ behavior: 'smooth' });
+                cleanHashFromUrl();
+            }
+        }
+
+        function cleanHashFromUrl() {
+            if (window.location.hash) {
+                const clean = window.location.pathname + window.location.search;
+                history.replaceState(null, '', clean);
+            }
+        }
+
+        document.addEventListener('click', function (e) {
+            const link = e.target.closest('a[data-scroll-to], a[href^="#"]');
+            if (!link) return;
+
+            let targetId = link.getAttribute('data-scroll-to');
+            if (!targetId) {
+                const href = link.getAttribute('href');
+                if (href && href.startsWith('#') && href.length > 1) {
+                    targetId = href.substring(1);
+                }
+            }
+
+            if (targetId) {
+                e.preventDefault();
+                closeDrawer();
+                scrollToSection(targetId);
+            }
+        });
+
+        if (window.location.hash) {
+            const initialHash = window.location.hash.substring(1);
+            cleanHashFromUrl();
+            if (initialHash) {
+                setTimeout(function () {
+                    scrollToSection(initialHash);
+                }, 100);
+            }
+        }
+
+        window.addEventListener('hashchange', cleanHashFromUrl);
     });
 </script>

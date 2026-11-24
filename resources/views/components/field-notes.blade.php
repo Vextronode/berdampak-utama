@@ -1,6 +1,6 @@
 @props(['posts'])
 
-<section id="catatan-lapangan" class="bg-surface-variant border-t border-outline-variant py-16 sm:py-20 lg:py-24">
+<section id="catatan-lapangan" class="bg-surface-variant border-t border-outline-variant py-16 sm:py-20 lg:py-24 scroll-mt-16 sm:scroll-mt-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-10">
         <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div class="flex flex-col gap-2 max-w-2xl">
@@ -13,7 +13,8 @@
             </div>
 
             <a href="#catatan-lapangan" 
-               class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg border border-primary text-primary bg-surface font-body text-sm font-semibold hover:bg-primary-container focus:outline-none focus:ring-2 focus:ring-primary transition-colors self-start lg:self-auto shadow-xs">
+               data-scroll-to="catatan-lapangan"
+               class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg border border-primary text-primary bg-surface font-body text-sm font-semibold hover:bg-primary-container focus:outline-none focus:ring-2 focus:ring-primary transition-colors self-start lg:self-auto shadow-xs cursor-pointer">
                 <span>Lihat Semua Catatan Kegiatan</span>
                 <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
