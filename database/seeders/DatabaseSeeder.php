@@ -16,9 +16,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Hanya icon tech stack yang di-seed otomatis.
+        // Project, akun admin, dan catatan lapangan (FieldPost) dibuat manual lewat panel admin.
         $this->call([
             TechStackSeeder::class,
-            ProjectSeeder::class,
         ]);
     }
 }
