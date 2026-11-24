@@ -62,7 +62,7 @@
     </div>
 
     <footer class="px-6 pb-6 pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-        <a href="/" 
+        <a href="{{ route('projects.show', $project->slug) }}" 
            class="flex-1 inline-flex items-center justify-center px-4 py-2.5 rounded-lg border border-primary text-primary font-body text-sm font-semibold hover:bg-primary-container hover:text-on-primary-container transition-colors text-center">
             Lihat Detail Proyek
         </a>

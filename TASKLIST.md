@@ -93,24 +93,24 @@ Dokumen pelacak pengerjaan Halaman Detail Proyek (`/proyek/{slug}`) menggunakan 
 
 ## Rincian Tahapan Pengerjaan
 
-### [ ] Tahap 1: Routing & Controller Layer
-- [ ] Daftarkan route detail di `routes/web.php`:
+### [x] Tahap 1: Routing & Controller Layer
+- [x] Daftarkan route detail di `routes/web.php`:
   `Route::get('/proyek/{slug}', [ProjectController::class, 'show'])->name('projects.show');`
-- [ ] Buat `ProjectController` di `app/Http/Controllers/ProjectController.php`:
+- [x] Buat `ProjectController` di `app/Http/Controllers/ProjectController.php`:
   - Method `show(string $slug)`:
   - Query proyek terpublikasi dengan eager loading `contributors`:
     `$project = Project::published()->with('contributors')->where('slug', $slug)->firstOrFail();`
   - Ambil daftar proyek lain untuk rekomendasi navigasi di bagian bawah.
-- [ ] Update link kartu proyek di `resources/views/components/project-card.blade.php`:
+- [x] Update link kartu proyek di `resources/views/components/project-card.blade.php`:
   - Ubah `href="/"` menjadi `href="{{ route('projects.show', $project->slug) }}"`.
 
-### [ ] Tahap 2: Database Schema & Data Detail Proyek
-- [ ] Siapkan kolom data detail di tabel `projects` melalui migration baru:
+### [x] Tahap 2: Database Schema & Data Detail Proyek
+- [x] Siapkan kolom data detail di tabel `projects` melalui migration baru:
   - `problem_statement` (text nullable: narasi masalah riil di desa mitra).
   - `features` (json nullable: array fitur kunci `[{ icon, title, description }]`).
   - `gallery_images` (json nullable: array foto implementasi lapangan `[{ image_url, caption }]`).
-- [ ] Daftarkan atribut baru pada `$fillable` dan `$casts` di `app/Models/Project.php`.
-- [ ] Perbarui `database/seeders/ProjectSeeder.php` dengan data riil:
+- [x] Daftarkan atribut baru pada `$fillable` dan `$casts` di `app/Models/Project.php`.
+- [x] Perbarui `database/seeders/ProjectSeeder.php` dengan data riil:
   - **SIGAP:**
     - Latar belakang darurat warga Desa Cibenda (kendala respons lambat, minim koordinat GPS).
     - Fitur kunci: Peringatan Panik Sekali Sentuh, Pemetaan Koordinat Insiden GPS, Notifikasi WhatsApp Otomatis ke RT/RW.
@@ -123,54 +123,72 @@ Dokumen pelacak pengerjaan Halaman Detail Proyek (`/proyek/{slug}`) menggunakan 
     - Latar belakang pemasaran produk UMKM lokal Desa Cibenda.
     - Fitur kunci: E-Katalog Komoditas Desa, Profil Pelaku Usaha Mikro, Direktori Kontak Penjual.
     - 4 foto galeri kurasi produk UMKM warga.
-- [ ] Jalankan migration dan seeder di MySQL database `test_berdampak_utama`.
+- [x] Jalankan migration dan seeder di MySQL database `test_berdampak_utama`.
 
-### [ ] Tahap 3: Master Detail View & Breadcrumb Navigation
-- [ ] Buat file tampilan utama `resources/views/projects/show.blade.php`.
-- [ ] Buat component Breadcrumb terarah (`components/project/breadcrumb.blade.php`):
+### [x] Tahap 3: Master Detail View & Breadcrumb Navigation
+- [x] Buat file tampilan utama `resources/views/projects/show.blade.php`.
+- [x] Buat component Breadcrumb terarah (`components/project/breadcrumb.blade.php`):
   - Tautan kembali ke portofolio: `Beranda / Portofolio Proyek / [Nama Proyek]`.
   - Tombol panah kembali yang intuitif dan ramah aksesibilitas keyboard.
-- [ ] Header Proyek (Hero Header Metadata):
+- [x] Header Proyek (Hero Header Metadata):
   - Badge tahun rilis (`2026`).
   - Badge nama mitra desa (`Desa Cibenda`).
   - Badge kategori proyek.
   - Judul proyek besar dengan font display Poppins tebal.
   - Ringkasan narasi proyek yang rapi dan kontekstual.
 
-### [ ] Tahap 4: Kolom Konten Utama (Main Left 8-Column)
-- [ ] **Showcase Dashboard Utama (16:9):**
+### [x] Tahap 4: Kolom Konten Utama (Main Left 8-Column)
+- [x] **Showcase Dashboard Utama (16:9):**
   - Frame tangkapan layar dashboard asli rasio 16:9 dengan border halus, rounded-xl, dan efek bayangan elegan.
-- [ ] **Section Latar Belakang & Masalah Lapangan:**
+- [x] **Spotlight Kartu Tim Mahasiswa Pengembang (`components/project/team-showcase.blade.php`):**
+  - Diposisikan tepat di bawah showcase mockup 16:9 sebelum narasi masalah.
+  - Kartu foto potret rasio 4:5 resolusi tinggi (bukan avatar bulat kecil), badge NPM glassmorphic di sudut foto, nama lengkap Poppins tebal, program studi, dan badge peran teknis.
+  - Grid adaptif dinamis untuk menangani jumlah tim berapapun: 1 orang (centered max-w-md), 2 orang (2 kolom max-w-2xl), 3 orang (3 kolom), 4 orang (grid 2x2 max-w-3xl agar peran tidak tertekan), 5+ orang (grid 3 kolom berulang rapi).
+- [x] **Section Latar Belakang & Masalah Lapangan:**
   - Headline resmi dan narasi terstruktur mengenai masalah riil warga desa yang diselesaikan oleh sistem.
-- [ ] **Section Fitur Kunci Sistem:**
+- [x] **Section Fitur Kunci Sistem:**
   - List kartu fitur modular dengan SVG icon khusus (darurat, GPS, notifikasi, dll.) dan teks penjelasan lugas.
-- [ ] **Section Galeri Dokumentasi Tim di Desa:**
+- [x] **Section Galeri Dokumentasi Tim di Desa:**
   - Grid 2x2 responsif memuat 4 foto kegiatan mahasiswa di Balai Desa Cibenda.
   - Aspect-video cover dengan figcaption rapi di setiap foto.
 
-### [ ] Tahap 5: Sidebar Kolom Kanan (Sidebar Right 4-Column)
-- [ ] **Card Dosen Pembina:**
+### [x] Tahap 5: Sidebar Kolom Kanan (Sidebar Right 4-Column)
+- [x] **Card Dosen Pembina:**
   - Foto profil dosen melingkar dengan ring halus.
   - Nama lengkap beserta gelar akademik (`Dr. Hendra Wijaya, M.Kom.`).
   - Label resmi: `Dosen Pembina & Penanggung Jawab Proyek`.
-- [ ] **Card Tim Mahasiswa Pengembang:**
-  - List seluruh anggota mahasiswa pembuat sistem.
-  - Foto avatar melingkar, nama lengkap, **NPM**, jurusan (*S1 Teknik Informatika* / *S1 Sistem Informasi*).
-  - Chip badge peran spesifik (*Tech Lead*, *Full Stack*, *Frontend*, *Backend*).
-- [ ] **Card Tech Stack Resmi:**
+- [x] **Scroll-Docking Tim Mahasiswa Pengembang:**
+  - Tersembunyi saat kartu spotlight utama sedang terlihat di layar untuk menghindari duplikasi konten.
+  - Otomatis meluncur turun (*smooth slide down & fade in* 300ms) saat kartu spotlight utama tergulir keluar dari viewport via `IntersectionObserver`.
+  - Otomatis melipat kembali (*smooth slide up & fade out*) saat kartu spotlight kembali terlihat di layar.
+  - Judul dilengkapi tautan interaktif panah untuk *smooth scroll* kembali ke kartu spotlight di atas.
+  - Foto avatar melingkar, nama lengkap, **NPM**, jurusan (*S1 Teknik Informatika* / *S1 Sistem Informasi*), dan pill badge peran selaras dengan token tema.
+- [x] **Card Tech Stack Resmi:**
   - Grid 2 kolom berisi logo SVG resmi berwarna (Next.js, Tailwind CSS, PostgreSQL, Node.js, Leaflet Maps, Laravel, MySQL, React).
   - Label nama teknologi yang bersih dan presisi.
-- [ ] **Card Metadata Ringkas:**
+- [x] **Card Metadata Ringkas:**
   - Baris informasi tahun rilis dan instansi mitra binaan.
 
-### [ ] Tahap 6: Navigasi Proyek Terkait & Footer
-- [ ] Section bawah berisi tautan ke proyek inovasi kampus berdampak lainnya (Next Project / Kembali ke Katalog).
-- [ ] Integrasikan footer institusi bersama Widyatama dan Diktisaintek (`components/footer.blade.php`).
+### [x] Tahap 6: Navigasi Proyek Terkait & Footer
+- [x] Section bawah berisi tautan ke proyek inovasi kampus berdampak lainnya (Next Project / Kembali ke Katalog).
+- [x] Integrasikan footer institusi bersama Widyatama dan Diktisaintek (`components/footer.blade.php`).
 
-### [ ] Tahap 7: Responsive Polish, Verifikasi Build & Audit Hygiene
-- [ ] Uji responsivitas menyeluruh pada breakpoint mobile (<640px), tablet (768px), dan desktop (1024px+).
-- [ ] Jalankan kompilasi asset Vite (`npm run build`).
-- [ ] Jalankan pengecekan cache view Laravel (`php artisan view:cache`).
-- [ ] Uji akses HTTP endpoint `/proyek/sigap`, `/proyek/sidutama`, dan `/proyek/cimart` (pastikan status 200 OK dan 404 pada slug tidak valid).
-- [ ] Audit `/antislop`: pastikan zero emoji, zero em dash, kontras warna AA, dan tidak ada teks slop/klise.
-- [ ] Audit `/antislop-code`: pastikan seluruh blade view dan kode bersih dari komentar tutorial atau narrating comments.
+### [x] Tahap 7: Responsive Polish, Verifikasi Build & Audit Hygiene
+- [x] Uji responsivitas menyeluruh pada breakpoint mobile (<640px), tablet (768px), dan desktop (1024px+).
+- [x] Jalankan kompilasi asset Vite (`npm run build`).
+- [x] Jalankan pengecekan cache view Laravel (`php artisan view:cache`).
+- [x] Uji akses HTTP endpoint `/proyek/sigap`, `/proyek/sidutama`, dan `/proyek/cimart` (pastikan status 200 OK dan 404 pada slug tidak valid).
+- [x] Audit `/antislop`: pastikan zero emoji, zero em dash, kontras warna AA, dan tidak ada teks slop/klise.
+- [x] Audit `/antislop-code`: pastikan seluruh blade view dan kode bersih dari komentar tutorial atau narrating comments.
+
+---
+
+## Catatan Keputusan Arsitektur Masa Depan (Admin CMS Tech Stack)
+Dokumentasi lengkap tersimpan di `docs/tech-stack-cms-architecture.md`:
+1. **Master Table & Pivot:** Tabel `tech_stacks` dan `project_tech_stack` untuk fleksibilitas many-to-many.
+2. **Katalog Bawaan:** Pre-seed 30-40 stack teknologi populer dengan SVG resmi Simple Icons.
+3. **Penambahan Stack Baru:**
+   - Auto-fetch SVG dan kode warna via SimpleIcons CDN berdasarkan slug.
+   - Opsi upload file custom SVG/PNG (sanitasi ketat, batas ukuran 500 KB).
+   - Fallback otomatis ke badge inisial monogram jika ikon tidak tersedia.
+

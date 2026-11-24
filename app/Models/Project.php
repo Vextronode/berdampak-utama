@@ -17,6 +17,9 @@ class Project extends Model
         'year',
         'summary',
         'description',
+        'problem_statement',
+        'features',
+        'gallery_images',
         'partner_name',
         'category',
         'tech_stacks',
@@ -31,6 +34,8 @@ class Project extends Model
     protected $casts = [
         'year' => 'integer',
         'tech_stacks' => 'array',
+        'features' => 'array',
+        'gallery_images' => 'array',
         'is_published' => 'boolean',
     ];
 
