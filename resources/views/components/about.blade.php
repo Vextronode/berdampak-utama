@@ -1,6 +1,5 @@
 <section id="tentang" class="py-20 sm:py-24 lg:py-28 bg-surface border-b border-outline-variant scroll-mt-16 sm:scroll-mt-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {{-- Top: Editorial Split (5 : 7) --}}
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
             <div class="lg:col-span-5 flex flex-col gap-4">
                 <div class="inline-flex items-center gap-2 text-xs font-semibold tracking-wider text-vibrant-utama-orange uppercase">
@@ -37,10 +36,8 @@
             </div>
         </div>
 
-        {{-- 3 Value Pillar Cards --}}
         <div class="mt-14 sm:mt-18 pt-10 sm:pt-14 border-t border-outline-variant">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-                {{-- Card 1: Aplikasi --}}
                 <div class="p-6 sm:p-7 rounded-2xl border border-outline-variant bg-surface-variant/40 hover:bg-surface-variant hover:border-outline transition-all duration-300 flex flex-col justify-between group">
                     <div class="flex flex-col gap-4">
                         <div class="flex items-center justify-between pb-3 border-b border-outline-variant/60">
@@ -60,7 +57,6 @@
                     </div>
                 </div>
 
-                {{-- Card 2: Dampak --}}
                 <div class="p-6 sm:p-7 rounded-2xl border border-outline-variant bg-surface-variant/40 hover:bg-surface-variant hover:border-outline transition-all duration-300 flex flex-col justify-between group">
                     <div class="flex flex-col gap-4">
                         <div class="flex items-center justify-between pb-3 border-b border-outline-variant/60">
@@ -81,7 +77,6 @@
                     </div>
                 </div>
 
-                {{-- Card 3: Talenta --}}
                 <div class="p-6 sm:p-7 rounded-2xl border border-outline-variant bg-surface-variant/40 hover:bg-surface-variant hover:border-outline transition-all duration-300 flex flex-col justify-between group">
                     <div class="flex flex-col gap-4">
                         <div class="flex items-center justify-between pb-3 border-b border-outline-variant/60">

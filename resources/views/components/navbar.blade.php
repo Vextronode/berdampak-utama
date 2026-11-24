@@ -71,10 +71,10 @@
         </a>
 
         <nav class="hidden md:flex items-center gap-6 lg:gap-8 shrink-0" aria-label="Navigasi Utama Sticky">
-            <a href="#beranda" data-scroll-to="beranda" class="font-body text-sm font-semibold text-primary hover:text-vibrant-utama-orange transition-colors cursor-pointer">Beranda</a>
-            <a href="#tentang" data-scroll-to="tentang" class="font-body text-sm font-medium text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Tentang</a>
-            <a href="#portofolio" data-scroll-to="portofolio" class="font-body text-sm font-medium text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Portofolio Proyek</a>
-            <a href="#catatan-lapangan" data-scroll-to="catatan-lapangan" class="font-body text-sm font-medium text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Catatan Lapangan & Blog</a>
+            <a href="#beranda" data-scroll-to="beranda" class="sticky-nav-link font-body text-sm font-semibold text-primary hover:text-vibrant-utama-orange transition-colors cursor-pointer">Beranda</a>
+            <a href="#tentang" data-scroll-to="tentang" class="sticky-nav-link font-body text-sm font-medium text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Tentang</a>
+            <a href="#portofolio" data-scroll-to="portofolio" class="sticky-nav-link font-body text-sm font-medium text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Portofolio Proyek</a>
+            <a href="#catatan-lapangan" data-scroll-to="catatan-lapangan" class="sticky-nav-link font-body text-sm font-medium text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Catatan Lapangan & Blog</a>
         </nav>
 
         <div class="flex md:hidden shrink-0">
@@ -166,6 +166,75 @@
         const btnOpenSticky = document.getElementById('mobile-drawer-open-sticky');
         const btnClose = document.getElementById('mobile-drawer-close');
 
+        const sectionIds = ['beranda', 'tentang', 'portofolio', 'catatan-lapangan'];
+        const stickyNavLinks = stickyNavbar ? stickyNavbar.querySelectorAll('nav a[data-scroll-to]') : [];
+        const topNavLinks = document.querySelectorAll('#navbar-top nav a[data-scroll-to]');
+        const drawerNavLinks = document.querySelectorAll('#mobile-drawer-panel .drawer-nav-link[data-scroll-to]');
+
+        function updateActiveNav(activeId) {
+            if (!activeId) return;
+
+            stickyNavLinks.forEach(link => {
+                const target = link.getAttribute('data-scroll-to');
+                const isMatch = target === activeId;
+                if (isMatch) {
+                    link.classList.remove('font-medium', 'text-on-surface-variant');
+                    link.classList.add('font-semibold', 'text-primary');
+                } else {
+                    link.classList.remove('font-semibold', 'text-primary');
+                    link.classList.add('font-medium', 'text-on-surface-variant');
+                }
+            });
+
+            topNavLinks.forEach(link => {
+                const target = link.getAttribute('data-scroll-to');
+                const isMatch = target === activeId;
+                if (isMatch) {
+                    link.classList.remove('text-white/90');
+                    link.classList.add('text-white');
+                } else {
+                    link.classList.remove('text-white');
+                    link.classList.add('text-white/90');
+                }
+            });
+
+            drawerNavLinks.forEach(link => {
+                const target = link.getAttribute('data-scroll-to');
+                const isMatch = target === activeId;
+                if (isMatch) {
+                    link.classList.add('text-vibrant-utama-orange', 'bg-white/10');
+                    link.classList.remove('text-white/95');
+                } else {
+                    link.classList.remove('text-vibrant-utama-orange', 'bg-white/10');
+                    link.classList.add('text-white/95');
+                }
+            });
+        }
+
+        function calculateActiveSection() {
+            if ((window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 60)) {
+                return sectionIds[sectionIds.length - 1];
+            }
+
+            if (window.scrollY < 120) {
+                return sectionIds[0];
+            }
+
+            const offset = 180;
+            let current = sectionIds[0];
+
+            for (let i = 0; i < sectionIds.length; i++) {
+                const el = document.getElementById(sectionIds[i]);
+                if (el) {
+                    const top = el.getBoundingClientRect().top + window.scrollY;
+                    if (window.scrollY + offset >= top) {
+                        current = sectionIds[i];
+                    }
+                }
+            }
+            return current;
+        }
+
         function getThreshold() {
             return 200;
         }
@@ -189,18 +258,24 @@
                     stickyNavbar.setAttribute('aria-hidden', 'true');
                 }
             }
+        }
+
+        function syncScroll() {
+            syncStickyNavbar();
+            const activeId = calculateActiveSection();
+            updateActiveNav(activeId);
             ticking = false;
         }
 
         window.addEventListener('scroll', function () {
             if (!ticking) {
-                window.requestAnimationFrame(syncStickyNavbar);
+                window.requestAnimationFrame(syncScroll);
                 ticking = true;
             }
         }, { passive: true });
 
-        window.addEventListener('resize', syncStickyNavbar, { passive: true });
-        syncStickyNavbar();
+        window.addEventListener('resize', syncScroll, { passive: true });
+        syncScroll();
 
         function openDrawer() {
             if (!backdrop || !panel) return;
@@ -273,6 +348,7 @@
             if (targetId) {
                 e.preventDefault();
                 closeDrawer();
+                updateActiveNav(targetId);
                 scrollToSection(targetId);
             }
         });
