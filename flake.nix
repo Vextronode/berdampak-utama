@@ -9,11 +9,11 @@
   in {
     devShells.x86_64-linux.default = pkgs.mkShell {
       packages = with pkgs; [
-        nodejs_24
-        bun
-        pnpm
-        yarn
-        typescript
+        php84
+        php84Packages.composer
+        phpactor
+        intelephense
+        laravel
       ];
     };
   };
