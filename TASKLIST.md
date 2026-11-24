@@ -192,3 +192,38 @@ Dokumentasi lengkap tersimpan di `docs/tech-stack-cms-architecture.md`:
    - Opsi upload file custom SVG/PNG (sanitasi ketat, batas ukuran 500 KB).
    - Fallback otomatis ke badge inisial monogram jika ikon tidak tersedia.
 
+---
+
+## Tasklist Implementasi: Autentikasi Admin Panel (`/apanel/login`)
+
+### Aturan & Perilaku Routing:
+1. **Redirect `/apanel`:** Ketika pengunjung mengetik `/apanel`, sistem wajib melempar HTTP 302 redirect langsung ke `/apanel/login` (atau ke `/apanel/dashboard` jika sudah terotentikasi).
+2. **Strictly NO EMOJI & Zero Em Dash:** Seluruh pesan form, badge, tombol, dan teks bantuan wajib bebas emoji dan tanda pisah em dash.
+3. **Keamanan Login:** Proteksi rate-limiting (`throttle:5,1`), regenerasi ID sesi pasca login, pesan error generik anti-enumerasi akun, dan proteksi CSRF.
+
+### Tahapan Pengerjaan:
+- [x] **Tahap 1: Database & Seeder Kredensial Admin**
+  - [x] Buat migration kolom role pada tabel `users`.
+  - [x] Buat `AdminUserSeeder` dengan akun default `admin@widyatama.ac.id` (`PasswordBerdampak2026!`).
+- [x] **Tahap 2: Controller & Logika Autentikasi (`Apanel\AuthController`)**
+  - [x] Implementasikan `showLoginForm()`, `login()` dengan proteksi brute-force, regenerasi sesi, dan `intended()`, serta `logout()`.
+  - [x] Buat `Apanel\DashboardController` dengan ringkasan metrik database riil.
+- [x] **Tahap 3: Konfigurasi Routing & Dispatcher di `routes/web.php`**
+  - [x] Route redirect `/apanel` -> `/apanel/login` (atau ke `/apanel/dashboard` jika terotentikasi).
+  - [x] Route guest `/apanel/login` (GET `apanel.login` & POST `apanel.login.submit`).
+  - [x] Route auth `/apanel/logout` (POST `apanel.logout`) & `/apanel/dashboard` (GET `apanel.dashboard`).
+  - [x] Konfigurasi middleware redirect di `bootstrap/app.php`.
+- [x] **Tahap 4: Desain Antarmuka Login (`apanel/auth/login.blade.php`)**
+  - [x] Layout dark glassmorphism bertema Widyatama Deep Navy (`layouts/apanel-auth.blade.php`).
+  - [x] Branding resmi Universitas Widyatama x Diktisaintek Berdampak.
+  - [x] Form input email & password dengan toggle intip password (SVG mata tanpa dependensi berat).
+  - [x] Checkbox "Ingat saya" dan alert box error berkontras tinggi.
+- [x] **Tahap 5: Pengujian, Verifikasi Alur & Audit Anti-Slop**
+  - [x] Uji redirect `/apanel` ke `/apanel/login` (HTTP 302 terverifikasi via curl & PHPUnit).
+  - [x] Uji brute-force lock (RateLimiter lockout teruji via Feature Test).
+  - [x] Uji login berhasil ke `/apanel/dashboard` dan pemutusan sesi via logout.
+  - [x] 11 unit & feature test passed 100%.
+  - [x] Verifikasi `npm run build` dan `php artisan view:cache` (0 error).
+  - [x] Audit anti-slop: strictly zero emoji, zero em dash.
+
+

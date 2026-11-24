@@ -12,7 +12,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->redirectGuestsTo(fn (Request $request) => route('apanel.login'));
+        $middleware->redirectUsersTo(fn (Request $request) => route('apanel.dashboard'));
+        $middleware->alias([
+            'prevent.back' => \App\Http\Middleware\PreventBackHistory::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
