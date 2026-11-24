@@ -8,11 +8,15 @@ class DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
+     *
+     * AdminUserSeeder sengaja tidak dipanggil di sini untuk produksi.
+     * Buat akun admin secara manual lewat Tinker setelah deploy pertama
+     * (lihat docs/DEPLOYMENT.md, Bagian 3 Langkah 6).
+     * Untuk dev lokal: php artisan db:seed --class=AdminUserSeeder
      */
     public function run(): void
     {
         $this->call([
-            AdminUserSeeder::class,
             TechStackSeeder::class,
             ProjectSeeder::class,
         ]);

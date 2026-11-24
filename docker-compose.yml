@@ -1,0 +1,49 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: berdampak_utama_app
+    restart: unless-stopped
+    env_file:
+      - .env.docker
+    ports:
+      - "${APP_PORT:-8080}:80"
+    volumes:
+      # Menyimpan foto upload CMS (thumbnail, galeri, avatar, cover catatan) agar tidak hilang saat rebuild
+      - app_storage:/var/www/html/storage/app
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - berdampak_net
+
+  db:
+    image: mysql:8.4
+    container_name: berdampak_utama_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: "${DB_DATABASE:-berdampak_utama}"
+      MYSQL_USER: "${DB_USERNAME:-berdampak_user}"
+      MYSQL_PASSWORD: "${DB_PASSWORD:-ganti_password_db_ini}"
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD:-ganti_root_password_ini}"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u$$MYSQL_USER -p$$MYSQL_PASSWORD --silent || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+      start_period: 20s
+    networks:
+      - berdampak_net
+
+volumes:
+  app_storage:
+    driver: local
+  mysql_data:
+    driver: local
+
+networks:
+  berdampak_net:
+    driver: bridge
