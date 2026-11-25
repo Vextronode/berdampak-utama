@@ -74,13 +74,12 @@ class FieldPostManagementController extends Controller
 
     public function update(StoreFieldPostRequest $request, FieldPost $fieldPost): RedirectResponse
     {
-        $coverPath = $fieldPost->cover_image;
+        $oldCoverPath = $fieldPost->cover_image;
+        $coverPath = $oldCoverPath;
         if ($request->boolean('remove_cover_image')) {
-            $this->deleteStorageFile($coverPath);
             $coverPath = null;
         }
         if ($request->hasFile('cover_image')) {
-            $this->deleteStorageFile($fieldPost->cover_image);
             $path = $request->file('cover_image')->store('field-posts/covers', 'public');
             $coverPath = '/storage/' . $path;
         }
@@ -95,6 +94,11 @@ class FieldPostManagementController extends Controller
             'content' => $request->input('content'),
             'is_published' => $request->boolean('is_published', $fieldPost->is_published),
         ]);
+
+        // Sampul lama baru dihapus setelah data tersimpan
+        if ($oldCoverPath !== $coverPath) {
+            $this->deleteStorageFile($oldCoverPath);
+        }
 
         $statusText = $fieldPost->is_published ? 'diperbarui dan ditayangkan' : 'diperbarui dan disimpan sebagai draft';
 
