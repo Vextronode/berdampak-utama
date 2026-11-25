@@ -85,6 +85,45 @@ class TechStackManagementTest extends TestCase
         $this->assertStringContainsString('<circle', $created->icon_value);
     }
 
+    public function test_svg_upload_strips_event_handlers_and_javascript_links(): void
+    {
+        Storage::fake('public');
+
+        $payload = '<svg viewBox="0 0 24 24" onload="alert(1)"><a href="javascript:alert(2)"><circle cx="12" cy="12" r="10"/></a>'
+            .'<iframe srcdoc="x"></iframe></svg>';
+        $svgFile = UploadedFile::fake()->createWithContent('evil.svg', $payload);
+
+        $response = $this->actingAs($this->admin)->postJson(route('apanel.tech-stacks.store'), [
+            'name' => 'Evil Lib',
+            'custom_icon' => $svgFile,
+        ]);
+
+        $response->assertStatus(201);
+
+        $iconValue = TechStack::where('slug', 'evil-lib')->value('icon_value');
+        $this->assertStringContainsString('<circle', $iconValue);
+        $this->assertStringNotContainsStringIgnoringCase('onload', $iconValue);
+        $this->assertStringNotContainsStringIgnoringCase('javascript:', $iconValue);
+        $this->assertStringNotContainsStringIgnoringCase('<iframe', $iconValue);
+        $this->assertStringNotContainsString('<?xml', $iconValue);
+    }
+
+    public function test_invalid_svg_upload_is_rejected(): void
+    {
+        Storage::fake('public');
+
+        $svgFile = UploadedFile::fake()->createWithContent('broken.svg', '<svg onload=alert(1)>');
+
+        $response = $this->actingAs($this->admin)->postJson(route('apanel.tech-stacks.store'), [
+            'name' => 'Broken Lib',
+            'custom_icon' => $svgFile,
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors('custom_icon');
+        $this->assertDatabaseMissing('tech_stacks', ['slug' => 'broken-lib']);
+    }
+
     public function test_admin_can_create_monogram_badge_fallback_tech_stack(): void
     {
         $response = $this->actingAs($this->admin)->postJson(route('apanel.tech-stacks.store'), [

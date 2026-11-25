@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Apanel;
 
 use App\Http\Controllers\Controller;
 use App\Models\TechStack;
+use enshrined\svgSanitize\Sanitizer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class TechStackController extends Controller
 {
@@ -50,11 +52,16 @@ class TechStackController extends Controller
             $extension = strtolower($file->getClientOriginalExtension());
 
             if ($extension === 'svg') {
-                $rawSvg = file_get_contents($file->getRealPath());
-                // Sanitasi SVG sederhana: hapus script dan foreignObject
-                $cleanSvg = preg_replace('/<\s*script\b[^>]*>(.*?)<\s*\/\s*script\s*>/is', '', $rawSvg);
-                $cleanSvg = preg_replace('/<\s*foreignobject\b[^>]*>(.*?)<\s*\/\s*foreignobject\s*>/is', '', $cleanSvg);
-                $cleanSvg = preg_replace('/\bon\w+\s*=\s*["\'][^"\']*["\']/i', '', $cleanSvg);
+                // Sanitasi berbasis whitelist (SVG ini dirender mentah di halaman publik)
+                $sanitizer = new Sanitizer();
+                $sanitizer->removeXMLTag(true);
+                $cleanSvg = $sanitizer->sanitize(file_get_contents($file->getRealPath()));
+
+                if ($cleanSvg === false || trim($cleanSvg) === '') {
+                    throw ValidationException::withMessages([
+                        'custom_icon' => 'File SVG tidak valid atau tidak dapat dibaca.',
+                    ]);
+                }
 
                 $iconType = 'svg_raw';
                 $iconValue = $cleanSvg;

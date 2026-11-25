@@ -128,4 +128,36 @@ class ApanelAuthTest extends TestCase
         $this->assertTrue(session('errors')->first('email') !== null);
         $this->assertStringContainsString('Terlalu banyak percobaan', session('errors')->first('email'));
     }
+
+    public function test_spoofed_forwarded_for_from_public_client_cannot_bypass_rate_limit(): void
+    {
+        $this->withServerVariables(['REMOTE_ADDR' => '203.0.113.5']);
+
+        for ($i = 1; $i <= 5; $i++) {
+            $this->withHeader('X-Forwarded-For', "10.0.0.{$i}")->post('/apanel/login', [
+                'email' => 'admin@widyatama.ac.id',
+                'password' => 'wrong-pass',
+            ]);
+        }
+
+        $response = $this->withHeader('X-Forwarded-For', '10.0.0.99')->post('/apanel/login', [
+            'email' => 'admin@widyatama.ac.id',
+            'password' => 'wrong-pass',
+        ]);
+
+        $response->assertSessionHasErrors('email');
+        $this->assertStringContainsString('Terlalu banyak percobaan', session('errors')->first('email'));
+    }
+
+    public function test_client_ip_from_trusted_private_proxy_is_used(): void
+    {
+        $this->withServerVariables(['REMOTE_ADDR' => '172.18.0.1'])
+            ->withHeader('X-Forwarded-For', '198.51.100.7')
+            ->post('/apanel/login', [
+                'email' => 'admin@widyatama.ac.id',
+                'password' => 'wrong-pass',
+            ]);
+
+        $this->assertSame(1, RateLimiter::attempts('admin@widyatama.ac.id|198.51.100.7'));
+    }
 }
