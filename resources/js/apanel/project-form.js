@@ -6,6 +6,18 @@ import {
 } from './form-helpers';
 
 /**
+ * Escape server-provided text before it is placed inside an HTML template string.
+ */
+function escapeHtml(value) {
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+/**
  * Bind image previews and clear actions for the project gallery grid and supervisor photo.
  */
 function initProjectMediaUploads() {
@@ -289,22 +301,28 @@ function initTechStackControls() {
             cardLabel.dataset.name = stack.name.toLowerCase();
             cardLabel.dataset.slug = stack.slug.toLowerCase();
 
+            const name = escapeHtml(stack.name);
+            const iconUrl = escapeHtml(stack.icon_value);
+            const brandColor = escapeHtml(stack.brand_color);
+            const monogram = escapeHtml(stack.monogram);
+
             let iconMarkup = '';
+            // icon_value svg_raw sudah disanitasi di server (enshrined/svg-sanitize)
             if (stack.icon_type === 'svg_raw' && stack.icon_value) {
                 iconMarkup = `<div class="w-8 h-8 flex items-center justify-center shrink-0 [&>svg]:w-full [&>svg]:h-full" aria-hidden="true">${stack.icon_value}</div>`;
             } else if (stack.icon_type === 'cdn_url' && stack.icon_value) {
-                iconMarkup = `<img src="${stack.icon_value}" alt="${stack.name}" class="w-8 h-8 object-contain shrink-0" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                              <div class="w-8 h-8 hidden items-center justify-center rounded text-white text-xs font-bold shrink-0 tracking-wider" style="background-color: ${stack.brand_color};">${stack.monogram}</div>`;
+                iconMarkup = `<img src="${iconUrl}" alt="${name}" class="w-8 h-8 object-contain shrink-0" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                              <div class="w-8 h-8 hidden items-center justify-center rounded text-white text-xs font-bold shrink-0 tracking-wider" style="background-color: ${brandColor};">${monogram}</div>`;
             } else if (stack.icon_type === 'custom_upload' && stack.icon_value) {
-                iconMarkup = `<img src="${stack.icon_value}" alt="${stack.name}" class="w-8 h-8 object-contain shrink-0">`;
+                iconMarkup = `<img src="${iconUrl}" alt="${name}" class="w-8 h-8 object-contain shrink-0">`;
             } else {
-                iconMarkup = `<div class="w-8 h-8 flex items-center justify-center rounded text-white text-xs font-bold shrink-0 shadow-xs tracking-wider" style="background-color: ${stack.brand_color};">${stack.monogram}</div>`;
+                iconMarkup = `<div class="w-8 h-8 flex items-center justify-center rounded text-white text-xs font-bold shrink-0 shadow-xs tracking-wider" style="background-color: ${brandColor};">${monogram}</div>`;
             }
 
             cardLabel.innerHTML = `
-                <input type="checkbox" name="tech_stack_ids[]" value="${stack.id}" checked class="tech-item-checkbox absolute top-2.5 right-2.5 rounded text-primary focus:ring-primary cursor-pointer">
+                <input type="checkbox" name="tech_stack_ids[]" value="${escapeHtml(stack.id)}" checked class="tech-item-checkbox absolute top-2.5 right-2.5 rounded text-primary focus:ring-primary cursor-pointer">
                 ${iconMarkup}
-                <span class="text-xs font-semibold text-on-surface line-clamp-1 mt-0.5">${stack.name}</span>
+                <span class="text-xs font-semibold text-on-surface line-clamp-1 mt-0.5">${name}</span>
             `;
 
             techGrid?.prepend(cardLabel);
