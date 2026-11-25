@@ -27,9 +27,9 @@ class TechStack extends Model
     {
         $words = preg_split('/[\s\._-]+/', trim($this->name));
         if (count($words) >= 2) {
-            return strtoupper(substr($words[0], 0, 1).substr($words[1], 0, 1));
+            return mb_strtoupper(mb_substr($words[0], 0, 1).mb_substr($words[1], 0, 1));
         }
 
-        return strtoupper(substr($this->name, 0, min(2, strlen($this->name))));
+        return mb_strtoupper(mb_substr($this->name, 0, 2));
     }
 }
