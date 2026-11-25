@@ -37,7 +37,7 @@ Prototipe HTML sudah diimplementasikan menjadi view Blade dan dihapus dari repo.
 ## 💻 Panduan Singkat untuk Rekan Developer
 - **Stack:** Laravel 13 (PHP 8.4) + Blade, Tailwind CSS 4 + Vite, MySQL 8.4.
 - **Icons & Logos:** SVG inline + Simple Icons (untuk logo resmi tech stack).
-- **Setup lokal:** salin `.env.example` ke `.env` dan sesuaikan koneksi database, lalu jalankan `composer setup` dan `composer dev`. Akun admin lokal: `php artisan db:seed --class=AdminUserSeeder`.
+- **Setup lokal:** salin `.env.example` ke `.env` dan sesuaikan koneksi database, lalu jalankan `composer setup` dan `composer dev`. Akun admin lokal: `php artisan db:seed --class=AdminUserSeeder` (password dari `ADMIN_PASSWORD`, atau dibuat acak dan ditampilkan sekali; seeder ini menolak berjalan di production).
 - **Test:** `composer test`.
 - **Deploy:** lihat [docs/DEPLOYMENT.md](./docs/DEPLOYMENT.md).
 - **Prosedur:** Silakan pelajari `docs/PRD.md` untuk alur fungsionalitas.
