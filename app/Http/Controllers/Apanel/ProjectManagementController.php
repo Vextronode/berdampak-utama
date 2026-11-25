@@ -86,7 +86,7 @@ class ProjectManagementController extends Controller
 
             return back()
                 ->withInput()
-                ->withErrors(['error' => 'Gagal menyimpan data proyek: '.$e->getMessage()]);
+                ->withErrors(['error' => $this->failureMessage('Gagal menyimpan data proyek', $e)]);
         }
     }
 
@@ -167,7 +167,7 @@ class ProjectManagementController extends Controller
 
             return back()
                 ->withInput()
-                ->withErrors(['error' => 'Gagal memperbarui data proyek: '.$e->getMessage()]);
+                ->withErrors(['error' => $this->failureMessage('Gagal memperbarui data proyek', $e)]);
         }
     }
 
@@ -216,7 +216,7 @@ class ProjectManagementController extends Controller
             DB::rollBack();
 
             return back()
-                ->withErrors(['error' => 'Gagal menghapus proyek: '.$e->getMessage()]);
+                ->withErrors(['error' => $this->failureMessage('Gagal menghapus proyek', $e)]);
         }
     }
 

@@ -46,16 +46,24 @@ class FieldPostManagementController extends Controller
             $coverPath = '/storage/'.$path;
         }
 
-        $post = FieldPost::create([
-            'project_id' => $request->input('project_id'),
-            'title' => $request->input('title'),
-            'slug' => $request->input('slug'),
-            'activity_date' => $request->input('activity_date'),
-            'cover_image' => $coverPath,
-            'summary' => $request->input('summary'),
-            'content' => $request->input('content'),
-            'is_published' => $request->boolean('is_published', true),
-        ]);
+        try {
+            $post = FieldPost::create([
+                'project_id' => $request->input('project_id'),
+                'title' => $request->input('title'),
+                'slug' => $request->input('slug'),
+                'activity_date' => $request->input('activity_date'),
+                'cover_image' => $coverPath,
+                'summary' => $request->input('summary'),
+                'content' => $request->input('content'),
+                'is_published' => $request->boolean('is_published', true),
+            ]);
+        } catch (\Throwable $e) {
+            $this->deleteStorageFile($coverPath);
+
+            return back()
+                ->withInput()
+                ->withErrors(['error' => $this->failureMessage('Gagal menyimpan catatan lapangan', $e)]);
+        }
 
         $statusText = $post->is_published ? 'dipublikasikan ke halaman publik' : 'disimpan sebagai draft';
 
