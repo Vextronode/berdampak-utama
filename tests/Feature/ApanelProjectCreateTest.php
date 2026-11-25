@@ -286,7 +286,7 @@ class ApanelProjectCreateTest extends TestCase
             'summary' => 'Ringkasan lama.',
             'partner_name' => 'Desa Lama',
             'category' => 'E-Government',
-            'dashboard_thumbnail' => '/storage/' . $oldThumb,
+            'dashboard_thumbnail' => '/storage/'.$oldThumb,
             'is_published' => true,
         ]);
         $project->techStackItems()->sync([$laravelStack->id]);
@@ -345,7 +345,7 @@ class ApanelProjectCreateTest extends TestCase
             'summary' => 'Ringkasan uji hapus.',
             'partner_name' => 'Desa Cihampelas',
             'category' => 'Inovasi Desa',
-            'dashboard_thumbnail' => '/storage/' . $thumbPath,
+            'dashboard_thumbnail' => '/storage/'.$thumbPath,
             'is_published' => true,
         ]);
 

@@ -54,4 +54,3 @@ Route::middleware('prevent.back')->group(function () {
         Route::get('/tech-stacks/search', [TechStackController::class, 'search'])->name('tech-stacks.search');
     });
 });
-

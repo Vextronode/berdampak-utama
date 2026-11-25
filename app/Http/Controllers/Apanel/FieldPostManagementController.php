@@ -43,7 +43,7 @@ class FieldPostManagementController extends Controller
         $coverPath = null;
         if ($request->hasFile('cover_image')) {
             $path = $request->file('cover_image')->store('field-posts/covers', 'public');
-            $coverPath = '/storage/' . $path;
+            $coverPath = '/storage/'.$path;
         }
 
         $post = FieldPost::create([
@@ -81,7 +81,7 @@ class FieldPostManagementController extends Controller
         }
         if ($request->hasFile('cover_image')) {
             $path = $request->file('cover_image')->store('field-posts/covers', 'public');
-            $coverPath = '/storage/' . $path;
+            $coverPath = '/storage/'.$path;
         }
 
         $fieldPost->update([

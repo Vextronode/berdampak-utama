@@ -86,7 +86,7 @@ class ProjectManagementController extends Controller
 
             return back()
                 ->withInput()
-                ->withErrors(['error' => 'Gagal menyimpan data proyek: ' . $e->getMessage()]);
+                ->withErrors(['error' => 'Gagal menyimpan data proyek: '.$e->getMessage()]);
         }
     }
 
@@ -167,7 +167,7 @@ class ProjectManagementController extends Controller
 
             return back()
                 ->withInput()
-                ->withErrors(['error' => 'Gagal memperbarui data proyek: ' . $e->getMessage()]);
+                ->withErrors(['error' => 'Gagal memperbarui data proyek: '.$e->getMessage()]);
         }
     }
 
@@ -217,7 +217,7 @@ class ProjectManagementController extends Controller
             $this->discardStoredUploads();
 
             return back()
-                ->withErrors(['error' => 'Gagal menghapus proyek: ' . $e->getMessage()]);
+                ->withErrors(['error' => 'Gagal menghapus proyek: '.$e->getMessage()]);
         }
     }
 
@@ -376,7 +376,7 @@ class ProjectManagementController extends Controller
 
     private function storeUpload(UploadedFile $file, string $directory): string
     {
-        $publicPath = '/storage/' . $file->store($directory, 'public');
+        $publicPath = '/storage/'.$file->store($directory, 'public');
         $this->storedUploads[] = $publicPath;
 
         return $publicPath;

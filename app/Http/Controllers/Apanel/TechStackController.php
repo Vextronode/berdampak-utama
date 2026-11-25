@@ -53,7 +53,7 @@ class TechStackController extends Controller
 
             if ($extension === 'svg') {
                 // Sanitasi berbasis whitelist (SVG ini dirender mentah di halaman publik)
-                $sanitizer = new Sanitizer();
+                $sanitizer = new Sanitizer;
                 $sanitizer->removeXMLTag(true);
                 $cleanSvg = $sanitizer->sanitize(file_get_contents($file->getRealPath()));
 
@@ -68,7 +68,7 @@ class TechStackController extends Controller
             } else {
                 $path = $file->store('tech-stacks', 'public');
                 $iconType = 'custom_upload';
-                $iconValue = '/storage/' . $path;
+                $iconValue = '/storage/'.$path;
             }
         } elseif ($iconType === 'cdn_url') {
             $iconValue = "https://cdn.jsdelivr.net/npm/simple-icons/icons/{$slug}.svg";

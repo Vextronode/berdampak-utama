@@ -108,7 +108,10 @@ class StoreProjectRequest extends FormRequest
 
         if ($this->has('contributors') && is_array($this->input('contributors'))) {
             $filteredContributors = array_values(array_filter($this->input('contributors'), function ($c) {
-                if (! is_array($c)) return false;
+                if (! is_array($c)) {
+                    return false;
+                }
+
                 return ! empty(trim($c['name'] ?? '')) || ! empty(trim($c['npm'] ?? ''));
             }));
             $this->merge([
@@ -118,7 +121,10 @@ class StoreProjectRequest extends FormRequest
 
         if ($this->has('features') && is_array($this->input('features'))) {
             $filteredFeatures = array_values(array_filter($this->input('features'), function ($f) {
-                if (! is_array($f)) return false;
+                if (! is_array($f)) {
+                    return false;
+                }
+
                 return ! empty(trim($f['title'] ?? ''));
             }));
             $this->merge([
