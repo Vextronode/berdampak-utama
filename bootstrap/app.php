@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         // Hanya reverse proxy di loopback/jaringan privat (Nginx host, jaringan Docker, cloudflared)
         // yang dipercaya; klien publik tidak bisa memalsukan IP lewat X-Forwarded-For.
         $middleware->trustProxies(at: ['127.0.0.1', '::1', '10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16']);
+        $middleware->web(append: [\App\Http\Middleware\SecurityHeaders::class]);
         $middleware->redirectGuestsTo(fn (Request $request) => route('apanel.login'));
         $middleware->redirectUsersTo(fn (Request $request) => route('apanel.dashboard'));
         $middleware->alias([
