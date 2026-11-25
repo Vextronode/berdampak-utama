@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\FieldPost;
 use App\Models\Project;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class PublicPagesTest extends TestCase
@@ -48,6 +49,25 @@ class PublicPagesTest extends TestCase
             ->assertSee('<title>Proyek Meta - Detail Proyek | Berdampak Utama</title>', false)
             ->assertSee('<meta name="description" content="Ringkasan Proyek Meta">', false)
             ->assertSee('<meta property="og:image" content="'.url('/storage/projects/thumbnails/meta.jpg').'">', false);
+    }
+
+    public function test_field_post_search_term_is_capped_at_100_characters(): void
+    {
+        $likeBindings = [];
+        DB::listen(function ($query) use (&$likeBindings) {
+            foreach ($query->bindings as $binding) {
+                if (is_string($binding) && str_starts_with($binding, '%')) {
+                    $likeBindings[] = $binding;
+                }
+            }
+        });
+
+        $this->get(route('field-posts.index', ['q' => str_repeat('a', 5000)]))->assertOk();
+
+        $this->assertNotEmpty($likeBindings);
+        foreach ($likeBindings as $binding) {
+            $this->assertSame('%'.str_repeat('a', 100).'%', $binding);
+        }
     }
 
     public function test_unknown_slugs_return_not_found(): void

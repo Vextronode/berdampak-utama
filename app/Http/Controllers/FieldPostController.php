@@ -11,7 +11,8 @@ class FieldPostController extends Controller
 {
     public function index(Request $request): View
     {
-        $search = trim((string) $request->query('q', ''));
+        // Batasi panjang agar pencarian LIKE di kolom content tidak bisa dipakai membebani DB
+        $search = mb_substr(trim((string) $request->query('q', '')), 0, 100);
         $projectSlug = trim((string) $request->query('proyek', ''));
 
         $query = FieldPost::published()
