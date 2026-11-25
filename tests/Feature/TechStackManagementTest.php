@@ -124,6 +124,26 @@ class TechStackManagementTest extends TestCase
         $this->assertDatabaseMissing('tech_stacks', ['slug' => 'broken-lib']);
     }
 
+    public function test_invalid_brand_color_is_rejected_with_message(): void
+    {
+        foreach (['merah', 'red;x', '#12345', '#GGGGGG'] as $color) {
+            $response = $this->actingAs($this->admin)->postJson(route('apanel.tech-stacks.store'), [
+                'name' => 'Warna Salah',
+                'brand_color' => $color,
+            ]);
+
+            $response->assertStatus(422);
+            $response->assertJsonPath('message', 'Warna brand harus berformat heksadesimal, contoh #1E1B64.');
+        }
+
+        $this->assertDatabaseMissing('tech_stacks', ['slug' => 'warna-salah']);
+
+        $this->actingAs($this->admin)->postJson(route('apanel.tech-stacks.store'), [
+            'name' => 'Warna Benar',
+            'brand_color' => '#ff2d20',
+        ])->assertStatus(201);
+    }
+
     public function test_admin_can_create_monogram_badge_fallback_tech_stack(): void
     {
         $response = $this->actingAs($this->admin)->postJson(route('apanel.tech-stacks.store'), [

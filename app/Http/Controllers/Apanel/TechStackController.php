@@ -18,8 +18,10 @@ class TechStackController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:255'],
             'icon_type' => ['nullable', 'in:svg_raw,cdn_url,custom_upload,monogram'],
-            'brand_color' => ['nullable', 'string', 'max:7'],
+            'brand_color' => ['nullable', 'regex:/^#[0-9A-Fa-f]{6}$/'],
             'custom_icon' => ['nullable', 'file', 'mimes:svg,png,jpg,webp', 'max:512'],
+        ], [
+            'brand_color.regex' => 'Warna brand harus berformat heksadesimal, contoh #1E1B64.',
         ]);
 
         $name = trim($validated['name']);
