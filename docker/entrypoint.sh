@@ -94,23 +94,24 @@ if [ "${DOCKER_AUTO_MIGRATE:-true}" = "true" ]; then
     php artisan migrate --force
 fi
 
-# Seed awal otomatis HANYA jika tabel users masih kosong
+# Seed awal otomatis HANYA jika katalog tech_stacks masih kosong (instalasi baru),
+# agar restart container tidak menimpa/menghapus tech stack yang sudah diedit admin
 if [ "${DOCKER_AUTO_SEED_IF_EMPTY:-true}" = "true" ]; then
-    USER_COUNT="$(php -r '
+    TECH_STACK_COUNT="$(php -r '
         require "vendor/autoload.php";
         $app = require "bootstrap/app.php";
         $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
         try {
-            echo App\Models\User::count();
+            echo App\Models\TechStack::count();
         } catch (Throwable $e) {
             echo "-1";
         }
     ')"
-    if [ "$USER_COUNT" = "0" ]; then
-        echo "[entrypoint] Tabel users kosong. Menjalankan initial seed (katalog TechStack saja)..."
+    if [ "$TECH_STACK_COUNT" = "0" ]; then
+        echo "[entrypoint] Katalog tech_stacks kosong. Menjalankan initial seed..."
         php artisan db:seed --force
     else
-        echo "[entrypoint] Data users sudah ada ($USER_COUNT akun). Melewati auto-seed."
+        echo "[entrypoint] Katalog tech_stacks sudah ada ($TECH_STACK_COUNT data). Melewati auto-seed."
     fi
 fi
 

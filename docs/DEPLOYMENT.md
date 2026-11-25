@@ -16,7 +16,7 @@ Repositori ini sudah dilengkapi empat komponen utama untuk deployment container:
    - Pembuatan symlink `public/storage` agar foto upload tampil di web.
    - Pembuatan `APP_KEY` otomatis ke volume jika masih kosong.
    - Menunggu database MySQL siap menerima koneksi sebelum migrasi berjalan.
-   - Menjalankan `php artisan migrate --force` dan mengisi data awal (`db:seed`) otomatis **hanya jika tabel users masih kosong**.
+   - Menjalankan `php artisan migrate --force` dan mengisi katalog tech stack (`db:seed`) otomatis **hanya jika tabel `tech_stacks` masih kosong** (instalasi baru).
 
 ---
 
@@ -111,7 +111,7 @@ Setelah container berstatus `Up (healthy)`, buka browser dan akses:
 - **Halaman Publik**: `http://localhost:8080` (atau sesuai `APP_PORT` dan domain Anda)
 - **Panel Admin CMS**: `http://localhost:8080/apanel`
 
-Proses startup otomatis hanya mengisi katalog tech stack (data proyek dibuat lewat panel admin). Seed ini berjalan ulang setiap container dinyalakan selama tabel `users` masih kosong, jadi segera buat akun admin. Akun admin **tidak dibuat otomatis** demi keamanan produksi. Lanjut ke Langkah 6.
+Proses startup otomatis hanya mengisi katalog tech stack sekali pada instalasi baru (data proyek dibuat lewat panel admin). Akun admin **tidak dibuat otomatis** demi keamanan produksi. Lanjut ke Langkah 6.
 
 ### Langkah 6: Membuat Akun Admin Produksi
 
