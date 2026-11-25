@@ -225,6 +225,22 @@ class ApanelProjectCreateTest extends TestCase
         $detailResponse->assertSee('Pemetaan Lokasi Insiden');
     }
 
+    public function test_pasted_public_url_prefix_is_stripped_from_slug(): void
+    {
+        foreach (['/proyek/sigap-baru' => 'sigap-baru', '/projek/sigap-lama' => 'sigap-lama'] as $input => $expected) {
+            $this->actingAs($this->admin)->post(route('apanel.projects.store'), [
+                'title' => "Proyek {$expected}",
+                'slug' => $input,
+                'year' => 2026,
+                'category' => 'sistem-desa',
+                'partner_name' => 'Desa Cibenda',
+                'summary' => 'Ringkasan proyek',
+            ])->assertSessionHasNoErrors();
+
+            $this->assertDatabaseHas('projects', ['slug' => $expected]);
+        }
+    }
+
     public function test_admin_can_save_project_as_draft(): void
     {
         $payload = [
