@@ -30,6 +30,9 @@ Route::middleware('prevent.back')->group(function () {
 
     Route::middleware('auth')->prefix('apanel')->name('apanel.')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    });
+
+    Route::middleware(['auth', 'admin'])->prefix('apanel')->name('apanel.')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         // Manajemen Proyek

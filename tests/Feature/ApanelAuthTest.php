@@ -129,6 +129,17 @@ class ApanelAuthTest extends TestCase
         $this->assertStringContainsString('Terlalu banyak percobaan', session('errors')->first('email'));
     }
 
+    public function test_non_admin_user_is_forbidden_from_admin_panel_but_can_logout(): void
+    {
+        $user = User::factory()->create(['role' => 'user']);
+
+        $this->actingAs($user)->get('/apanel/dashboard')->assertForbidden();
+        $this->actingAs($user)->getJson('/apanel/tech-stacks/search')->assertForbidden();
+
+        $this->actingAs($user)->post('/apanel/logout')->assertRedirect('/apanel/login');
+        $this->assertGuest();
+    }
+
     public function test_spoofed_forwarded_for_from_public_client_cannot_bypass_rate_limit(): void
     {
         $this->withServerVariables(['REMOTE_ADDR' => '203.0.113.5']);

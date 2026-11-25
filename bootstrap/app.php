@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureUserIsAdmin;
 use App\Http\Middleware\PreventBackHistory;
 use App\Http\Middleware\SecurityHeaders;
 use Illuminate\Foundation\Application;
@@ -22,6 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectUsersTo(fn (Request $request) => route('apanel.dashboard'));
         $middleware->alias([
             'prevent.back' => PreventBackHistory::class,
+            'admin' => EnsureUserIsAdmin::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
