@@ -214,7 +214,6 @@ class ProjectManagementController extends Controller
                 ->with('status', "Proyek '{$projectTitle}' beserta seluruh datanya berhasil dihapus.");
         } catch (\Throwable $e) {
             DB::rollBack();
-            $this->discardStoredUploads();
 
             return back()
                 ->withErrors(['error' => 'Gagal menghapus proyek: '.$e->getMessage()]);
