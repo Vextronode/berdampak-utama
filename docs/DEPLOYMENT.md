@@ -111,7 +111,7 @@ Setelah container berstatus `Up (healthy)`, buka browser dan akses:
 - **Halaman Publik**: `http://localhost:8080` (atau sesuai `APP_PORT` dan domain Anda)
 - **Panel Admin CMS**: `http://localhost:8080/apanel`
 
-Proses startup otomatis hanya mengisi data tech stack dan data proyek contoh. Akun admin **tidak dibuat otomatis** demi keamanan produksi. Lanjut ke Langkah 6.
+Proses startup otomatis hanya mengisi katalog tech stack (data proyek dibuat lewat panel admin). Seed ini berjalan ulang setiap container dinyalakan selama tabel `users` masih kosong, jadi segera buat akun admin. Akun admin **tidak dibuat otomatis** demi keamanan produksi. Lanjut ke Langkah 6.
 
 ### Langkah 6: Membuat Akun Admin Produksi
 
@@ -271,7 +271,7 @@ Port `8080` di komputer/VPS sudah dipakai aplikasi lain. Buka `.env.docker`, uba
 - Pastikan `DB_HOST=db` jika memakai MySQL bawaan `docker-compose.yml`.
 
 ### 5. Halaman Admin Meminta Ulang Seeding Manual
-Jika ingin mengulang seed tech stack atau data demo proyek:
+Jika ingin mengulang seed katalog tech stack:
 
 ```bash
 docker compose exec app php artisan db:seed --force

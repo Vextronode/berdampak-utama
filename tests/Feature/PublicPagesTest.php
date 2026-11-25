@@ -38,6 +38,18 @@ class PublicPagesTest extends TestCase
         $this->get(route('projects.show', 'proyek-draft'))->assertNotFound();
     }
 
+    public function test_project_page_renders_its_own_title_and_social_meta(): void
+    {
+        $project = $this->makeProject('Proyek Meta', 'proyek-meta', true);
+        $project->update(['dashboard_thumbnail' => '/storage/projects/thumbnails/meta.jpg']);
+
+        $this->get(route('projects.show', 'proyek-meta'))
+            ->assertOk()
+            ->assertSee('<title>Proyek Meta - Detail Proyek | Berdampak Utama</title>', false)
+            ->assertSee('<meta name="description" content="Ringkasan Proyek Meta">', false)
+            ->assertSee('<meta property="og:image" content="'.url('/storage/projects/thumbnails/meta.jpg').'">', false);
+    }
+
     public function test_unknown_slugs_return_not_found(): void
     {
         $this->get(route('projects.show', 'tidak-ada'))->assertNotFound();

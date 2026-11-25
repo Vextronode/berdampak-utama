@@ -107,7 +107,7 @@ if [ "${DOCKER_AUTO_SEED_IF_EMPTY:-true}" = "true" ]; then
         }
     ')"
     if [ "$USER_COUNT" = "0" ]; then
-        echo "[entrypoint] Tabel users kosong. Menjalankan initial seed (Admin + TechStack + Demo)..."
+        echo "[entrypoint] Tabel users kosong. Menjalankan initial seed (katalog TechStack saja)..."
         php artisan db:seed --force
     else
         echo "[entrypoint] Data users sudah ada ($USER_COUNT akun). Melewati auto-seed."
