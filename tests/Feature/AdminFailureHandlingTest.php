@@ -90,21 +90,24 @@ class AdminFailureHandlingTest extends TestCase
         ]);
 
         FieldPost::updating(fn () => throw new \RuntimeException('DB mati'));
+        Log::shouldReceive('error')->once();
 
-        try {
-            $this->withoutExceptionHandling()->actingAs($this->admin)->put(route('apanel.field-posts.update', $post), [
+        $response = $this->actingAs($this->admin)
+            ->from(route('apanel.field-posts.edit', $post))
+            ->put(route('apanel.field-posts.update', $post), [
                 'title' => 'Catatan Baru',
                 'slug' => 'catatan-lama',
                 'activity_date' => '2026-04-01',
                 'content' => 'Isi baru',
                 'cover_image' => UploadedFile::fake()->image('baru.jpg'),
             ]);
-            $this->fail('Update seharusnya gagal.');
-        } catch (\RuntimeException) {
-            // Kegagalan diharapkan; yang diuji adalah nasib sampul lama.
-        }
+
+        $response->assertRedirect(route('apanel.field-posts.edit', $post));
+        $response->assertSessionHasInput('title', 'Catatan Baru');
+        $this->assertStringStartsWith('Gagal memperbarui catatan lapangan. Sampaikan kode ERR-', session('errors')->first('error'));
 
         Storage::disk('public')->assertExists('field-posts/covers/lama.jpg');
+        $this->assertSame(['field-posts/covers/lama.jpg'], Storage::disk('public')->allFiles('field-posts/covers'));
         $this->assertSame('/storage/field-posts/covers/lama.jpg', $post->fresh()->cover_image);
     }
 

@@ -92,16 +92,26 @@ class FieldPostManagementController extends Controller
             $coverPath = '/storage/'.$path;
         }
 
-        $fieldPost->update([
-            'project_id' => $request->input('project_id'),
-            'title' => $request->input('title'),
-            'slug' => $request->input('slug'),
-            'activity_date' => $request->input('activity_date'),
-            'cover_image' => $coverPath,
-            'summary' => $request->input('summary'),
-            'content' => $request->input('content'),
-            'is_published' => $request->boolean('is_published', $fieldPost->is_published),
-        ]);
+        try {
+            $fieldPost->update([
+                'project_id' => $request->input('project_id'),
+                'title' => $request->input('title'),
+                'slug' => $request->input('slug'),
+                'activity_date' => $request->input('activity_date'),
+                'cover_image' => $coverPath,
+                'summary' => $request->input('summary'),
+                'content' => $request->input('content'),
+                'is_published' => $request->boolean('is_published', $fieldPost->is_published),
+            ]);
+        } catch (\Throwable $e) {
+            if ($request->hasFile('cover_image')) {
+                $this->deleteStorageFile($coverPath);
+            }
+
+            return back()
+                ->withInput()
+                ->withErrors(['error' => $this->failureMessage('Gagal memperbarui catatan lapangan', $e)]);
+        }
 
         // Sampul lama baru dihapus setelah data tersimpan
         if ($oldCoverPath !== $coverPath) {
