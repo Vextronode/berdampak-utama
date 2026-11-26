@@ -77,6 +77,37 @@ class AdminFailureHandlingTest extends TestCase
         $this->assertSame([], Storage::disk('public')->allFiles('field-posts/covers'));
     }
 
+    public function test_failed_field_post_update_keeps_old_cover_file(): void
+    {
+        Storage::disk('public')->put('field-posts/covers/lama.jpg', 'lama');
+        $post = FieldPost::create([
+            'title' => 'Catatan Lama',
+            'slug' => 'catatan-lama',
+            'activity_date' => '2026-04-01',
+            'content' => 'Isi lama',
+            'cover_image' => '/storage/field-posts/covers/lama.jpg',
+            'is_published' => true,
+        ]);
+
+        FieldPost::updating(fn () => throw new \RuntimeException('DB mati'));
+
+        try {
+            $this->withoutExceptionHandling()->actingAs($this->admin)->put(route('apanel.field-posts.update', $post), [
+                'title' => 'Catatan Baru',
+                'slug' => 'catatan-lama',
+                'activity_date' => '2026-04-01',
+                'content' => 'Isi baru',
+                'cover_image' => UploadedFile::fake()->image('baru.jpg'),
+            ]);
+            $this->fail('Update seharusnya gagal.');
+        } catch (\RuntimeException) {
+            // Kegagalan diharapkan; yang diuji adalah nasib sampul lama.
+        }
+
+        Storage::disk('public')->assertExists('field-posts/covers/lama.jpg');
+        $this->assertSame('/storage/field-posts/covers/lama.jpg', $post->fresh()->cover_image);
+    }
+
     public function test_monogram_handles_non_ascii_names(): void
     {
         $monogram = fn (string $name) => (new TechStack(['name' => $name]))->monogram;
