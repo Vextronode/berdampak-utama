@@ -102,7 +102,8 @@
                         <line x1="12" y1="8" x2="12" y2="12"></line>
                         <line x1="12" y1="16" x2="12.01" y2="16"></line>
                     </svg>
-                    <span>Terdapat beberapa kesalahan pengisian formulir:</span>
+                    {{-- Key 'error' hanya dipakai untuk kegagalan server (Controller::failureMessage) --}}
+                    <span>{{ $errors->has('error') ? 'Perubahan belum tersimpan:' : 'Terdapat beberapa kesalahan pengisian formulir:' }}</span>
                 </div>
                 <ul class="list-disc list-inside space-y-0.5 ml-7 text-xs">
                     @foreach ($errors->all() as $error)

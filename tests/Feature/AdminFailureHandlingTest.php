@@ -111,6 +111,35 @@ class AdminFailureHandlingTest extends TestCase
         $this->assertSame('/storage/field-posts/covers/lama.jpg', $post->fresh()->cover_image);
     }
 
+    public function test_error_box_heading_distinguishes_server_failure_from_form_errors(): void
+    {
+        // Kesalahan isian form: judul lama
+        $this->actingAs($this->admin)
+            ->from(route('apanel.projects.create'))
+            ->followingRedirects()
+            ->post(route('apanel.projects.store'), [])
+            ->assertSee('Terdapat beberapa kesalahan pengisian formulir:')
+            ->assertDontSee('Perubahan belum tersimpan:');
+
+        // Kegagalan server: judul baru
+        Project::creating(fn () => throw new \RuntimeException('DB mati'));
+        Log::shouldReceive('error')->once();
+
+        $this->actingAs($this->admin)
+            ->from(route('apanel.projects.create'))
+            ->followingRedirects()
+            ->post(route('apanel.projects.store'), [
+                'title' => 'Proyek Gagal',
+                'slug' => 'proyek-gagal',
+                'year' => 2026,
+                'category' => 'sistem-desa',
+                'partner_name' => 'Desa Cibenda',
+                'summary' => 'Ringkasan',
+            ])
+            ->assertSee('Perubahan belum tersimpan:')
+            ->assertDontSee('Terdapat beberapa kesalahan pengisian formulir:');
+    }
+
     public function test_monogram_handles_non_ascii_names(): void
     {
         $monogram = fn (string $name) => (new TechStack(['name' => $name]))->monogram;
