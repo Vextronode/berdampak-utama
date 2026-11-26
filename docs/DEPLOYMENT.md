@@ -223,6 +223,12 @@ docker compose exec app php artisan tinker --execute="
 docker compose logs -f --tail=100 app
 ```
 
+Jika admin melaporkan pesan gagal dengan kode seperti `ERR-7F3A9C`, cari detail error-nya dengan kode tersebut:
+
+```bash
+docker compose logs app | grep -A 20 "ERR-7F3A9C"
+```
+
 ### Menghentikan atau Merestart Container
 
 ```bash
