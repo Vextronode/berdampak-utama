@@ -43,19 +43,27 @@ class FieldPostManagementController extends Controller
         $coverPath = null;
         if ($request->hasFile('cover_image')) {
             $path = $request->file('cover_image')->store('field-posts/covers', 'public');
-            $coverPath = '/storage/' . $path;
+            $coverPath = '/storage/'.$path;
         }
 
-        $post = FieldPost::create([
-            'project_id' => $request->input('project_id'),
-            'title' => $request->input('title'),
-            'slug' => $request->input('slug'),
-            'activity_date' => $request->input('activity_date'),
-            'cover_image' => $coverPath,
-            'summary' => $request->input('summary'),
-            'content' => $request->input('content'),
-            'is_published' => $request->boolean('is_published', true),
-        ]);
+        try {
+            $post = FieldPost::create([
+                'project_id' => $request->input('project_id'),
+                'title' => $request->input('title'),
+                'slug' => $request->input('slug'),
+                'activity_date' => $request->input('activity_date'),
+                'cover_image' => $coverPath,
+                'summary' => $request->input('summary'),
+                'content' => $request->input('content'),
+                'is_published' => $request->boolean('is_published', true),
+            ]);
+        } catch (\Throwable $e) {
+            $this->deleteStorageFile($coverPath);
+
+            return back()
+                ->withInput()
+                ->withErrors(['error' => $this->failureMessage('Gagal menyimpan catatan lapangan', $e)]);
+        }
 
         $statusText = $post->is_published ? 'dipublikasikan ke halaman publik' : 'disimpan sebagai draft';
 
@@ -74,27 +82,41 @@ class FieldPostManagementController extends Controller
 
     public function update(StoreFieldPostRequest $request, FieldPost $fieldPost): RedirectResponse
     {
-        $coverPath = $fieldPost->cover_image;
+        $oldCoverPath = $fieldPost->cover_image;
+        $coverPath = $oldCoverPath;
         if ($request->boolean('remove_cover_image')) {
-            $this->deleteStorageFile($coverPath);
             $coverPath = null;
         }
         if ($request->hasFile('cover_image')) {
-            $this->deleteStorageFile($fieldPost->cover_image);
             $path = $request->file('cover_image')->store('field-posts/covers', 'public');
-            $coverPath = '/storage/' . $path;
+            $coverPath = '/storage/'.$path;
         }
 
-        $fieldPost->update([
-            'project_id' => $request->input('project_id'),
-            'title' => $request->input('title'),
-            'slug' => $request->input('slug'),
-            'activity_date' => $request->input('activity_date'),
-            'cover_image' => $coverPath,
-            'summary' => $request->input('summary'),
-            'content' => $request->input('content'),
-            'is_published' => $request->boolean('is_published', $fieldPost->is_published),
-        ]);
+        try {
+            $fieldPost->update([
+                'project_id' => $request->input('project_id'),
+                'title' => $request->input('title'),
+                'slug' => $request->input('slug'),
+                'activity_date' => $request->input('activity_date'),
+                'cover_image' => $coverPath,
+                'summary' => $request->input('summary'),
+                'content' => $request->input('content'),
+                'is_published' => $request->boolean('is_published', $fieldPost->is_published),
+            ]);
+        } catch (\Throwable $e) {
+            if ($request->hasFile('cover_image')) {
+                $this->deleteStorageFile($coverPath);
+            }
+
+            return back()
+                ->withInput()
+                ->withErrors(['error' => $this->failureMessage('Gagal memperbarui catatan lapangan', $e)]);
+        }
+
+        // Sampul lama baru dihapus setelah data tersimpan
+        if ($oldCoverPath !== $coverPath) {
+            $this->deleteStorageFile($oldCoverPath);
+        }
 
         $statusText = $fieldPost->is_published ? 'diperbarui dan ditayangkan' : 'diperbarui dan disimpan sebagai draft';
 

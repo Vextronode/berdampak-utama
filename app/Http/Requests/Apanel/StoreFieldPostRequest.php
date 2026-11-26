@@ -51,6 +51,7 @@ class StoreFieldPostRequest extends FormRequest
             $rawSlug = (string) $this->input('slug');
             $cleanSlug = str_replace('/catatan/', '', $rawSlug);
             $cleanSlug = trim($cleanSlug, '/');
+            $cleanSlug = preg_replace('/\s+/', '-', trim($cleanSlug));
             $cleanSlug = preg_replace('/[^a-z0-9\-]/i', '', $cleanSlug);
             $cleanSlug = strtolower(trim($cleanSlug));
 

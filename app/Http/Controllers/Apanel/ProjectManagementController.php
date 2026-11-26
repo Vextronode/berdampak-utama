@@ -8,6 +8,7 @@ use App\Models\Project;
 use App\Models\TechStack;
 use App\Support\FeatureIcons;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -15,6 +16,12 @@ use Illuminate\View\View;
 
 class ProjectManagementController extends Controller
 {
+    /** File lama yang baru dihapus setelah transaksi berhasil di-commit. */
+    private array $filesToDelete = [];
+
+    /** File upload baru yang dibersihkan bila transaksi gagal. */
+    private array $storedUploads = [];
+
     public function create(): View
     {
         return view('apanel.projects.create', [
@@ -30,14 +37,12 @@ class ProjectManagementController extends Controller
         try {
             $dashboardThumbnailPath = null;
             if ($request->hasFile('dashboard_thumbnail')) {
-                $path = $request->file('dashboard_thumbnail')->store('projects/thumbnails', 'public');
-                $dashboardThumbnailPath = '/storage/' . $path;
+                $dashboardThumbnailPath = $this->storeUpload($request->file('dashboard_thumbnail'), 'projects/thumbnails');
             }
 
             $supervisorPhotoPath = null;
             if ($request->hasFile('supervisor_photo')) {
-                $sPhotoPath = $request->file('supervisor_photo')->store('projects/supervisors', 'public');
-                $supervisorPhotoPath = '/storage/' . $sPhotoPath;
+                $supervisorPhotoPath = $this->storeUpload($request->file('supervisor_photo'), 'projects/supervisors');
             }
 
             $galleryData = $this->buildGalleryData($request);
@@ -68,6 +73,7 @@ class ProjectManagementController extends Controller
             $this->syncContributors($request, $project);
 
             DB::commit();
+            $this->deleteQueuedFiles();
 
             $statusText = $project->is_published ? 'dipublikasikan ke katalog publik' : 'disimpan sebagai draft';
 
@@ -76,10 +82,11 @@ class ProjectManagementController extends Controller
                 ->with('status', "Proyek '{$project->title}' berhasil {$statusText}.");
         } catch (\Throwable $e) {
             DB::rollBack();
+            $this->discardStoredUploads();
 
             return back()
                 ->withInput()
-                ->withErrors(['error' => 'Gagal menyimpan data proyek: ' . $e->getMessage()]);
+                ->withErrors(['error' => $this->failureMessage('Gagal menyimpan data proyek', $e)]);
         }
     }
 
@@ -101,24 +108,22 @@ class ProjectManagementController extends Controller
         try {
             $dashboardThumbnailPath = $project->dashboard_thumbnail;
             if ($request->boolean('remove_thumbnail')) {
-                $this->deleteStorageFile($dashboardThumbnailPath);
+                $this->queueFileDeletion($dashboardThumbnailPath);
                 $dashboardThumbnailPath = null;
             }
             if ($request->hasFile('dashboard_thumbnail')) {
-                $this->deleteStorageFile($project->dashboard_thumbnail);
-                $path = $request->file('dashboard_thumbnail')->store('projects/thumbnails', 'public');
-                $dashboardThumbnailPath = '/storage/' . $path;
+                $this->queueFileDeletion($project->dashboard_thumbnail);
+                $dashboardThumbnailPath = $this->storeUpload($request->file('dashboard_thumbnail'), 'projects/thumbnails');
             }
 
             $supervisorPhotoPath = $project->supervisor_photo_url;
             if ($request->boolean('remove_supervisor_photo')) {
-                $this->deleteStorageFile($supervisorPhotoPath);
+                $this->queueFileDeletion($supervisorPhotoPath);
                 $supervisorPhotoPath = null;
             }
             if ($request->hasFile('supervisor_photo')) {
-                $this->deleteStorageFile($project->supervisor_photo_url);
-                $sPhotoPath = $request->file('supervisor_photo')->store('projects/supervisors', 'public');
-                $supervisorPhotoPath = '/storage/' . $sPhotoPath;
+                $this->queueFileDeletion($project->supervisor_photo_url);
+                $supervisorPhotoPath = $this->storeUpload($request->file('supervisor_photo'), 'projects/supervisors');
             }
 
             $galleryData = $this->buildGalleryData($request, $project->gallery_images ?? []);
@@ -149,6 +154,7 @@ class ProjectManagementController extends Controller
             $this->syncContributors($request, $project);
 
             DB::commit();
+            $this->deleteQueuedFiles();
 
             $statusText = $project->is_published ? 'diperbarui dan ditayangkan' : 'diperbarui dan disimpan sebagai draft';
 
@@ -157,10 +163,11 @@ class ProjectManagementController extends Controller
                 ->with('status', "Proyek '{$project->title}' berhasil {$statusText}.");
         } catch (\Throwable $e) {
             DB::rollBack();
+            $this->discardStoredUploads();
 
             return back()
                 ->withInput()
-                ->withErrors(['error' => 'Gagal memperbarui data proyek: ' . $e->getMessage()]);
+                ->withErrors(['error' => $this->failureMessage('Gagal memperbarui data proyek', $e)]);
         }
     }
 
@@ -184,15 +191,15 @@ class ProjectManagementController extends Controller
         try {
             $projectTitle = $project->title;
 
-            $this->deleteStorageFile($project->dashboard_thumbnail);
-            $this->deleteStorageFile($project->supervisor_photo_url);
+            $this->queueFileDeletion($project->dashboard_thumbnail);
+            $this->queueFileDeletion($project->supervisor_photo_url);
 
             foreach ($project->gallery_images ?? [] as $item) {
-                $this->deleteStorageFile($item['image_url'] ?? $item['url'] ?? null);
+                $this->queueFileDeletion($item['image_url'] ?? $item['url'] ?? null);
             }
 
             foreach ($project->contributors as $contributor) {
-                $this->deleteStorageFile($contributor->avatar_url);
+                $this->queueFileDeletion($contributor->avatar_url);
             }
 
             $project->techStackItems()->detach();
@@ -200,6 +207,7 @@ class ProjectManagementController extends Controller
             $project->delete();
 
             DB::commit();
+            $this->deleteQueuedFiles();
 
             return redirect()
                 ->route('apanel.dashboard')
@@ -208,7 +216,7 @@ class ProjectManagementController extends Controller
             DB::rollBack();
 
             return back()
-                ->withErrors(['error' => 'Gagal menghapus proyek: ' . $e->getMessage()]);
+                ->withErrors(['error' => $this->failureMessage('Gagal menghapus proyek', $e)]);
         }
     }
 
@@ -250,6 +258,7 @@ class ProjectManagementController extends Controller
         $captions = $request->input('gallery_captions', []);
         $existingUrls = $request->input('existing_gallery_urls', []);
 
+        $allowedUrls = array_filter(array_map(fn ($prev) => $prev['image_url'] ?? $prev['url'] ?? null, $previousGallery));
         $maxSlots = max(4, count($uploadedFiles), count($existingUrls), count($previousGallery));
         $galleryData = [];
         $keptUrls = [];
@@ -259,14 +268,13 @@ class ProjectManagementController extends Controller
             $file = $uploadedFiles[$idx] ?? null;
 
             if ($file && $file->isValid()) {
-                $gPath = $file->store('projects/gallery', 'public');
-                $url = '/storage/' . $gPath;
+                $url = $this->storeUpload($file, 'projects/gallery');
                 $galleryData[] = [
                     'image_url' => $url,
                     'caption' => $caption,
                 ];
                 $keptUrls[] = $url;
-            } elseif (! empty($existingUrls[$idx])) {
+            } elseif (! empty($existingUrls[$idx]) && in_array($existingUrls[$idx], $allowedUrls, true)) {
                 $url = $existingUrls[$idx];
                 $galleryData[] = [
                     'image_url' => $url,
@@ -279,7 +287,7 @@ class ProjectManagementController extends Controller
         foreach ($previousGallery as $prev) {
             $prevUrl = $prev['image_url'] ?? $prev['url'] ?? null;
             if ($prevUrl && ! in_array($prevUrl, $keptUrls, true)) {
-                $this->deleteStorageFile($prevUrl);
+                $this->queueFileDeletion($prevUrl);
             }
         }
 
@@ -291,18 +299,20 @@ class ProjectManagementController extends Controller
         $contributorsInput = $request->input('contributors', []);
         $existingAvatarsToKeep = [];
         $newRows = [];
+        $allowedAvatars = $project->contributors->pluck('avatar_url')->filter()->all();
 
         if (is_array($contributorsInput)) {
             foreach ($contributorsInput as $index => $cItem) {
                 if (! empty($cItem['name'])) {
-                    $cAvatarUrl = $cItem['existing_avatar'] ?? null;
+                    $cAvatarUrl = in_array($cItem['existing_avatar'] ?? null, $allowedAvatars, true)
+                        ? $cItem['existing_avatar']
+                        : null;
 
                     if ($request->hasFile("contributors.{$index}.photo")) {
                         $cFile = $request->file("contributors.{$index}.photo");
                         if ($cFile && $cFile->isValid()) {
-                            $this->deleteStorageFile($cAvatarUrl);
-                            $cPath = $cFile->store('projects/contributors', 'public');
-                            $cAvatarUrl = '/storage/' . $cPath;
+                            $this->queueFileDeletion($cAvatarUrl);
+                            $cAvatarUrl = $this->storeUpload($cFile, 'projects/contributors');
                         }
                     }
 
@@ -325,7 +335,7 @@ class ProjectManagementController extends Controller
 
         foreach ($project->contributors as $oldContributor) {
             if ($oldContributor->avatar_url && ! in_array($oldContributor->avatar_url, $existingAvatarsToKeep, true)) {
-                $this->deleteStorageFile($oldContributor->avatar_url);
+                $this->queueFileDeletion($oldContributor->avatar_url);
             }
         }
 
@@ -361,6 +371,35 @@ class ProjectManagementController extends Controller
         }
 
         return $features;
+    }
+
+    private function storeUpload(UploadedFile $file, string $directory): string
+    {
+        $publicPath = '/storage/'.$file->store($directory, 'public');
+        $this->storedUploads[] = $publicPath;
+
+        return $publicPath;
+    }
+
+    private function queueFileDeletion(?string $publicPath): void
+    {
+        if ($publicPath) {
+            $this->filesToDelete[] = $publicPath;
+        }
+    }
+
+    private function deleteQueuedFiles(): void
+    {
+        foreach ($this->filesToDelete as $publicPath) {
+            $this->deleteStorageFile($publicPath);
+        }
+    }
+
+    private function discardStoredUploads(): void
+    {
+        foreach ($this->storedUploads as $publicPath) {
+            $this->deleteStorageFile($publicPath);
+        }
     }
 
     private function deleteStorageFile(?string $publicPath): void

@@ -16,7 +16,7 @@ Repositori ini sudah dilengkapi empat komponen utama untuk deployment container:
    - Pembuatan symlink `public/storage` agar foto upload tampil di web.
    - Pembuatan `APP_KEY` otomatis ke volume jika masih kosong.
    - Menunggu database MySQL siap menerima koneksi sebelum migrasi berjalan.
-   - Menjalankan `php artisan migrate --force` dan mengisi data awal (`db:seed`) otomatis **hanya jika tabel users masih kosong**.
+   - Menjalankan `php artisan migrate --force` dan mengisi katalog tech stack (`db:seed`) otomatis **hanya jika tabel `tech_stacks` masih kosong** (instalasi baru).
 
 ---
 
@@ -111,7 +111,7 @@ Setelah container berstatus `Up (healthy)`, buka browser dan akses:
 - **Halaman Publik**: `http://localhost:8080` (atau sesuai `APP_PORT` dan domain Anda)
 - **Panel Admin CMS**: `http://localhost:8080/apanel`
 
-Proses startup otomatis hanya mengisi data tech stack dan data proyek contoh. Akun admin **tidak dibuat otomatis** demi keamanan produksi. Lanjut ke Langkah 6.
+Proses startup otomatis hanya mengisi katalog tech stack sekali pada instalasi baru (data proyek dibuat lewat panel admin). Akun admin **tidak dibuat otomatis** demi keamanan produksi. Lanjut ke Langkah 6.
 
 ### Langkah 6: Membuat Akun Admin Produksi
 
@@ -223,6 +223,12 @@ docker compose exec app php artisan tinker --execute="
 docker compose logs -f --tail=100 app
 ```
 
+Jika admin melaporkan pesan gagal dengan kode seperti `ERR-7F3A9C`, cari detail error-nya dengan kode tersebut:
+
+```bash
+docker compose logs app | grep -A 20 "ERR-7F3A9C"
+```
+
 ### Menghentikan atau Merestart Container
 
 ```bash
@@ -271,7 +277,7 @@ Port `8080` di komputer/VPS sudah dipakai aplikasi lain. Buka `.env.docker`, uba
 - Pastikan `DB_HOST=db` jika memakai MySQL bawaan `docker-compose.yml`.
 
 ### 5. Halaman Admin Meminta Ulang Seeding Manual
-Jika ingin mengulang seed tech stack atau data demo proyek:
+Jika ingin mengulang seed katalog tech stack:
 
 ```bash
 docker compose exec app php artisan db:seed --force

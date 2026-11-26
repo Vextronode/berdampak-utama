@@ -225,6 +225,22 @@ class ApanelProjectCreateTest extends TestCase
         $detailResponse->assertSee('Pemetaan Lokasi Insiden');
     }
 
+    public function test_pasted_public_url_prefix_is_stripped_from_slug(): void
+    {
+        foreach (['/proyek/sigap-baru' => 'sigap-baru', '/projek/sigap-lama' => 'sigap-lama', 'Sigap Spasi' => 'sigap-spasi'] as $input => $expected) {
+            $this->actingAs($this->admin)->post(route('apanel.projects.store'), [
+                'title' => "Proyek {$expected}",
+                'slug' => $input,
+                'year' => 2026,
+                'category' => 'sistem-desa',
+                'partner_name' => 'Desa Cibenda',
+                'summary' => 'Ringkasan proyek',
+            ])->assertSessionHasNoErrors();
+
+            $this->assertDatabaseHas('projects', ['slug' => $expected]);
+        }
+    }
+
     public function test_admin_can_save_project_as_draft(): void
     {
         $payload = [
@@ -286,7 +302,7 @@ class ApanelProjectCreateTest extends TestCase
             'summary' => 'Ringkasan lama.',
             'partner_name' => 'Desa Lama',
             'category' => 'E-Government',
-            'dashboard_thumbnail' => '/storage/' . $oldThumb,
+            'dashboard_thumbnail' => '/storage/'.$oldThumb,
             'is_published' => true,
         ]);
         $project->techStackItems()->sync([$laravelStack->id]);
@@ -345,7 +361,7 @@ class ApanelProjectCreateTest extends TestCase
             'summary' => 'Ringkasan uji hapus.',
             'partner_name' => 'Desa Cihampelas',
             'category' => 'Inovasi Desa',
-            'dashboard_thumbnail' => '/storage/' . $thumbPath,
+            'dashboard_thumbnail' => '/storage/'.$thumbPath,
             'is_published' => true,
         ]);
 

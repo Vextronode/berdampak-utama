@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Apanel;
 
 use App\Http\Controllers\Controller;
 use App\Models\TechStack;
+use enshrined\svgSanitize\Sanitizer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class TechStackController extends Controller
 {
@@ -16,8 +18,10 @@ class TechStackController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:255'],
             'icon_type' => ['nullable', 'in:svg_raw,cdn_url,custom_upload,monogram'],
-            'brand_color' => ['nullable', 'string', 'max:7'],
+            'brand_color' => ['nullable', 'regex:/^#[0-9A-Fa-f]{6}$/'],
             'custom_icon' => ['nullable', 'file', 'mimes:svg,png,jpg,webp', 'max:512'],
+        ], [
+            'brand_color.regex' => 'Warna brand harus berformat heksadesimal, contoh #1E1B64.',
         ]);
 
         $name = trim($validated['name']);
@@ -50,18 +54,23 @@ class TechStackController extends Controller
             $extension = strtolower($file->getClientOriginalExtension());
 
             if ($extension === 'svg') {
-                $rawSvg = file_get_contents($file->getRealPath());
-                // Sanitasi SVG sederhana: hapus script dan foreignObject
-                $cleanSvg = preg_replace('/<\s*script\b[^>]*>(.*?)<\s*\/\s*script\s*>/is', '', $rawSvg);
-                $cleanSvg = preg_replace('/<\s*foreignobject\b[^>]*>(.*?)<\s*\/\s*foreignobject\s*>/is', '', $cleanSvg);
-                $cleanSvg = preg_replace('/\bon\w+\s*=\s*["\'][^"\']*["\']/i', '', $cleanSvg);
+                // Sanitasi berbasis whitelist (SVG ini dirender mentah di halaman publik)
+                $sanitizer = new Sanitizer;
+                $sanitizer->removeXMLTag(true);
+                $cleanSvg = $sanitizer->sanitize(file_get_contents($file->getRealPath()));
+
+                if ($cleanSvg === false || trim($cleanSvg) === '') {
+                    throw ValidationException::withMessages([
+                        'custom_icon' => 'File SVG tidak valid atau tidak dapat dibaca.',
+                    ]);
+                }
 
                 $iconType = 'svg_raw';
                 $iconValue = $cleanSvg;
             } else {
                 $path = $file->store('tech-stacks', 'public');
                 $iconType = 'custom_upload';
-                $iconValue = '/storage/' . $path;
+                $iconValue = '/storage/'.$path;
             }
         } elseif ($iconType === 'cdn_url') {
             $iconValue = "https://cdn.jsdelivr.net/npm/simple-icons/icons/{$slug}.svg";

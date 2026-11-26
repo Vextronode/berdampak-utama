@@ -204,7 +204,7 @@ Dokumentasi lengkap tersimpan di `docs/tech-stack-cms-architecture.md`:
 ### Tahapan Pengerjaan:
 - [x] **Tahap 1: Database & Seeder Kredensial Admin**
   - [x] Buat migration kolom role pada tabel `users`.
-  - [x] Buat `AdminUserSeeder` dengan akun default `admin@widyatama.ac.id` (`PasswordBerdampak2026!`).
+  - [x] Buat `AdminUserSeeder` untuk akun dev lokal `admin@widyatama.ac.id` (password dari `ADMIN_PASSWORD` atau dibuat acak dan ditampilkan sekali; seeder menolak berjalan di production).
 - [x] **Tahap 2: Controller & Logika Autentikasi (`Apanel\AuthController`)**
   - [x] Implementasikan `showLoginForm()`, `login()` dengan proteksi brute-force, regenerasi sesi, dan `intended()`, serta `logout()`.
   - [x] Buat `Apanel\DashboardController` dengan ringkasan metrik database riil.

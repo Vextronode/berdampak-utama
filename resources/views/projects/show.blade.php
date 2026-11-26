@@ -1,4 +1,4 @@
-<x-app-layout :title="$project->title . ' - Detail Proyek | Berdampak Utama'">
+<x-app-layout :title="$project->title . ' - Detail Proyek | Berdampak Utama'" :description="$project->summary" :image="$project->dashboard_thumbnail">
     <div class="bg-surface-variant/40 min-h-screen py-8 lg:py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-8">
             <x-project.breadcrumb :title="$project->title" />

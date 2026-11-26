@@ -1,4 +1,4 @@
-<x-app-layout :title="$post->title . ' - Catatan Lapangan | Berdampak Utama'">
+<x-app-layout :title="$post->title . ' - Catatan Lapangan | Berdampak Utama'" :description="$post->summary" :image="$post->cover_image">
     <div class="bg-surface-variant/40 min-h-screen py-10 lg:py-16">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-8">
             <!-- Breadcrumb -->
