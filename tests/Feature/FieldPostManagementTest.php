@@ -183,4 +183,16 @@ class FieldPostManagementTest extends TestCase
             ->assertSee('Kegiatan Beta Kedua')
             ->assertDontSee('Kegiatan Alpha Pertama');
     }
+
+    public function test_slug_typed_with_spaces_becomes_hyphenated(): void
+    {
+        $this->actingAs($this->admin)->post(route('apanel.field-posts.store'), [
+            'title' => 'Survei Cibenda',
+            'slug' => '/catatan/Survei Cibenda',
+            'activity_date' => '2026-04-01',
+            'content' => 'Isi catatan',
+        ])->assertSessionHasNoErrors();
+
+        $this->assertDatabaseHas('field_posts', ['slug' => 'survei-cibenda']);
+    }
 }
