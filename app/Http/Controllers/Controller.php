@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use Throwable;
 
 abstract class Controller
@@ -13,7 +12,8 @@ abstract class Controller
      */
     protected function failureMessage(string $action, Throwable $e): string
     {
-        $code = 'ERR-'.Str::upper(Str::random(6));
+        // Hex agar mudah didiktekan (tidak ada O/0 atau I/1 yang tertukar)
+        $code = 'ERR-'.strtoupper(bin2hex(random_bytes(3)));
 
         Log::error("[{$code}] {$action}", ['exception' => $e]);
 

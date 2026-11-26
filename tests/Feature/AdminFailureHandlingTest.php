@@ -32,7 +32,7 @@ class AdminFailureHandlingTest extends TestCase
 
         $loggedCode = null;
         Log::shouldReceive('error')->once()->withArgs(function (string $message) use (&$loggedCode) {
-            preg_match('/\[(ERR-[A-Z0-9]{6})\]/', $message, $match);
+            preg_match('/\[(ERR-[0-9A-F]{6})\]/', $message, $match);
             $loggedCode = $match[1] ?? null;
 
             return $loggedCode !== null;
